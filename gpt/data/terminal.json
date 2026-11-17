@@ -1,0 +1,768 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "title": "시장 기억장치",
+    "edition": "GPT Edition",
+    "preparedOn": "2026-11-17",
+    "timezone": "Asia/Seoul",
+    "currentRevisionId": "revision-02",
+    "publicationState": "요약 기반 공개 시제품",
+    "isRealtime": false,
+    "automationConnected": false,
+    "notice": "공개 가능한 요약으로 구성한 소규모 시제품입니다. 기존 원장 전체나 최신 시장 데이터를 가져온 상태가 아닙니다.",
+    "historyPolicy": "기록판은 이번에 만든 비교용 재구성본입니다. 과거 실제 게시 화면이나 당시 정보 집합을 완전히 복원한 결과가 아닙니다.",
+    "priorityPolicy": "추천 순서는 확인 필요성과 판단 영향을 고려한 편집 순서입니다. 시장 중요도 측정치나 투자 점수가 아닙니다.",
+    "missingValuePolicy": "null은 미확인 또는 자료 없음입니다. 0, 정상, 조건 불충족으로 바꾸지 않습니다.",
+    "sourcePolicy": "수록된 출처는 전달된 요약입니다. 원문을 직접 검증한 독립 근거로 계산하지 않습니다.",
+    "updatePolicy": "새 리서치를 반영하려면 기존 기록판을 보존하고 새 기록판을 추가합니다. 최신 기록판 ID를 바꾸고 파일 전체를 검증한 뒤 게시합니다.",
+    "reportedCorpus": {
+      "from": "2026-10-17",
+      "through": "2026-11-14",
+      "messageCount": 865,
+      "importedIntoThisFile": false,
+      "note": "기존 v2.1 작업물의 범위로 보고된 수치입니다. 이 JSON에 865개 원문이 들어 있다는 뜻이 아닙니다."
+    },
+    "limitations": [
+      "시장 가격 원본과 예측 원장 원본을 전달받지 않았습니다.",
+      "출처의 정확한 메시지 ID와 최초 인지 시각을 확보하지 못했습니다.",
+      "실제 경제 일정과 발표 수치를 임의로 채우지 않았습니다.",
+      "같은 요약을 인용한 여러 항목은 독립 근거 여러 개가 아닙니다.",
+      "사안의 관찰 상태와 지표의 정상 상태는 다릅니다.",
+      "리서치 종료 감지, 저장소 커밋, 예약 수집은 아직 연결되지 않았습니다."
+    ]
+  },
+  "sources": [
+    {
+      "id": "source-v21",
+      "title": "기존 v2.1 처리 결과 요약",
+      "kind": "reported_summary",
+      "sourceGroup": "provided-summary",
+      "description": "채점 규칙, 정정 연결, 스냅샷 상태, 논조 분류에 관한 전달 요약입니다.",
+      "url": null,
+      "messageId": null,
+      "verifiedAt": null,
+      "limitation": "원문 데이터와 분류 결과를 직접 대조하지 않았습니다."
+    },
+    {
+      "id": "source-handoff",
+      "title": "기존 작업 범위와 검증 상태 요약",
+      "kind": "reported_summary",
+      "sourceGroup": "provided-summary",
+      "description": "v2.1의 데이터 범위와 이후 미반영 내용을 정리한 인계 요약입니다.",
+      "url": null,
+      "messageId": null,
+      "verifiedAt": null,
+      "limitation": "기존 데이터 파일 전체를 다시 읽은 결과가 아닙니다."
+    },
+    {
+      "id": "source-thesis",
+      "title": "후속 장기 판단 조건 요약",
+      "kind": "reported_summary",
+      "sourceGroup": "provided-summary",
+      "description": "BTC 장기선, ETH 장기선, USDT.D 조건이 판단 틀에 포함된다는 요약입니다.",
+      "url": null,
+      "messageId": null,
+      "verifiedAt": null,
+      "limitation": "정확한 산식, 봉 주기, 허용 이탈폭, 가격 원본이 없습니다."
+    },
+    {
+      "id": "source-method",
+      "title": "후속 측정 방법과 철회 이력 요약",
+      "kind": "reported_summary",
+      "sourceGroup": "provided-summary",
+      "description": "프리미엄의 USDT 보정 논의와 기존 PPI 관련 정정 주장 철회가 보고됐습니다.",
+      "url": null,
+      "messageId": null,
+      "verifiedAt": null,
+      "limitation": "보정 전후 값과 철회 대상 원문을 확보하지 못했습니다."
+    }
+  ],
+  "revisions": [
+    {
+      "id": "revision-01",
+      "label": "01 · 기존 범위 정리본",
+      "createdOn": "2026-11-17",
+      "kind": "reconstructed",
+      "previousId": null,
+      "marketDataThrough": "2026-11-14",
+      "summary": "기존 수집 범위에서 출발하는 질문만 배치한 기초판입니다. 당시 실제 화면이나 중요도 순위를 재현한 것은 아닙니다.",
+      "issues": [
+        {
+          "id": "btc-structure",
+          "title": "장기 판단 조건",
+          "question": "가격 변화가 기존 판단을 무효화했는지 무엇으로 확인할까?",
+          "assets": ["BTC", "ETH"],
+          "status": "gap",
+          "baseOrder": 10,
+          "priority": 1,
+          "priorityReason": "판단의 조건과 측정 기준을 먼저 확보하기 위한 편집 순서입니다.",
+          "summary": "원 주장과 조건을 연결할 자리를 마련했습니다. 아직 방향이나 충족 여부를 판정하지 않습니다.",
+          "changed": "기초판에 검증 질문을 등록했습니다.",
+          "facts": [],
+          "reports": [
+            "기존 v2.1의 수집 범위는 10/17부터 11/14까지로 보고됐습니다."
+          ],
+          "interpretations": [
+            "가격만 추가하기보다 기존 판단의 조건과 함께 확인하는 편이 낫습니다."
+          ],
+          "counterpoints": [
+            "가격 변화만으로 장기 판단의 무효화를 단정할 수 없습니다."
+          ],
+          "unknowns": [
+            "검증할 원 주장",
+            "조건과 기한",
+            "거래소와 종가 기준"
+          ],
+          "nextCheck": "원 주장과 측정 기준부터 확보합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-handoff"],
+          "viewIds": ["timeline", "ledger", "ladder", "signals"]
+        },
+        {
+          "id": "zec-tone",
+          "title": "ZEC 논조와 관심",
+          "question": "자주 다룬 것과 긍정적으로 본 것을 구분할 수 있을까?",
+          "assets": ["ZEC", "XMR"],
+          "status": "gap",
+          "baseOrder": 20,
+          "priority": 2,
+          "priorityReason": "관심과 논조를 분리해 읽는 기본 질문입니다.",
+          "summary": "언급량, 논조, 가격 반응을 서로 다른 항목으로 둡니다.",
+          "changed": "기초판에 비교 질문을 등록했습니다.",
+          "facts": [],
+          "reports": [],
+          "interpretations": [
+            "언급이 많아도 강세 전망이 많다는 뜻은 아닙니다."
+          ],
+          "counterpoints": [
+            "채널 안의 관심은 시장 전체의 관심과 다를 수 있습니다."
+          ],
+          "unknowns": [
+            "기간별 분류 결과",
+            "중복을 제거한 다룬 날 수",
+            "같은 기간의 가격 변화"
+          ],
+          "nextCheck": "기간과 집계 단위를 확인한 뒤 논조 자료를 연결합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": [],
+          "viewIds": ["narratives", "timeline"]
+        },
+        {
+          "id": "snapshot-validity",
+          "title": "가격 자료의 유효기간",
+          "question": "과거 청산·옵션 스냅샷을 지금도 사용할 수 있을까?",
+          "assets": [],
+          "status": "gap",
+          "baseOrder": 30,
+          "priority": 3,
+          "priorityReason": "오래된 관측을 현재 가격선처럼 쓰지 않기 위한 질문입니다.",
+          "summary": "수치뿐 아니라 관측 시각과 만료 조건을 함께 확인합니다.",
+          "changed": "기초판에 자료 유효성 질문을 등록했습니다.",
+          "facts": [],
+          "reports": [],
+          "interpretations": [
+            "스냅샷의 유효성을 확인하지 않고 현행 지지·저항으로 사용할 수는 없습니다."
+          ],
+          "counterpoints": [
+            "오래된 자료도 당시 판단을 설명하는 기록으로는 남길 가치가 있습니다."
+          ],
+          "unknowns": [
+            "스냅샷 원본과 관측 시각",
+            "현재도 유효한 조건",
+            "거래소와 대상 상품"
+          ],
+          "nextCheck": "자료의 기준 시각과 재확인 필요 여부를 분리합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": [],
+          "viewIds": ["ladder", "radar"]
+        }
+      ],
+      "changes": [
+        {
+          "id": "change-initial",
+          "issueId": null,
+          "kind": "initial",
+          "title": "세 가지 검증 질문으로 시작",
+          "summary": "장기 판단, 논조, 스냅샷 유효성을 분리했습니다. 시장 수치와 판정은 아직 넣지 않았습니다.",
+          "sourceIds": []
+        }
+      ],
+      "timeline": [
+        {
+          "id": "timeline-coverage-01",
+          "issueId": null,
+          "date": "2026-11-14",
+          "dateLabel": "보고된 기존 수집 종료일",
+          "kind": "coverage",
+          "title": "기존 데이터 범위의 끝",
+          "summary": "시장 사건 발생 시각이 아니라 기존 작업의 수집 범위입니다.",
+          "occurredAt": null,
+          "knownAt": null,
+          "revisedAt": null,
+          "sourceIds": ["source-handoff"]
+        }
+      ],
+      "ledger": [],
+      "corrections": [],
+      "levels": [],
+      "attention": [],
+      "catalysts": [],
+      "signals": [],
+      "connections": []
+    },
+    {
+      "id": "revision-02",
+      "label": "02 · 후속 쟁점 반영본",
+      "createdOn": "2026-11-17",
+      "kind": "reconstructed",
+      "previousId": "revision-01",
+      "marketDataThrough": "2026-11-14",
+      "summary": "전달된 후속 요약을 연결했습니다. 판단 조건과 미확인 항목은 늘었지만, 최신 시장 가격이나 예측 원장을 수입한 것은 아닙니다.",
+      "issues": [
+        {
+          "id": "btc-structure",
+          "title": "장기 판단 조건",
+          "question": "급락 이후에도 장기 판단 조건은 유지되는가?",
+          "assets": ["BTC", "ETH", "USDT.D"],
+          "status": "gap",
+          "baseOrder": 10,
+          "priority": 1,
+          "priorityReason": "판단의 무효화 여부에 직접 연결되지만 측정 기준과 원본 값이 비어 있습니다.",
+          "summary": "장기선과 도미넌스 조건이 후속 판단 틀로 보고됐습니다. 현재 충족 여부는 이 자료만으로 판정할 수 없습니다.",
+          "changed": "장기 판단에 필요한 지표 목록과 확인 공백을 구체화했습니다.",
+          "facts": [],
+          "reports": [
+            "기존 v2.1에는 11/15 이후 급락과 후속 장기 판단 논의가 미반영이라고 보고됐습니다.",
+            "BTC의 4년선·208주·48개월선, ETH의 9·10년선, USDT.D의 HMA89·144 등이 판단 틀로 언급됐습니다."
+          ],
+          "interpretations": [
+            "각 선의 정확한 정의와 종가 기준을 확보한 다음 충족 여부를 비교해야 합니다.",
+            "순간 이탈과 확정 종가 이탈을 같은 사건으로 취급하지 않는 편이 낫습니다."
+          ],
+          "counterpoints": [
+            "지표 목록을 안다고 해서 사용자 판단의 전체 조건을 복원한 것은 아닙니다.",
+            "지표 간 관계나 허용 이탈폭을 임의로 정하면 다른 판단 틀이 됩니다."
+          ],
+          "unknowns": [
+            "각 선의 정확한 산식과 데이터 공급자",
+            "일봉·주봉·월봉의 마감 기준",
+            "사용자가 정한 허용 이탈폭",
+            "최근 확정 종가와 실제 지표 값"
+          ],
+          "nextCheck": "원문 조건을 확정하고 동일한 시장·주기의 확정 봉으로 비교합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-handoff", "source-thesis"],
+          "viewIds": ["timeline", "ledger", "ladder", "signals"]
+        },
+        {
+          "id": "zec-tone",
+          "title": "ZEC 논조와 관심",
+          "question": "관심이 커진 것인가, 논조가 바뀐 것인가?",
+          "assets": ["ZEC", "XMR"],
+          "status": "watch",
+          "baseOrder": 20,
+          "priority": 3,
+          "priorityReason": "논조 변화에 관한 집계는 보고됐지만 기간과 가격 반응을 대조하지 못했습니다.",
+          "summary": "ZEC의 약세 분류 증가가 보고됐습니다. 이를 시장 전체 여론이나 가격 예측 성과로 해석하지 않습니다.",
+          "changed": "요약에 있던 논조 분류 건수를 연결했습니다. 가격 변화는 미확인으로 유지했습니다.",
+          "facts": [],
+          "reports": [
+            "기존 보고의 이전 주 ZEC 분류는 강세 4건·약세 2건이었습니다.",
+            "같은 보고의 해당 주 ZEC 분류는 강세 0건·약세 12건이었습니다.",
+            "이 수치는 글·자산 분류 건수이며, 중복 제거한 다룬 날 수가 아닙니다."
+          ],
+          "interpretations": [
+            "보고된 표본 안에서는 약세로 분류된 글이 늘었습니다.",
+            "관심도와 논조를 분리해야 관심 증가를 강세 증가로 오독하지 않습니다."
+          ],
+          "counterpoints": [
+            "주간 범위와 분류 원문이 없어 동일한 모집단인지 확인하지 못했습니다.",
+            "분류자가 다르게 해석할 수 있으며 시장 전체를 대표하지 않습니다.",
+            "같은 기간의 가격 반응은 이 파일에 없습니다."
+          ],
+          "unknowns": [
+            "두 주의 정확한 시작일과 종료일",
+            "혼합·중립 분류 건수",
+            "중복 제거한 다룬 날 수",
+            "분류 원문과 가격 반응"
+          ],
+          "nextCheck": "분류 원문과 기간을 확보하고 관심·논조·가격을 따로 비교합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-v21"],
+          "viewIds": ["narratives", "timeline", "ledger"]
+        },
+        {
+          "id": "snapshot-validity",
+          "title": "가격 자료의 유효기간",
+          "question": "오래된 청산·옵션 자료가 현재 판단에 섞이지 않았나?",
+          "assets": [],
+          "status": "gap",
+          "baseOrder": 30,
+          "priority": 2,
+          "priorityReason": "만료·재확인 자료를 현재 가격 조건으로 오인할 위험이 있어 앞으로 올렸습니다.",
+          "summary": "기존 작업에서 청산·옵션 자료에는 재확인 표시, 10/28 스냅샷에는 만료 표시를 넣었다고 보고됐습니다.",
+          "changed": "스냅샷을 재확인 필요와 만료로 나눴습니다. 원본 숫자는 받지 못했습니다.",
+          "facts": [],
+          "reports": [
+            "청산가와 옵션 스냅샷에 재확인 필요 상태가 추가됐다고 보고됐습니다.",
+            "10/28 스냅샷은 만료 상태로 표시됐다고 보고됐습니다."
+          ],
+          "interpretations": [
+            "만료 자료는 당시 판단을 설명하는 기록으로만 남깁니다.",
+            "원본 값이 없으면 가격선을 그리지 않는 편이 안전합니다."
+          ],
+          "counterpoints": [
+            "만료 상태는 현재 시장에서 그 가격이 아무 의미 없다는 증명이 아닙니다.",
+            "재확인 필요와 잘못된 수치는 서로 다른 상태입니다."
+          ],
+          "unknowns": [
+            "스냅샷 원본 값",
+            "정확한 관측 시각과 거래소",
+            "상태를 변경한 조건과 근거",
+            "현재 대체할 수 있는 새 자료"
+          ],
+          "nextCheck": "새 스냅샷을 확보하고 옛 자료와 분리해 연결합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-v21"],
+          "viewIds": ["ladder", "radar", "contagion"]
+        },
+        {
+          "id": "premium-method",
+          "title": "프리미엄 측정 방법",
+          "question": "환산 기준을 맞춘 뒤에도 프리미엄 해석이 유지되는가?",
+          "assets": ["USDT"],
+          "status": "gap",
+          "baseOrder": 40,
+          "priority": 4,
+          "priorityReason": "측정 방법의 정정은 여러 해석에 영향을 줄 수 있지만 보정식과 수치를 받지 못했습니다.",
+          "summary": "코인베이스 프리미엄의 USDT 보정 논의가 있었다는 요약만 확보했습니다.",
+          "changed": "수치 정정과 해석 재검토를 따로 추적할 사안을 추가했습니다.",
+          "facts": [],
+          "reports": [
+            "후속 논의에서 코인베이스 프리미엄의 USDT 보정 문제가 다뤄졌다고 보고됐습니다."
+          ],
+          "interpretations": [
+            "거래쌍, 기준 통화, 관측 시각을 맞춘 뒤 방향과 크기를 다시 확인해야 합니다.",
+            "수치를 보정했다고 관련 해석까지 자동으로 확정되지는 않습니다."
+          ],
+          "counterpoints": [
+            "보정 전후 값이 없으므로 기존 결론이 뒤집혔다고 말할 수 없습니다."
+          ],
+          "unknowns": [
+            "대상 자산과 양쪽 거래쌍",
+            "보정식과 환산 가격",
+            "동일 시각의 원본 값",
+            "보정 결과가 영향을 주는 기존 해석"
+          ],
+          "nextCheck": "원문 방법과 보정 전후 값을 확보하고 영향받은 해석을 다시 검토합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-method"],
+          "viewIds": ["radar", "signals", "catalysts"]
+        },
+        {
+          "id": "event-clock",
+          "title": "사건과 인지의 시차",
+          "question": "우리가 미리 알았던 촉매와 나중에 설명한 사건은 무엇인가?",
+          "assets": [],
+          "status": "gap",
+          "baseOrder": 50,
+          "priority": 5,
+          "priorityReason": "회고와 사전 판단을 구분하기 위한 기반 질문입니다. 실제 촉매 일정은 아직 없습니다.",
+          "summary": "사건 발생, 최초 인지, 판단 수정 시각을 분리할 자리를 마련했습니다.",
+          "changed": "방법론 철회 이력과 확인 시각의 공백을 추가했습니다.",
+          "facts": [],
+          "reports": [
+            "기존 촉매 화면의 채널 첫 언급 시각은 키워드로 찾은 추정이라고 보고됐습니다.",
+            "기존 PPI 근원 관련 정정 주장을 철회했다는 이력이 보고됐습니다."
+          ],
+          "interpretations": [
+            "사건이 일어난 날짜와 우리가 알게 된 날짜가 다르면 과거 판단 재생도 달라집니다."
+          ],
+          "counterpoints": [
+            "키워드 첫 검색 결과가 실제 최초 인지를 보장하지는 않습니다.",
+            "철회됐다는 기록만으로 원래 수치의 정답을 복원할 수는 없습니다."
+          ],
+          "unknowns": [
+            "사건별 공식 발표 시각",
+            "원문별 최초 인지 시각",
+            "실제 일정과 예상·결과·반응",
+            "PPI 철회 대상 원문과 최종 확인 자료"
+          ],
+          "nextCheck": "공식 일정과 원문 시각을 받아 사전 정보와 사후 설명을 분리합니다.",
+          "lastCheckedAt": null,
+          "lastChangedOn": "2026-11-17",
+          "sourceIds": ["source-v21", "source-method"],
+          "viewIds": ["timeline", "catalysts", "radar"]
+        }
+      ],
+      "changes": [
+        {
+          "id": "change-conditions",
+          "issueId": "btc-structure",
+          "kind": "scope",
+          "title": "장기 판단의 확인 조건 추가",
+          "summary": "지표 이름은 연결했지만 산식·종가·허용 이탈폭은 미확인으로 남겼습니다.",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "change-snapshot",
+          "issueId": "snapshot-validity",
+          "kind": "priority",
+          "title": "스냅샷 유효성 질문을 앞으로",
+          "summary": "기초판의 세 번째에서 두 번째로 이동했습니다. 가격 움직임이 아니라 오독 위험을 줄이기 위한 편집 변경입니다.",
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "change-tone",
+          "issueId": "zec-tone",
+          "kind": "evidence",
+          "title": "논조 집계 연결",
+          "summary": "강세·약세 분류 건수를 추가했습니다. 주간 범위와 가격 반응은 아직 비어 있습니다.",
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "change-method",
+          "issueId": "premium-method",
+          "kind": "new",
+          "title": "방법 정정의 영향 추적",
+          "summary": "보정 결과와 해석 재검토를 분리하는 질문을 추가했습니다.",
+          "sourceIds": ["source-method"]
+        },
+        {
+          "id": "change-clock",
+          "issueId": "event-clock",
+          "kind": "new",
+          "title": "사건 시각과 인지 시각 분리",
+          "summary": "최초 인지가 불명확한 항목은 과거에 알고 있었던 것으로 처리하지 않습니다.",
+          "sourceIds": ["source-v21"]
+        }
+      ],
+      "timeline": [
+        {
+          "id": "timeline-coverage-02",
+          "issueId": null,
+          "date": "2026-11-14",
+          "dateLabel": "보고된 기존 수집 종료일",
+          "kind": "coverage",
+          "title": "기존 v2.1 데이터 범위",
+          "summary": "이 날짜는 시장 사건 시각이 아니라 기존 수집 범위의 끝입니다.",
+          "occurredAt": null,
+          "knownAt": null,
+          "revisedAt": null,
+          "sourceIds": ["source-handoff"]
+        },
+        {
+          "id": "timeline-candle",
+          "issueId": null,
+          "date": "2026-11-15",
+          "dateLabel": "보고된 v2.1 수정일",
+          "kind": "method",
+          "title": "판정에 사용하는 봉의 시점 규칙 수정",
+          "summary": "판정 전에 시작한 봉을 제외하도록 고쳤고, 재실행 결과 변경 판정은 0건이었다고 보고됐습니다. 직접 재현한 결과는 아닙니다.",
+          "occurredAt": null,
+          "knownAt": null,
+          "revisedAt": null,
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "timeline-thesis",
+          "issueId": "btc-structure",
+          "date": null,
+          "dateLabel": "원문 시각 미확보",
+          "kind": "intake",
+          "title": "후속 장기 판단 조건 연결",
+          "summary": "후속 요약을 이번 정리본에 연결했습니다. 실제 최초 인지 시각은 복원하지 못했습니다.",
+          "occurredAt": null,
+          "knownAt": null,
+          "revisedAt": null,
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "timeline-premium",
+          "issueId": "premium-method",
+          "date": null,
+          "dateLabel": "원문 시각 미확보",
+          "kind": "method",
+          "title": "프리미엄 보정 문제 접수",
+          "summary": "방법 정정 논의가 보고됐지만 실제 발생·인지·수정 시각과 전후 값은 없습니다.",
+          "occurredAt": null,
+          "knownAt": null,
+          "revisedAt": null,
+          "sourceIds": ["source-method"]
+        }
+      ],
+      "ledger": [
+        {
+          "id": "ledger-btc",
+          "issueId": "btc-structure",
+          "kind": "research_question",
+          "claim": "검증 질문: 장기선 조건은 유지되는가?",
+          "status": "not_evaluable",
+          "condition": "원 주장, 선의 정의, 허용 이탈폭, 종가 기준을 먼저 확정해야 합니다.",
+          "deadline": null,
+          "evaluation": null,
+          "reason": "확정된 예측 원문과 측정 자료가 없어 성과 집계에서 제외합니다.",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "ledger-zec",
+          "issueId": "zec-tone",
+          "kind": "descriptive_report",
+          "claim": "ZEC 약세 분류 건수가 늘었다는 보고",
+          "status": "not_a_prediction",
+          "condition": null,
+          "deadline": null,
+          "evaluation": null,
+          "reason": "논조에 관한 기술적 집계입니다. 적중·실패로 채점하지 않습니다.",
+          "sourceIds": ["source-v21"]
+        }
+      ],
+      "corrections": [
+        {
+          "id": "correction-candle",
+          "issueId": null,
+          "title": "판정 시점과 봉 선택 규칙",
+          "original": "판정 전에 시작한 봉이 포함될 수 있는 틈이 있었다고 보고됐습니다.",
+          "revision": "해당 봉을 제외하도록 수정했다는 보고가 있습니다.",
+          "status": "reported_applied",
+          "impact": "재채점 변경 0건이라는 보고는 있으나, 이 시제품에서 재실행하지는 않았습니다.",
+          "nextStep": "원 규칙과 테스트 사례를 확보한 뒤 재현합니다.",
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "correction-premium",
+          "issueId": "premium-method",
+          "title": "프리미엄의 환산 기준",
+          "original": "보정 대상 원문과 원 수치를 확보하지 못했습니다.",
+          "revision": "USDT 보정 문제가 논의됐다는 요약만 있습니다.",
+          "status": "pending_source",
+          "impact": "영향받는 수치와 해석을 아직 특정하지 못했습니다.",
+          "nextStep": "보정식·거래쌍·동일 시각 값을 받아 비교합니다.",
+          "sourceIds": ["source-method"]
+        },
+        {
+          "id": "correction-ppi",
+          "issueId": "event-clock",
+          "title": "PPI 근원 관련 정정 주장 철회",
+          "original": "기존에 PPI 근원 관련 정정 주장이 있었다고 보고됐습니다.",
+          "revision": "그 정정 주장을 철회했다는 이력이 있습니다.",
+          "status": "withdrawn",
+          "impact": "이 기록만으로 PPI 실제 수치나 최종 해석을 확정하지 않습니다.",
+          "nextStep": "철회 대상 원문과 공식 자료를 함께 확인합니다.",
+          "sourceIds": ["source-method"]
+        }
+      ],
+      "levels": [
+        {
+          "id": "level-btc-longterm",
+          "issueId": "btc-structure",
+          "label": "BTC 장기 기준선",
+          "assets": ["BTC"],
+          "value": null,
+          "unit": "USD",
+          "reference": "4년선·208주·48개월선",
+          "observedOn": null,
+          "status": "unknown",
+          "validity": "산식과 종가 기준 확인 전에는 하나의 가격선으로 합치지 않습니다.",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "level-liquidation",
+          "issueId": "snapshot-validity",
+          "label": "청산·옵션 스냅샷",
+          "assets": [],
+          "value": null,
+          "unit": null,
+          "reference": "원본 값과 대상 상품 미확보",
+          "observedOn": null,
+          "status": "recheck",
+          "validity": "재수집 전에는 현재 유효한 가격 조건으로 표시하지 않습니다.",
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "level-expired",
+          "issueId": "snapshot-validity",
+          "label": "10/28 스냅샷",
+          "assets": [],
+          "value": null,
+          "unit": null,
+          "reference": "기존 작업에서 만료로 분류된 자료",
+          "observedOn": "2026-10-28",
+          "status": "expired",
+          "validity": "당시 판단을 설명하는 기록으로만 보존합니다. 정확한 대상과 값은 미확보입니다.",
+          "sourceIds": ["source-v21"]
+        }
+      ],
+      "attention": [
+        {
+          "id": "attention-zec-before",
+          "issueId": "zec-tone",
+          "asset": "ZEC",
+          "label": "기존 보고의 이전 주",
+          "periodStart": null,
+          "periodEnd": null,
+          "uniqueDays": null,
+          "bullish": 4,
+          "bearish": 2,
+          "mixed": null,
+          "neutral": null,
+          "priceChangePct": null,
+          "status": "reported",
+          "basis": "글·자산 분류 건수",
+          "note": "정확한 달력 주간을 모릅니다. 현재 시점의 지난주로 해석하지 않습니다.",
+          "sourceIds": ["source-v21"]
+        },
+        {
+          "id": "attention-zec-after",
+          "issueId": "zec-tone",
+          "asset": "ZEC",
+          "label": "기존 보고의 해당 주",
+          "periodStart": null,
+          "periodEnd": null,
+          "uniqueDays": null,
+          "bullish": 0,
+          "bearish": 12,
+          "mixed": null,
+          "neutral": null,
+          "priceChangePct": null,
+          "status": "reported",
+          "basis": "글·자산 분류 건수",
+          "note": "보고된 강세 0건과 미확인인 혼합·중립 건수를 구분합니다.",
+          "sourceIds": ["source-v21"]
+        }
+      ],
+      "catalysts": [
+        {
+          "id": "check-longterm-close",
+          "issueId": "btc-structure",
+          "title": "장기 조건의 확정 봉 비교",
+          "kind": "research_check",
+          "status": "unscheduled",
+          "dueAt": null,
+          "knownAt": null,
+          "trigger": "원문 산식과 봉 마감 기준을 확보했을 때",
+          "expected": null,
+          "actual": null,
+          "reaction": null,
+          "note": "시장 발표 일정이 아니라 다음 리서치 확인 항목입니다.",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "check-premium-method",
+          "issueId": "premium-method",
+          "title": "프리미엄 보정 전후 비교",
+          "kind": "research_check",
+          "status": "unscheduled",
+          "dueAt": null,
+          "knownAt": null,
+          "trigger": "양쪽 거래쌍·환산식·동일 시각 자료를 확보했을 때",
+          "expected": null,
+          "actual": null,
+          "reaction": null,
+          "note": "자료가 없어 확인 시간을 임의로 예약하지 않았습니다.",
+          "sourceIds": ["source-method"]
+        }
+      ],
+      "signals": [
+        {
+          "id": "signal-btc-4y",
+          "issueId": "btc-structure",
+          "label": "BTC · 4년선",
+          "assets": ["BTC"],
+          "status": "unknown",
+          "value": null,
+          "unit": null,
+          "checkedAt": null,
+          "test": "원문에서 정의한 선과 동일한 가격·봉 기준으로 비교",
+          "missing": "산식, 허용 이탈폭, 최근 확정 값",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "signal-btc-208w",
+          "issueId": "btc-structure",
+          "label": "BTC · 208주 기준",
+          "assets": ["BTC"],
+          "status": "unknown",
+          "value": null,
+          "unit": null,
+          "checkedAt": null,
+          "test": "원문 산식과 주봉 마감 기준을 확정한 뒤 비교",
+          "missing": "산식, 주봉 경계, 최근 확정 값",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "signal-btc-48m",
+          "issueId": "btc-structure",
+          "label": "BTC · 48개월 기준",
+          "assets": ["BTC"],
+          "status": "unknown",
+          "value": null,
+          "unit": null,
+          "checkedAt": null,
+          "test": "원문 산식과 월봉 기준을 확정한 뒤 비교",
+          "missing": "산식, 진행 중 봉 처리, 최근 확정 값",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "signal-eth-longterm",
+          "issueId": "btc-structure",
+          "label": "ETH · 9년선·10년선",
+          "assets": ["ETH"],
+          "status": "unknown",
+          "value": null,
+          "unit": null,
+          "checkedAt": null,
+          "test": "두 기준의 정의와 각각의 조건을 먼저 확인",
+          "missing": "산식, 표본 시작점, 허용 이탈폭, 최근 값",
+          "sourceIds": ["source-thesis"]
+        },
+        {
+          "id": "signal-usdtd",
+          "issueId": "btc-structure",
+          "label": "USDT.D · HMA89·144",
+          "assets": ["USDT.D"],
+          "status": "unknown",
+          "value": null,
+          "unit": null,
+          "checkedAt": null,
+          "test": "사용 봉 주기와 원문 조건을 확정한 뒤 비교",
+          "missing": "데이터 공급자, 봉 주기, 사선 정의, 최근 값",
+          "sourceIds": ["source-thesis"]
+        }
+      ],
+      "connections": [
+        {
+          "id": "connection-leverage-btc",
+          "from": "snapshot-validity",
+          "to": "btc-structure",
+          "kind": "hypothesis",
+          "status": "unverified",
+          "title": "레버리지 정리가 하방 변동을 증폭했는가?",
+          "summary": "검증할 수 있는 연결 질문입니다. 이 파일에 실제 전염 관측이 있다는 뜻은 아닙니다.",
+          "whatWouldConfirm": "동일 시간대 가격·청산·포지션 변화와 사건 순서의 비교",
+          "alternative": "공통 외부 충격에 가격과 포지션이 함께 반응했을 가능성",
+          "sourceIds": []
+        },
+        {
+          "id": "connection-btc-tone",
+          "from": "btc-structure",
+          "to": "zec-tone",
+          "kind": "hypothesis",
+          "status": "unverified",
+          "title": "시장 변화와 논조 변화의 선후관계는 무엇인가?",
+          "summary": "가격이 논조를 바꿨는지, 논조가 먼저였는지 아직 확인하지 못했습니다.",
+          "whatWouldConfirm": "논조 원문 시각과 같은 기간의 가격 자료를 정렬한 비교",
+          "alternative": "종목 고유 사건이나 표본 구성 변화가 논조를 바꿨을 가능성",
+          "sourceIds": []
+        }
+      ]
+    }
+  ]
+}

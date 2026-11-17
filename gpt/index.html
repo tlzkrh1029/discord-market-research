@@ -1,10 +1,205 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GPT 판 준비 중</title>
-<style>:root{color-scheme:light dark}body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:Canvas;color:CanvasText}main{max-width:640px;margin:0 auto;padding:56px 16px}a{color:LinkText}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description"
+        content="질문, 근거, 판단의 변화를 연결하는 시장 리서치 기억장치.">
+  <title>시장 기억장치 — GPT Edition</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
 </head>
-<body><main><h1>GPT 판 준비 중</h1><p>이 자리는 GPT가 작성한 판이 들어올 곳입니다. 아직 올라오지 않았습니다.</p><p><a href="../">두 판 고르기로</a></p></main></body>
+<body>
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <div class="app-layout">
+    <aside class="sidebar" aria-label="주 탐색">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true">m.</span>
+        <span>
+          <strong>시장 기억장치</strong>
+          <small>GPT EDITION</small>
+        </span>
+      </a>
+      <p class="sidebar-intro">
+        더 많은 정보보다,<br>
+        다음 판단에 필요한 근거.
+      </p>
+      <nav class="navigation" aria-label="고정된 화면 지도">
+        <button type="button" data-view="home" aria-current="page">
+          <span class="nav-number">01</span>오늘의 작업대
+        </button>
+        <button type="button" data-view="timeline">
+          <span class="nav-number">02</span>판단 타임라인
+        </button>
+        <button type="button" data-view="ledger">
+          <span class="nav-number">03</span>판정 원장
+        </button>
+        <button type="button" data-view="radar">
+          <span class="nav-number">04</span>정정·이견
+        </button>
+        <button type="button" data-view="ladder">
+          <span class="nav-number">05</span>가격과 조건
+        </button>
+        <button type="button" data-view="narratives">
+          <span class="nav-number">06</span>관심의 이동
+        </button>
+        <button type="button" data-view="catalysts">
+          <span class="nav-number">07</span>다음 확인 시점
+        </button>
+        <button type="button" data-view="signals">
+          <span class="nav-number">08</span>가설 계기판
+        </button>
+        <button type="button" data-view="contagion">
+          <span class="nav-number">09</span>연결과 전염
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <p>탐색 위치는 고정하고,<br>작업대의 우선순위만 바꿉니다.</p>
+        <a href="../">← 두 버전 선택</a>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="topbar-title">
+          <span class="eyebrow">RESEARCH → QUESTIONS → MEMORY</span>
+          <h1 id="viewTitle">오늘의 작업대</h1>
+        </div>
+        <div class="edition-controls">
+          <label class="control">
+            <span>기록판</span>
+            <select id="revisionSelect" disabled>
+              <option>불러오는 중</option>
+            </select>
+          </label>
+          <button id="latestButton" type="button" class="button secondary">
+            현재판
+          </button>
+          <label class="button secondary file-control">
+            기록 파일 열기
+            <input id="dataFile" class="sr-only" type="file"
+                   accept=".json,application/json">
+          </label>
+        </div>
+      </header>
+      <main id="main" tabindex="-1">
+        <section class="edition-strip" aria-label="자료 기준">
+          <div class="edition-summary">
+            <span id="publicationState" class="tag neutral">불러오는 중</span>
+            <span id="snapshotMeta">공개용 기록을 읽고 있습니다.</span>
+          </div>
+          <p id="datasetNote">
+            기록 기준과 현재 시각은 다릅니다. 실시간 시세 화면이 아닙니다.
+          </p>
+        </section>
+        <section class="toolbar" aria-label="화면 필터">
+          <label class="control search-control">
+            <span>찾기</span>
+            <input id="searchInput" type="search"
+                   placeholder="질문·사안·자산·근거"
+                   autocomplete="off" maxlength="160">
+          </label>
+          <label class="control">
+            <span>자산</span>
+            <select id="assetFilter">
+              <option value="all">전체 자산</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>사안 상태</span>
+            <select id="statusFilter">
+              <option value="all">전체 상태</option>
+              <option value="active">집중</option>
+              <option value="watch">관찰</option>
+              <option value="gap">확인 공백</option>
+              <option value="closed">종결</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>카드 순서</span>
+            <select id="orderSelect">
+              <option value="priority">추천 순서</option>
+              <option value="stable">기본 순서</option>
+            </select>
+          </label>
+          <button id="resetFilters" type="button"
+                  class="button text-button">초기화</button>
+        </section>
+        <p id="feedback" class="feedback" role="status"
+           aria-live="polite"></p>
+        <section id="loadError" class="notice danger" role="alert" hidden>
+          <strong>새 기록을 적용하지 못했습니다.</strong>
+          <p id="errorText"></p>
+          <p>
+            이미 읽은 정상 기록이 있으면 그대로 유지합니다.
+            로컬 파일로 열었다면 위의 ‘기록 파일 열기’에서
+            data/terminal.json을 선택하세요.
+          </p>
+          <button id="retryButton" type="button"
+                  class="button secondary">다시 읽기</button>
+        </section>
+        <section id="stats" class="stats" aria-label="기록 요약" hidden>
+        </section>
+        <div id="content" aria-busy="true">
+          <section class="empty-state">
+            <span class="eyebrow">LOADING THE NOTEBOOK</span>
+            <h2>질문과 근거를 펼치는 중입니다.</h2>
+            <p>
+              화면 코드와 data/terminal.json이 모두 있어야 열립니다.
+            </p>
+          </section>
+        </div>
+        <noscript>
+          <section class="notice danger">
+            이 화면은 JavaScript가 필요합니다.
+            공개용 원본 기록은 data/terminal.json에서 확인할 수 있습니다.
+          </section>
+        </noscript>
+        <footer class="page-footer">
+          <details>
+            <summary>갱신 방식과 검증 범위</summary>
+            <p>
+              이 시제품은 독립된 공개용 JSON을 읽어 화면을 구성합니다.
+              데이터가 바뀌면 질문 카드, 추천 순서, 조건과 변경 기록을
+              같은 기록판에서 다시 그립니다.
+            </p>
+            <p>
+              시장 수집, 리서치 종료 감지, 저장소 커밋은 아직 연결하지
+              않았습니다. ‘기록 파일 열기’는 선택한 JSON의 로컬
+              미리보기이며 파일을 서버에 올리지 않습니다.
+            </p>
+            <p>
+              확인된 사실, 전달된 관측, 해석, 미확인을 구분합니다.
+              자료가 없으면 수치나 판정을 만들지 않습니다.
+              과거 기록을 재구성한 경우 당시 실제 게시본과 구분합니다.
+            </p>
+          </details>
+          <div class="footer-line">
+            <span>시장 기억장치 · 질문 중심 설계</span>
+            <span>외부 스크립트·추적 코드 없음</span>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="evidenceDialog" class="evidence-dialog"
+          aria-labelledby="evidenceTitle"
+          aria-describedby="drawerHint">
+    <div class="drawer-header">
+      <div>
+        <span class="eyebrow">FOLLOW THE EVIDENCE</span>
+        <h2 id="evidenceTitle">사안과 근거</h2>
+      </div>
+      <button id="closeDialog" type="button"
+              class="button secondary" aria-label="상세 닫기">
+        닫기
+      </button>
+    </div>
+    <p id="drawerHint" class="muted">
+      사실과 해석, 확인 시각, 반대 근거를 따로 읽습니다.
+    </p>
+    <div id="drawerContent"></div>
+  </dialog>
+</body>
 </html>
