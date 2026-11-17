@@ -252,7 +252,7 @@ async function renderKol(s, latest) {
 }
 
 /* ---- MTF 50선 (v12.1 스크리너와 같은 계산, 최신만) ---- */
-let MTF = null, MQ = { q: '', v: 'all', idx: true, n: 50 };
+let MTF = null, MQ = { all: false, ref: false };
 const MTFC = { A: '판정 · 위', B: '판정 · 아래', a: '참고 · 위', b: '참고 · 아래', '.': '봉 12개 미만' };
 async function loadMtf() {
   if (MTF) return MTF;
@@ -276,25 +276,22 @@ async function renderMtf() {
   const el = $('#mtf');
   let D; try { D = await loadMtf(); } catch (e) { el.innerHTML = '<p class="empty">MTF 자료를 아직 만들지 못했습니다.</p>'; return; }
   const m = D.meta, tfs = m.tfs;
-  $('#mtfsub').textContent = `바이낸스 USDⓈ-M 무기한 ${m.n}개 · 시가총액 큰 순 · ${m.asof} 마감(UTC 0시) 기준 · 날짜를 옮겨도 최신만 보입니다`;
-  const ev7 = D.rows.filter(r => r.ev), cnt = t => ev7.filter(r => r.ev.type === t).length;
-  const q = MQ.q.trim().toUpperCase();
-  const rows = D.rows.filter(r => (MQ.idx || r.kind !== 'index') && (!q || r.sym.includes(q) || (r.coin || '').includes(q)) &&
-    (MQ.v === 'all' || (MQ.v === 'pass' && r.pass) || (MQ.v === 'near' && !r.pass && r.cushion != null && r.cushion > -0.05) || (MQ.v === 'ev' && r.ev)));
+  const odd = r => r.kind === 'index' || !!r.peg;
+  const strict = r => r.na + r.nra === r.nj + r.nr;
+  const pass = D.rows.filter(r => r.pass), rows = pass.filter(r => (MQ.all || !odd(r)) && (!MQ.ref || strict(r))), hidden = pass.filter(odd);
+  const out = D.rows.filter(r => r.ev && r.ev.type === 'exit' && !odd(r));
+  $('#mtfsub').textContent = `모든 판정 TF에서 종가가 SMA50 위인 종목 · 시가총액 큰 순 · ${m.asof} 마감(UTC 0시) · 바이낸스 USDⓈ-M ${m.n}개 중 ${pass.length}개 · 최신만`;
   const evName = { new: '신규', reentry: '재진입', exit: '이탈' };
-  el.innerHTML = `<div class="mh"><div class="stat"><b>${m.n_pass}</b><span>통과(판정 TF 전부 SMA50 위)</span></div><div class="stat"><b>${cnt('new')}·${cnt('reentry')}·${cnt('exit')}</b><span>최근 7개 마감 신규·재진입·이탈</span></div><div class="mdpw">${mtfDaily(D.daily_pass)}<div class="mute" style="font-size:11.5px">날짜별 통과 종목 수(지금 상장된 계약만 · 1년)</div></div></div>
-  <div class="filters"><label>보기 <select id="mv"><option value="all">전체</option><option value="pass">통과만</option><option value="near">통과까지 5% 안</option><option value="ev">최근 7일 변화</option></select></label>
-  <input id="mq" type="search" placeholder="종목 찾기" value="${esc(MQ.q)}" aria-label="종목 찾기"><label><input type="checkbox" id="mi" ${MQ.idx ? 'checked' : ''}> 지수 계약 포함</label><span class="mute">${rows.length}개</span></div>
-  <div class="mleg"><span><i class="mA"></i>판정 TF · SMA50 위</span><span><i class="mB"></i>판정 · 아래</span><span><i class="ma"></i>참고(봉 12~49개) · 위</span><span><i class="mb"></i>참고 · 아래</span><span><i class="mn"></i>봉 부족</span><span class="mute">띠 = 1D~1W | 8D~3W | 1M~12M</span></div>
-  <div class="scrollx"><table class="tbl mt"><thead><tr><th>시총</th><th>종목</th><th>종가</th><th>20개 TF</th><th>위/판정</th><th title="다음 마감에 넘어야 통과하는 값">통과 기준가 K</th><th>K까지</th><th>최근 변화</th><th>7일</th><th>30일</th></tr></thead><tbody>
-  ${rows.slice(0, MQ.n).map(r => `<tr class="${r.pass ? 'pass' : ''}"><td>${r.mcap_rank ?? '—'}</td><td><b>${esc(r.coin || r.sym)}</b>${r.kind === 'index' ? ' <span class="chip">지수</span>' : ''}</td><td>${fmtP(r.close)}</td><td>${mtfStrip(r, tfs)}</td><td><b>${r.na}</b>/${r.nj}${r.nr ? `<span class="mute"> · 참고 ${r.nra}/${r.nr}</span>` : ''}</td><td>${fmtP(r.K)}</td><td class="${r.cushion >= 0 ? 'pos' : 'neg'}">${r.cushion == null ? '—' : pct(r.cushion * 100)}</td><td>${r.ev ? `<span class="ev ${r.ev.type}">${evName[r.ev.type] || r.ev.type} ${md(r.ev.date)}</span>` : r.pass && r.streak ? `<span class="mute">${r.streak}일째</span>` : ''}</td><td class="${r.r7 >= 0 ? 'pos' : 'neg'}">${r.r7 == null ? '—' : pct(r.r7 * 100)}</td><td class="${r.r30 >= 0 ? 'pos' : 'neg'}">${r.r30 == null ? '—' : pct(r.r30 * 100)}</td></tr>`).join('')}
-  </tbody></table></div>${rows.length > MQ.n ? `<button class="btn more" id="mmore" type="button">${Math.min(50, rows.length - MQ.n)}개 더 보기 (남은 ${rows.length - MQ.n})</button>` : ''}
-  <p class="mute" style="font-size:12px;margin:10px 0 0">계산은 사용자의 스크리너 v12.1(MTF 50선 엔진)과 같은 규칙입니다: TradingView식 봉 나누기, 봉 50개 이상 = 판정 TF, 12~49개 = 참고(전체 봉 평균 대비), 판정 TF가 모두 SMA50 위면 통과. K는 다음 마감 종가가 넘어야 통과하는 값입니다. 시총: ${esc(m.mcap_source)}(못 맞춘 계약은 맨 뒤). ${esc((m.notes || []).join(' '))}</p>`;
-  $('#mv').value = MQ.v;
-  $('#mv').onchange = e => { MQ.v = e.target.value; MQ.n = 50; renderMtf(); };
-  $('#mq').oninput = e => { MQ.q = e.target.value; MQ.n = 50; clearTimeout(renderMtf.t); renderMtf.t = setTimeout(() => { renderMtf().then(() => { const i = $('#mq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 200); };
-  $('#mi').onchange = e => { MQ.idx = e.target.checked; renderMtf(); };
-  if ($('#mmore')) $('#mmore').onclick = () => { MQ.n += 50; renderMtf(); };
+  el.innerHTML = `<div class="mh"><div class="stat"><b>${rows.length}</b><span>통과 종목${hidden.length && !MQ.all ? ` (스테이블·지수 ${hidden.length}개 뺌)` : ''}</span></div><div class="stat"><b>${rows.filter(r => r.ev && r.ev.type !== 'exit').length}</b><span>최근 7개 마감 안에 새로 들어옴</span></div><div class="mdpw">${mtfDaily(D.daily_pass)}<div class="mute" style="font-size:11.5px">날짜별 통과 종목 수(지금 상장된 계약만 · 1년)</div></div></div>
+  <div class="filters"><label><input type="checkbox" id="mr" ${MQ.ref ? 'checked' : ''}> 참고 TF(봉 12~49개)까지 모두 위인 것만 (${pass.filter(r => strict(r) && !odd(r)).length}개)</label>${hidden.length ? `<label><input type="checkbox" id="mi" ${MQ.all ? 'checked' : ''}> 스테이블·지수 계약도 보기 (${hidden.map(r => esc(r.coin || r.sym)).join(', ')})</label>` : ''}</div>
+  <div class="mleg"><span><i class="mA"></i>판정 TF(봉 50개 이상) · SMA50 위</span><span><i class="ma"></i>참고(봉 12~49개) · 위</span><span><i class="mb"></i>참고 · 아래</span><span><i class="mn"></i>봉 부족</span><span class="mute">띠 = 1D~1W | 8D~3W | 1M~12M</span></div>
+  <div class="scrollx"><table class="tbl mt"><thead><tr><th>시총</th><th>종목</th><th>종가</th><th>20개 TF</th><th>판정 TF</th><th>들어온 때</th><th title="다음 마감 종가가 이 값 아래면 통과에서 빠짐">이탈 기준가 K</th><th>K까지 여유</th><th>가장 약한 TF</th><th>7일</th><th>30일</th></tr></thead><tbody>
+  ${rows.map(r => `<tr class="pass"><td>${r.mcap_rank ?? '—'}</td><td><b>${esc(r.coin || r.sym)}</b>${r.kind === 'index' ? ' <span class="chip">지수</span>' : r.peg ? ' <span class="chip">스테이블·페그</span>' : ''}</td><td>${fmtP(r.close)}</td><td>${mtfStrip(r, tfs)}</td><td><b>${r.na}</b>/${r.nj}${r.nr ? `<span class="mute"> · 참고 ${r.nra}/${r.nr}</span>` : ''}</td><td>${r.ev ? `<span class="ev ${r.ev.type}">${evName[r.ev.type] || r.ev.type} ${md(r.ev.date)}</span>` : ''}<span class="mute"> ${r.streak}일째</span></td><td>${fmtP(r.K)}</td><td class="pos">${r.cushion == null ? '—' : pct(r.cushion * 100)}</td><td>${esc(r.weakest || '')} <span class="mute">${r.min_dc == null ? '' : pct(r.min_dc * 100)}</span></td><td class="${r.r7 >= 0 ? 'pos' : 'neg'}">${r.r7 == null ? '—' : pct(r.r7 * 100)}</td><td class="${r.r30 >= 0 ? 'pos' : 'neg'}">${r.r30 == null ? '—' : pct(r.r30 * 100)}</td></tr>`).join('') || '<tr><td colspan="11" class="empty">오늘은 통과 종목이 없습니다.</td></tr>'}
+  </tbody></table></div>
+  ${out.length ? `<p class="mute" style="font-size:12.5px;margin:10px 0 0">최근 7개 마감 안에 빠진 종목: ${out.map(r => `${esc(r.coin || r.sym)}(${md(r.ev.date)})`).join(', ')}</p>` : ''}
+  <p class="mute" style="font-size:12px;margin:8px 0 0">선별 규칙은 사용자의 스크리너 v12.1(MTF 50선)과 같습니다: TradingView식으로 봉을 나눠 20개 TF를 보고, 봉이 50개 이상인 TF(판정)가 모두 SMA50 위면 통과입니다. 상장이 짧아 봉 50개가 안 되는 TF는 참고로만 표시하고 통과 판정에 넣지 않습니다. K는 다음 마감 종가가 이 값보다 낮으면 통과에서 빠지는 선입니다. 시총: ${esc(m.mcap_source)}(순위는 전체 순위, 못 맞춘 계약은 맨 뒤).</p>`;
+  if ($('#mi')) $('#mi').onchange = e => { MQ.all = e.target.checked; renderMtf(); };
+  $('#mr').onchange = e => { MQ.ref = e.target.checked; renderMtf(); };
 }
 
 /* ---- 화면 탭 ---- */

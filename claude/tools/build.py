@@ -288,7 +288,15 @@ def dump(name, obj):
 dump('meta.json', meta)
 dump('snapshots.json', snap)
 dump('items.json', items)
-dump('now.json', dict(curated=CUR, thesis=thesis))
+# THESIS 시뮬레이터용 이력: 주봉 종가와 208주선, 월봉 종가와 48개월선 (바이낸스 현물)
+def sma_hist(fname, n, keep):
+    rows = J(os.path.join(RAW, fname)); c = [float(r[4]) for r in rows]
+    out = []
+    for i in range(len(rows)):
+        if i + 1 >= n: out.append([dt.datetime.fromtimestamp(rows[i][0] / 1000, U).date().isoformat(), round(c[i], 2), round(sum(c[i + 1 - n:i + 1]) / n, 1)])
+    return out[-keep:]
+thesis_hist = dict(w208=sma_hist('btc1w.json', 208, 330), m48=sma_hist('btc1M.json', 48, 80))
+dump('now.json', dict(curated=CUR, thesis=thesis, thesis_hist=thesis_hist))
 
 # 4시간봉 (화면 시안용, 공개 API 원자료를 종가·고가·저가로 줄여서)
 PX4 = {'BTC': 'BTCUSDT', 'ETH': 'ETHUSDT', 'SOL': 'SOLUSDT', 'BNB': 'BNBUSDT', 'ZEC': 'ZECUSDT', 'ENA': 'ENAUSDT', 'UNI': 'UNIUSDT',
