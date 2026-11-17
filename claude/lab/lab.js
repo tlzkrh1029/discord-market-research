@@ -221,11 +221,11 @@ export function head(n, title, q) {
 }
 export function theme() {
   const b = document.getElementById('theme'); if (!b) return;
-  try { const t = localStorage.getItem('dmr-theme'); if (t) document.documentElement.dataset.theme = t; } catch { }
+  try { const t = localStorage.getItem('mm-theme'); if (t) document.documentElement.dataset.theme = t; } catch { }
   b.onclick = () => {
     const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.dataset.theme = dark ? 'light' : 'dark';
-    try { localStorage.setItem('dmr-theme', document.documentElement.dataset.theme); } catch { }
+    try { localStorage.setItem('mm-theme', document.documentElement.dataset.theme); } catch { }
     dispatchEvent(new Event('resize'));
   };
 }

@@ -31,7 +31,7 @@ async function boot() {
   $('#prev').onclick = () => go(IDX - 1); $('#next').onclick = () => go(IDX + 1); $('#latest').onclick = () => go(S.length - 1);
   document.addEventListener('keydown', e => { if (e.target.closest('input,select,textarea')) return; if (e.key === 'ArrowLeft') go(IDX - 1); if (e.key === 'ArrowRight') go(IDX + 1); });
   $('#ifilter').onchange = e => { ISS = e.target.value; LIMIT = 30; renderViews(); writeHash(); };
-  setupTheme(); render();
+  setupTheme(); render(); renderMtf();
 }
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
@@ -64,7 +64,7 @@ function render() {
   $('#past').classList.toggle('on', !latest);
   $('#prev').disabled = IDX === 0; $('#next').disabled = latest;
   renderNow(s, latest); renderThesis(s, latest); renderCards(s, latest); renderWatch(s); renderChanges(s);
-  renderMap(s); renderBlind(latest); renderTabs(s); renderViews(); renderRules(); renderFoot();
+  renderMap(s); renderKol(s, latest); renderTabs(s); renderViews(); renderRules(); renderFoot();
 }
 
 /* ---- 고정 자리 1: 지금 ---- */
@@ -206,11 +206,95 @@ function renderMap(s) {
   });
 }
 
-/* ---- 사각지대 ---- */
-function renderBlind(latest) {
-  $('#blindsub').textContent = `시가총액 상위 150 중 7일 ±12% 넘게 움직였는데 최근 14일 우리 글에 없는 종목 · CoinGecko ${NOW.blind_asof ? NOW.blind_asof.slice(0, 16).replace('T', ' ') + ' UTC' : ''}`;
-  if (!latest) { $('#blind').innerHTML = '<p class="empty">사각지대는 최신 판에서만 계산합니다.</p>'; return; }
-  $('#blind').innerHTML = NOW.blind.map(b => `<div class="bl"><div class="s">${esc(b.sym)} <span class="r">${esc(b.name)} · ${b.rank}위</span></div><div class="v num ${b.d7 < 0 ? 'neg' : 'pos'}">${pct(b.d7)}</div><div class="r">7일 · 24시간 ${pct(b.d1)}</div></div>`).join('') || '<p class="empty">없음</p>';
+/* ---- KOL 수집 결과 ---- */
+let KOL = null, KQ = { who: '', a: '', st: '', n: 30 };
+const STC = { 강세: 'kup', 약세: 'kdn', 혼합: 'kmx', 중립: 'knt', 불명: 'knt' };
+async function renderKol(s, latest) {
+  const el = $('#kol');
+  if (!KOL) { try { const r = await fetch('data/kol.json', { cache: 'no-cache' }); if (!r.ok) throw 0; KOL = await r.json(); } catch (e) { el.innerHTML = '<p class="empty">KOL 자료를 아직 만들지 못했습니다.</p>'; return; } }
+  const all = KOL.items.filter(r => !r.src_ts || r.src_ts.slice(0, 10) <= s.d);
+  const days = [...new Set(KOL.btc.map(b => b[0]).filter(d => d <= s.d))];
+  const by = {}; for (const r of all) { const d = (r.src_ts || '').slice(0, 10); (by[d] ||= {})[r.stance] = ((by[d] || {})[r.stance] || 0) + 1; }
+  const stN = k => all.filter(r => r.stance === k).length;
+  // 사람별
+  const who = r => r.handle || r.name || '이름 없음';
+  const ppl = {}; for (const r of all) { const p = (ppl[who(r)] ||= { h: who(r), x: !!r.handle, name: r.handle ? r.name : null, n: 0, st: {}, a: {}, last: '' }); p.n++; p.st[r.stance] = (p.st[r.stance] || 0) + 1; for (const x of r.assets || []) p.a[x] = (p.a[x] || 0) + 1; if ((r.src_ts || '') > p.last) p.last = r.src_ts || ''; if (r.handle && r.name && !p.name) p.name = r.name; }
+  const prof = Object.fromEntries((KOL.profiles || []).map(p => [p.handle || p.name, p]));
+  const people = Object.values(ppl).sort((a, b) => b.n - a.n || b.last.localeCompare(a.last));
+  const assets = Object.entries(all.reduce((m, r) => { for (const x of r.assets || []) m[x] = (m[x] || 0) + 1; return m; }, {})).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const rows = all.filter(r => (!KQ.who || who(r) === KQ.who) && (!KQ.a || (r.assets || []).includes(KQ.a)) && (!KQ.st || r.stance === KQ.st)).sort((a, b) => (b.src_ts || '').localeCompare(a.src_ts || ''));
+  $('#kolsub').textContent = `우리 리서치가 인용한 X 글 ${all.length}개 · ${people.length}명 · 요지는 우리말 요약, 원문은 링크 · 숫자는 그 사람의 주장`;
+  // 날짜별 성향 막대 + BTC 종가 (두 그림, 같은 x)
+  const W = 560, H1 = 92, H2 = 46, n = days.length || 1, bw = (W - 8) / n;
+  const mx = Math.max(1, ...days.map(d => Object.values(by[d] || {}).reduce((a, b) => a + b, 0)));
+  let bars = `<svg viewBox="0 0 ${W} ${H1}" class="kbar" role="img" aria-label="날짜별 인용된 KOL 글 성향">`;
+  days.forEach((d, i) => { let y = H1 - 14; for (const k of ['강세', '혼합', '중립', '불명', '약세']) { const v = (by[d] || {})[k] || 0; if (!v) continue; const h = v / mx * (H1 - 20); y -= h; bars += `<rect class="${STC[k]}" x="${4 + i * bw}" y="${y}" width="${Math.max(1, bw - 2)}" height="${Math.max(1, h - 1)}"><title>${md(d)} ${k} ${v}</title></rect>`; } if (i % 7 === 0) bars += `<text x="${4 + i * bw}" y="${H1 - 2}">${md(d)}</text>`; });
+  bars += '</svg>';
+  const bv = KOL.btc.filter(b => b[0] <= s.d).map(b => b[1]), lo = Math.min(...bv), hi = Math.max(...bv);
+  const line = `<svg viewBox="0 0 ${W} ${H2}" class="kbtc" role="img" aria-label="BTC 일봉 종가"><path d="${bv.map((v, i) => `${i ? 'L' : 'M'}${(4 + i * bw + bw / 2).toFixed(1)},${(4 + (hi - v) / (hi - lo || 1) * (H2 - 10)).toFixed(1)}`).join('')}"/><text x="${W - 4}" y="12" text-anchor="end">BTC ${n0(bv[bv.length - 1] || 0)}</text></svg>`;
+  const stBar = st => { const t = Object.values(st).reduce((a, b) => a + b, 0) || 1; return `<span class="kst">${['강세', '혼합', '중립', '불명', '약세'].map(k => st[k] ? `<i class="${STC[k]}" style="width:${st[k] / t * 100}%" title="${k} ${st[k]}"></i>` : '').join('')}</span>`; };
+  const lv = l => `${esc(l.asset || '')} ${typeof l.price === 'number' ? fmtP(l.price) : esc(l.price)}${l.role ? ' ' + esc(l.role) : ''}`;
+  el.innerHTML = `<div class="kgrid"><div class="panel"><div class="kh"><b>날짜별 인용된 글의 성향</b><span class="kleg"><span><i class="kup"></i>강세 ${stN('강세')}</span><span><i class="kmx"></i>혼합 ${stN('혼합')}</span><span><i class="knt"></i>중립·불명 ${stN('중립') + stN('불명')}</span><span><i class="kdn"></i>약세 ${stN('약세')}</span></span></div>${bars}${line}
+    <p class="mute" style="font-size:12px;margin:4px 0 0">위: 그날 우리 리서치가 인용한 KOL 글 수(성향별). 아래: 같은 날짜의 BTC 종가. 인용 수는 우리가 얼마나 찾아봤는지에 따라 달라지므로 시장 전체 여론이 아닙니다.</p></div>
+    <div class="panel"><b style="font-size:14px">자주 인용한 사람</b><ul class="kpl">${people.slice(0, 12).map(p => `<li><button type="button" class="kp ${KQ.who === p.h ? 'on' : ''}" data-who="${esc(p.h)}"><span class="hn">${esc(p.h)}${p.name ? ` <span class="mute">${esc(p.name)}</span>` : ''}</span><span class="nn">${p.n}</span>${stBar(p.st)}<span class="fc">${esc((prof[p.h] || {}).focus || Object.keys(p.a).slice(0, 3).join(' · '))}</span></button></li>`).join('')}</ul></div></div>
+    <div class="filters" style="margin-top:12px"><span>종목</span>${['', ...assets.map(a => a[0])].map(a => `<button type="button" class="fchip ${KQ.a === a ? 'on' : ''}" data-ka="${esc(a)}">${a ? esc(a) : '전체'}</button>`).join('')}
+    <span style="margin-left:8px">성향</span>${['', '강세', '약세', '혼합', '중립'].map(k => `<button type="button" class="fchip ${KQ.st === k ? 'on' : ''}" data-kst="${k}">${k || '전체'}</button>`).join('')}
+    ${KQ.who ? `<button type="button" class="fchip on" data-who="">${esc(KQ.who)} ✕</button>` : ''}<span class="mute">${rows.length}개</span></div>
+    <ul class="kfeed">${rows.slice(0, KQ.n).map(r => `<li><div class="km"><span class="kd">${esc((r.src_ts || '').slice(5, 16))}</span>${r.handle ? `<a href="https://x.com/${esc(r.handle.replace(/^@/, ''))}" target="_blank" rel="noopener noreferrer">${esc(r.handle)}</a>${r.name ? ` <span class="mute">${esc(r.name)}</span>` : ''}` : `<b>${esc(r.name || '이름 없음')}</b>`}<span class="ks ${STC[r.stance] || 'knt'}">${esc(r.stance)}</span>${(r.assets || []).map(a => `<span class="chip">${esc(a)}</span>`).join('')}${r.likes ? `<span class="mute">♥ ${r.likes}</span>` : ''}</div>
+      <div class="kc">${r.topic ? `<b>${esc(r.topic)}</b> · ` : ''}${esc(r.claim)}</div>
+      ${(r.levels || []).filter(l => l.role !== '목표 주장').length ? `<div class="kl">그 사람이 든 가격(주장): ${r.levels.filter(l => l.role !== '목표 주장').map(lv).join(' · ')}</div>` : ''}
+      <div class="kx">${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">X 원문</a> · ` : ''}${srcs(r.src)}</div></li>`).join('') || '<li class="empty">조건에 맞는 글이 없습니다.</li>'}</ul>
+    ${rows.length > KQ.n ? `<button class="btn more" type="button" id="kmore">더 보기 (남은 ${rows.length - KQ.n})</button>` : ''}`;
+  el.querySelectorAll('[data-who]').forEach(b => b.onclick = () => { KQ.who = KQ.who === b.dataset.who ? '' : b.dataset.who; KQ.n = 30; renderKol(S[IDX], IDX === S.length - 1); });
+  el.querySelectorAll('[data-ka]').forEach(b => b.onclick = () => { KQ.a = b.dataset.ka; KQ.n = 30; renderKol(S[IDX], IDX === S.length - 1); });
+  el.querySelectorAll('[data-kst]').forEach(b => b.onclick = () => { KQ.st = b.dataset.kst; KQ.n = 30; renderKol(S[IDX], IDX === S.length - 1); });
+  if ($('#kmore')) $('#kmore').onclick = () => { KQ.n += 30; renderKol(S[IDX], IDX === S.length - 1); };
+}
+
+/* ---- MTF 50선 (v12.1 스크리너와 같은 계산, 최신만) ---- */
+let MTF = null, MQ = { q: '', v: 'all', idx: true, n: 50 };
+const MTFC = { A: '판정 · 위', B: '판정 · 아래', a: '참고 · 위', b: '참고 · 아래', '.': '봉 12개 미만' };
+async function loadMtf() {
+  if (MTF) return MTF;
+  const r = await fetch('data/mtf50.json', { cache: 'no-cache' }); if (!r.ok) throw new Error('mtf50.json');
+  return (MTF = await r.json());
+}
+function fmtP(v) { if (v == null) return '—'; const a = Math.abs(v); return a >= 1000 ? n0(v) : a >= 1 ? v.toFixed(a >= 100 ? 1 : 3) : v.toPrecision(3); }
+function mtfStrip(r, tfs) {
+  const cell = (c, i) => { const tf = tfs[i], v = r.dc ? r.dc[tf] : null; return `<i class="m${c === '.' ? 'n' : c}" title="${esc(tf)} · ${MTFC[c]}${v != null ? ' · ' + pct(v * 100) : ''}"></i>`; };
+  const s = r.strip.split('');
+  return `<span class="mst">${[[0, 7], [7, 12], [12, 20]].map(([x, y]) => `<span>${s.slice(x, y).map((c, k) => cell(c, x + k)).join('')}</span>`).join('')}</span>`;
+}
+function mtfDaily(dp) {
+  if (!dp || dp.length < 2) return '';
+  const W = 520, H = 90, v = dp.map(d => d[1]), mx = Math.max(...v, 1), med = [...v].sort((a, b) => a - b)[Math.floor(v.length / 2)];
+  const X = i => 4 + i / (v.length - 1) * (W - 60), Y = x => 6 + (mx - x) / mx * (H - 22);
+  const path = v.map((x, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(x).toFixed(1)}`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" class="mdp" role="img" aria-label="날짜별 통과 종목 수(1년)"><line x1="4" x2="${W - 56}" y1="${Y(med)}" y2="${Y(med)}" class="med"/><text x="${W - 52}" y="${Y(med) + 4}">중앙 ${med}</text><path d="${path}"/><circle cx="${X(v.length - 1)}" cy="${Y(v[v.length - 1])}" r="3.5"/><text x="${W - 52}" y="${Y(v[v.length - 1]) - 6}" class="lastv">${v[v.length - 1]}</text><text x="4" y="${H - 2}">${md(dp[0][0])}</text><text x="${W - 56}" y="${H - 2}" text-anchor="end">${md(dp[dp.length - 1][0])}</text></svg>`;
+}
+async function renderMtf() {
+  const el = $('#mtf');
+  let D; try { D = await loadMtf(); } catch (e) { el.innerHTML = '<p class="empty">MTF 자료를 아직 만들지 못했습니다.</p>'; return; }
+  const m = D.meta, tfs = m.tfs;
+  $('#mtfsub').textContent = `바이낸스 USDⓈ-M 무기한 ${m.n}개 · 시가총액 큰 순 · ${m.asof} 마감(UTC 0시) 기준 · 날짜를 옮겨도 최신만 보입니다`;
+  const ev7 = D.rows.filter(r => r.ev), cnt = t => ev7.filter(r => r.ev.type === t).length;
+  const q = MQ.q.trim().toUpperCase();
+  const rows = D.rows.filter(r => (MQ.idx || r.kind !== 'index') && (!q || r.sym.includes(q) || (r.coin || '').includes(q)) &&
+    (MQ.v === 'all' || (MQ.v === 'pass' && r.pass) || (MQ.v === 'near' && !r.pass && r.cushion != null && r.cushion > -0.05) || (MQ.v === 'ev' && r.ev)));
+  const evName = { new: '신규', reentry: '재진입', exit: '이탈' };
+  el.innerHTML = `<div class="mh"><div class="stat"><b>${m.n_pass}</b><span>통과(판정 TF 전부 SMA50 위)</span></div><div class="stat"><b>${cnt('new')}·${cnt('reentry')}·${cnt('exit')}</b><span>최근 7개 마감 신규·재진입·이탈</span></div><div class="mdpw">${mtfDaily(D.daily_pass)}<div class="mute" style="font-size:11.5px">날짜별 통과 종목 수(지금 상장된 계약만 · 1년)</div></div></div>
+  <div class="filters"><label>보기 <select id="mv"><option value="all">전체</option><option value="pass">통과만</option><option value="near">통과까지 5% 안</option><option value="ev">최근 7일 변화</option></select></label>
+  <input id="mq" type="search" placeholder="종목 찾기" value="${esc(MQ.q)}" aria-label="종목 찾기"><label><input type="checkbox" id="mi" ${MQ.idx ? 'checked' : ''}> 지수 계약 포함</label><span class="mute">${rows.length}개</span></div>
+  <div class="mleg"><span><i class="mA"></i>판정 TF · SMA50 위</span><span><i class="mB"></i>판정 · 아래</span><span><i class="ma"></i>참고(봉 12~49개) · 위</span><span><i class="mb"></i>참고 · 아래</span><span><i class="mn"></i>봉 부족</span><span class="mute">띠 = 1D~1W | 8D~3W | 1M~12M</span></div>
+  <div class="scrollx"><table class="tbl mt"><thead><tr><th>시총</th><th>종목</th><th>종가</th><th>20개 TF</th><th>위/판정</th><th title="다음 마감에 넘어야 통과하는 값">통과 기준가 K</th><th>K까지</th><th>최근 변화</th><th>7일</th><th>30일</th></tr></thead><tbody>
+  ${rows.slice(0, MQ.n).map(r => `<tr class="${r.pass ? 'pass' : ''}"><td>${r.mcap_rank ?? '—'}</td><td><b>${esc(r.coin || r.sym)}</b>${r.kind === 'index' ? ' <span class="chip">지수</span>' : ''}</td><td>${fmtP(r.close)}</td><td>${mtfStrip(r, tfs)}</td><td><b>${r.na}</b>/${r.nj}${r.nr ? `<span class="mute"> · 참고 ${r.nra}/${r.nr}</span>` : ''}</td><td>${fmtP(r.K)}</td><td class="${r.cushion >= 0 ? 'pos' : 'neg'}">${r.cushion == null ? '—' : pct(r.cushion * 100)}</td><td>${r.ev ? `<span class="ev ${r.ev.type}">${evName[r.ev.type] || r.ev.type} ${md(r.ev.date)}</span>` : r.pass && r.streak ? `<span class="mute">${r.streak}일째</span>` : ''}</td><td class="${r.r7 >= 0 ? 'pos' : 'neg'}">${r.r7 == null ? '—' : pct(r.r7 * 100)}</td><td class="${r.r30 >= 0 ? 'pos' : 'neg'}">${r.r30 == null ? '—' : pct(r.r30 * 100)}</td></tr>`).join('')}
+  </tbody></table></div>${rows.length > MQ.n ? `<button class="btn more" id="mmore" type="button">${Math.min(50, rows.length - MQ.n)}개 더 보기 (남은 ${rows.length - MQ.n})</button>` : ''}
+  <p class="mute" style="font-size:12px;margin:10px 0 0">계산은 사용자의 스크리너 v12.1(MTF 50선 엔진)과 같은 규칙입니다: TradingView식 봉 나누기, 봉 50개 이상 = 판정 TF, 12~49개 = 참고(전체 봉 평균 대비), 판정 TF가 모두 SMA50 위면 통과. K는 다음 마감 종가가 넘어야 통과하는 값입니다. 시총: ${esc(m.mcap_source)}(못 맞춘 계약은 맨 뒤). ${esc((m.notes || []).join(' '))}</p>`;
+  $('#mv').value = MQ.v;
+  $('#mv').onchange = e => { MQ.v = e.target.value; MQ.n = 50; renderMtf(); };
+  $('#mq').oninput = e => { MQ.q = e.target.value; MQ.n = 50; clearTimeout(renderMtf.t); renderMtf.t = setTimeout(() => { renderMtf().then(() => { const i = $('#mq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 200); };
+  $('#mi').onchange = e => { MQ.idx = e.target.checked; renderMtf(); };
+  if ($('#mmore')) $('#mmore').onclick = () => { MQ.n += 50; renderMtf(); };
 }
 
 /* ---- 화면 탭 ---- */
@@ -280,7 +364,7 @@ function renderRules() {
     <li><b>타임머신</b>: 과거 날짜를 고르면 그 날 밤까지 알 수 있었던 기록만 씁니다. 사람 손 문장(현재 해석·조건)은 최신 판에만 있습니다.</li>
   </ol>
   <p><b>갱신 방식(패시브)</b>: 채널에서 리서치·팔로업을 하면 Claude가 tools/additions.json과 curated.json에 근거 ID와 함께 덧붙이고, build.py를 돌려 다시 올립니다. 사용자가 따로 할 일은 없습니다. 처음 2주는 점수를 Claude가 제안하고 사용자가 고치는 식으로 가중치를 맞춥니다.</p>
-  <p style="margin-bottom:0"><b>공개 사이트라서 넣지 않는 것</b>: Discord 대화 원문, 확인 문구, KOL 글 전문, TradingView 원자료. 사용자 질문은 내용 없이 사안별 횟수만 씁니다.</p>`;
+  <p style="margin-bottom:0"><b>공개 사이트라서 넣지 않는 것</b>: Discord 대화 원문, 확인 문구, KOL 글 전문(우리말 요지와 원문 링크만), TradingView 원자료. 사용자 질문은 내용 없이 사안별 횟수만 씁니다.</p>`;
 }
 function renderFoot() {
   $('#foot').innerHTML = `만든 시각 ${esc(M.built)} KST · 기록 ${esc(M.first)} ~ ${esc(M.last)} · 글 ${M.counts.timeline} · 판정 ${M.counts.ledger} · 레벨 ${M.counts.ladder} · 정정·이견 ${M.counts.radar} · 일정 ${M.counts.catalysts} · 전염 ${M.counts.contagion}<br>

@@ -277,20 +277,6 @@ thesis = dict(daily=th_daily, weekly=th_weekly, m48_live=round(sum(mc[-48:]) / 4
               eth=dict(bar=eth_last[0], close=eth_last[1], line=eth9, pct=round((eth_last[1] / eth9 - 1) * 100, 2)),
               alts=alts, asof=built.strftime('%Y-%m-%d %H:%M'), src='바이낸스 일·주·월봉(현물, 알트는 선물) · 사이트 갱신 때 Claude 계산')
 
-# ---- 사각지대: 시가총액 상위 150 중 7일 ±12% 이상 움직였는데 최근 14일 우리 글에 없는 종목 ----
-cg = J(os.path.join(RAW, 'cg_top.json'))
-lo = dt.datetime.combine(last_day, dt.time(23, 59), K) - dt.timedelta(days=14)
-recent = ' '.join([p['title'] + ' ' + p['gist'] + ' ' + ' '.join(p.get('assets') or []) for p in X['posts'] if kts(p['ts']) > lo] +
-                  [l['asset'] for l in X['levels'] if kts(l['ts']) > lo])
-STABLE = {'usdt', 'usdc', 'dai', 'usde', 'fdusd', 'pyusd', 'usds', 'tusd', 'usd1', 'rlusd', 'usdtb', 'bfusd', 'susde', 'susds', 'xaut', 'paxg', 'buidl', 'usyc', 'syrupusdc', 'usdf', 'bsc-usd', 'usdg', 'usdd'}
-blind = []
-for c in cg:
-    sym = (c.get('symbol') or '').upper(); ch = c.get('price_change_percentage_7d_in_currency')
-    if ch is None or c['symbol'] in STABLE or abs(ch) < 12: continue
-    if re.search(r'(?<![A-Z])' + re.escape(sym) + r'(?![A-Z])', recent) or (c.get('name') or '') in recent: continue
-    blind.append(dict(sym=sym, name=c['name'], rank=c.get('market_cap_rank'), d7=round(ch, 1), d1=round(c.get('price_change_percentage_24h_in_currency') or 0, 1)))
-blind.sort(key=lambda b: -abs(b['d7']))
-cg_time = max((c.get('last_updated') or '') for c in cg)
 
 meta = dict(built=built.strftime('%Y-%m-%d %H:%M'), first=days[0].isoformat(), last=days[-1].isoformat(), kmaj=KMAJ,
             issues=[dict(id=i['id'], label=i['label'], kind=i['kind'], fixed=bool(i.get('fixed')), assets=i['assets']) for i in ISSUES],
@@ -302,7 +288,7 @@ def dump(name, obj):
 dump('meta.json', meta)
 dump('snapshots.json', snap)
 dump('items.json', items)
-dump('now.json', dict(curated=CUR, thesis=thesis, blind=blind[:6], blind_asof=cg_time))
+dump('now.json', dict(curated=CUR, thesis=thesis))
 
 # 4시간봉 (화면 시안용, 공개 API 원자료를 종가·고가·저가로 줄여서)
 PX4 = {'BTC': 'BTCUSDT', 'ETH': 'ETHUSDT', 'SOL': 'SOLUSDT', 'BNB': 'BNBUSDT', 'ZEC': 'ZECUSDT', 'ENA': 'ENAUSDT', 'UNI': 'UNIUSDT',
@@ -318,8 +304,18 @@ for a, f in PX4.items():
     px[a] = dict(t0=int(rows[0][0] // 1000), s=14400, o=[sig(r[1]) for r in rows], h=[sig(r[2]) for r in rows],
                  l=[sig(r[3]) for r in rows], c=[sig(r[4]) for r in rows])
 dump('px.json', px)
+
+# KOL 수집 결과 (채널 리서치가 인용한 X 글: 우리말 요지 + 원문 링크. 전문은 싣지 않는다)
+KD = os.path.join(os.path.dirname(os.path.abspath(RAW)), 'kol')
+if os.path.exists(os.path.join(KD, 'kol_items.json')):
+    KEEP = ('id', 'src', 'src_ts', 'reporter', 'handle', 'name', 'url', 'post_ts', 'assets', 'topic', 'stance', 'claim', 'levels', 'likes', 'iss')
+    ki = [{k: r.get(k) for k in KEEP} for r in J(os.path.join(KD, 'kol_items.json'))]
+    kp = J(os.path.join(KD, 'kol_profiles.json')) if os.path.exists(os.path.join(KD, 'kol_profiles.json')) else []
+    kc = J(os.path.join(KD, 'coverage.json')) if os.path.exists(os.path.join(KD, 'coverage.json')) else []
+    d0 = min((r['src_ts'] or '9')[:10] for r in ki) if ki else '2026-10-17'
+    btc = [[d.isoformat(), PX['BTC'][d]] for d in sorted(PX['BTC']) if d.isoformat() >= d0]
+    dump('kol.json', dict(items=ki, profiles=kp, coverage=kc, btc=btc))
 for f in sorted(os.listdir(OUT)): print(f, os.path.getsize(os.path.join(OUT, f)))
 s = snap[-1]
 print(s['d'], 'major', s['major'], '\nrest', s['rest'][:8], '\nviews', s['views'], '\nsuggest', s['suggest'])
 for i in s['major'] + s['rest'][:5]: print(' ', i, s['sc'][i], s['status'][i])
-print('blind', blind[:6])
