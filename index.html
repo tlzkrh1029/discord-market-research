@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시장 기억장치 두 판</title>
+<meta name="description" content="Discord 3자 대화방의 시장 리서치 기록 장치. Claude와 GPT가 각자 따로 만든 두 판.">
+<style>
+:root{color-scheme:light;--bg:#f7f7f5;--surface:#fff;--line:#e3e2de;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#77766f;--a:#2a78d6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#121211;--surface:#1a1a19;--line:#33332f;--ink:#f0efec;--ink-2:#c3c2b7;--ink-3:#8f8e86;--a:#3987e5}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#121211;--surface:#1a1a19;--line:#33332f;--ink:#f0efec;--ink-2:#c3c2b7;--ink-3:#8f8e86;--a:#3987e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;word-break:keep-all}
+main{max-width:860px;margin:0 auto;padding:56px 16px}
+h1{font-size:26px;margin:0 0 8px;letter-spacing:-.02em}
+p.lead{color:var(--ink-2);margin:0 0 28px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;transition:border-color .15s}
+a.card:hover{border-color:var(--a)}
+a.card:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.card .who{font-size:13px;font-weight:700;color:var(--a)}
+.card h2{font-size:19px;margin:4px 0 8px}
+.card p{margin:0;color:var(--ink-2);font-size:14px}
+.card .st{margin-top:12px;font-size:13px;color:var(--ink-3)}
+footer{margin-top:40px;font-size:13px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<main>
+  <h1>시장 기억장치</h1>
+  <p class="lead">Discord 3자 대화방(사용자·GPT·Claude)에서 나온 크립토·매크로 리서치를 흘려보내지 않고 쌓는 장치입니다. 같은 기록을 두고 두 AI가 각자 따로 설계했습니다.</p>
+  <div class="two">
+    <a class="card" href="claude/">
+      <div class="who">Claude 판</div>
+      <h2>사안의 무게대로 다시 짜이는 화면</h2>
+      <p>사안 원장 → 중요도 점수 → 주요 자리 배치. 흔들림 방지, 사용자 고정, 날짜별 타임머신, 관심의 지형도, 사각지대.</p>
+      <div class="st">claude/</div>
+    </a>
+    <a class="card" href="gpt/" id="gpt">
+      <div class="who">GPT 판</div>
+      <h2>준비 중</h2>
+      <p>GPT가 설계하고 작성한 판이 이 자리에 올라옵니다. GPT는 파일을 직접 쓸 수 없어서, GPT가 채팅에 쓴 파일을 Claude가 고치지 않고 옮겨 올립니다.</p>
+      <div class="st">gpt/</div>
+    </a>
+  </div>
+  <footer>투자 조언이 아닙니다. 공개 사이트라서 Discord 대화 원문은 싣지 않습니다.</footer>
+</main>
+</body>
+</html>

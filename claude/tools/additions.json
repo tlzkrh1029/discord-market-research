@@ -1,0 +1,34 @@
+{
+ "_note": "merged.json(10/17~11/14 추출본) 뒤에 생긴 항목. 리서치마다 Claude가 덧붙인다. src는 Discord 메시지 ID(근거 ID), 없으면 넣지 않는다.",
+ "posts": [
+  {"src":"1571562280993292380","ts":"2026-11-16 01:27","author":"claude","kind":"review","title":"사용자 THESIS 검토","gist":"USDT.D가 HMA89·144·3일봉 사선에 막혀 꺾임 → BTC 4년선·ETH 9·10년선 바닥 → 365선 위 알트 7종 현물. TradingView 값이 필요한 항목은 미확인으로 분류","assets":["BTC","ETH"],"narratives":["thesis","stablecoin","altseason"]},
+  {"src":"1571566677399834738","ts":"2026-11-16 01:44","author":"claude","kind":"answer","title":"ETHU·BITX WMA200 배수 계산","gist":"ETHU 4D 0.31·BITX 6D 0.40(11/13 종가). 과거 최저 ETHU 1D 0.20(2025-04)·BITX 1D 0.33(2026-02). 표본 각 1번","assets":["ETH","BTC"],"narratives":["thesis","eth"]},
+  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","kind":"followup","title":"크립토 팔로업: 62k 급락과 한 시간 반등","gist":"11/15 10시 BTC 62,006·ETH 1,711 찍고 반등. 바이낸스 코인 OI -2.2%, 바이빗 +0.4%. 펀딩 음수 전환, HL OI -10.5%. 공포탐욕 10","assets":["BTC","ETH","SOL"],"narratives":["leverage","onchain_cost","thesis","etf_flows","sentiment","stablecoin"]},
+  {"src":"1571578116172947556","ts":"2026-11-16 02:30","author":"gpt","kind":"followup","title":"GPT 팔로업: 청산 직접 조회·Saylor 매수 암시","gist":"CoinGlass 24시간 청산 $14.96억(BTC $6.47억) 직접 조회. Saylor 추가 매수 암시 보도","assets":["BTC"],"narratives":["leverage","treasury_cos"]},
+  {"src":"1571582440844038261","ts":"2026-11-16 02:47","author":"claude","kind":"kol","title":"X KOL 반응 시험 수집","gist":"급락 해석이 양분: 매수 기회 vs 추가 저점. 수치는 작성자 주장","assets":["BTC"],"narratives":["sentiment"]},
+  {"src":"1571583613739204731","ts":"2026-11-16 02:52","author":"gpt","kind":"kol","title":"GPT KOL 수집","gist":"X 검색으로 주요 계정 발언 확인. 바닥 확정에 대한 합의는 없음(작성자 주장)","assets":["BTC"],"narratives":["sentiment"]},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","kind":"research","title":"09시 이후: 장기선 아래 마감, 바깥은 아시아 반도체","gist":"BTC 일·주봉 65,351로 4년선 아래 마감(208주선 -1.0%, 조건 불충족). 주봉 -12.7%. 대만 -5.7%·코스피 -3.6%. 바이빗 코인 OI 증가(BTC +1.6%·ETH +3.0%)","assets":["BTC","ETH","SOL","PEPE"],"narratives":["thesis","leverage","asia_stocks","nvda","fed_hike","etf_flows","treasury_cos","memecoins","stablecoin"]},
+  {"src":"1571815236632051773","ts":"2026-11-16 18:12","author":"gpt","kind":"research","title":"GPT 재조사: 회복 판단 보류","gist":"09시 주봉 마감 뒤 -1.5%. 바이낸스 코인 OI -0.27%로 추가 정리는 작음. 바닥 가능성은 열되 회복 시작 판단은 보류","assets":["BTC"],"narratives":["thesis","leverage","etf_flows"]},
+  {"src":"1571816742198710283","ts":"2026-11-16 18:18","author":"claude","kind":"kol","title":"X KOL 반응(11/16 09~18시)","gist":"28명 중 10명 발언. '바닥 횡보·높은 저점' vs '60k 한 번 더'. THESIS 알트·USDT.D 언급 없음(작성자 주장)","assets":["BTC"],"narratives":["sentiment"]}
+ ],
+ "levels": [
+  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","asset":"BTC","price":62006,"label":"11/15 10시 저점(현물)","kind":"low_high"},
+  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","asset":"ETH","price":1711,"label":"11/15 10시 저점","kind":"low_high"},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":64294,"label":"11/16 15시대 저점(현물)","kind":"low_high"},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":65854,"label":"일봉 4년선(1460일, 하루 약 +30)","kind":"ma"},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":66035,"label":"주봉 208주선(11/16 마감 때)","kind":"ma"},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":63500,"label":"허용 이탈폭 -3.6%(숫자는 Claude 제안·미확정)","kind":"thesis"},
+  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"ETH","price":1746,"label":"ETH 9년선(108개월)","kind":"ma"}
+ ],
+ "corrections": [
+  {"src":"1571814149359665174","ts":"2026-11-16 18:08","by":"claude","target":"claude","wrong":"코인베이스 프리미엄 -0.10%(02:40엔 -0.04%)를 현물 약세로 봄","right":"USDT 할인을 보정하면 -0.01%로 사실상 0","cause":"방법 오류(USDT/USD 환산 누락)"}
+ ],
+ "catalysts": [
+  {"src":"1571814199573618721","event_date":"2026-11-17","time_kst":"22:30","event":"美 10월 소매판매","expectation":"","outcome":null},
+  {"src":"1571814199573618721","event_date":"2026-11-18","time_kst":"06:20","event":"엔비디아 실적","expectation":"젠슨 황 사임 뒤 첫 실적, 아시아 반도체 급락 이어짐","outcome":null},
+  {"src":"1571814199573618721","event_date":"2026-11-19","time_kst":"04:00","event":"FOMC 의사록(10월 회의)","expectation":"","outcome":null},
+  {"src":"1571814199573618721","event_date":"2026-11-19","time_kst":null,"event":"앤트로픽 나스닥 상장(예정, 보도)","expectation":"","outcome":null},
+  {"src":"1571814199573618721","event_date":"2026-11-20","time_kst":"17:00","event":"옵션 주간물 만기(ETH 1,800 풋 39,827)","expectation":"","outcome":null}
+ ],
+ "disagreements": []
+}
