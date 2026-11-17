@@ -12,7 +12,7 @@ const SNAPKIND = new Set(['liquidation', 'option', 'support', 'resistance', 'cos
 const ST = s => /^(충족|충족 중|안 넘음)$/.test(s) ? 'ok' : s === '불충족' ? 'no' : /미확인/.test(s) ? 'unk' : /(걸림|근접)/.test(s) ? 'risk' : 'wait';
 const ICON = { ok: '✓', no: '✕', unk: '?', risk: '!', wait: '…' };
 
-let M, S, IT, NOW, IDX = 0, VIEW = 'timeline', ISS = '', LIMIT = 30;
+let M, S, IT, NOW, IDX = 0, VN = 1, LIMIT = 30;
 const L = id => (M.issues.find(i => i.id === id) || { label: id }).label;
 const endOf = d => d + ' 23:59';
 const known = (r, d) => !r.ts || r.ts <= endOf(d);
@@ -30,20 +30,18 @@ async function boot() {
   sl.addEventListener('input', () => go(+sl.value));
   $('#prev').onclick = () => go(IDX - 1); $('#next').onclick = () => go(IDX + 1); $('#latest').onclick = () => go(S.length - 1);
   document.addEventListener('keydown', e => { if (e.target.closest('input,select,textarea')) return; if (e.key === 'ArrowLeft') go(IDX - 1); if (e.key === 'ArrowRight') go(IDX + 1); });
-  $('#ifilter').onchange = e => { ISS = e.target.value; LIMIT = 30; renderViews(); writeHash(); };
   setupTheme(); render(); renderMtf();
 }
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
   const d = h.get('d'); IDX = d ? S.findIndex(s => s.d === d) : S.length - 1;
   if (IDX < 0) IDX = S.length - 1;
-  VIEW = h.get('v') || 'timeline'; ISS = h.get('i') || '';
+  VN = Math.min(5, Math.max(1, parseInt(h.get('v'), 10) || 1));
 }
 function writeHash() {
   const h = new URLSearchParams();
   if (IDX !== S.length - 1) h.set('d', S[IDX].d);
-  if (VIEW !== 'timeline') h.set('v', VIEW);
-  if (ISS) h.set('i', ISS);
+  if (VN !== 1) h.set('v', VN);
   history.replaceState(null, '', h.toString() ? '#' + h : location.pathname);
 }
 function go(i) { i = Math.max(0, Math.min(S.length - 1, i)); if (i === IDX) return; IDX = i; $('#slider').value = i; LIMIT = 30; render(); writeHash(); }
@@ -64,7 +62,7 @@ function render() {
   $('#past').classList.toggle('on', !latest);
   $('#prev').disabled = IDX === 0; $('#next').disabled = latest;
   renderNow(s, latest); renderThesis(s, latest); renderCards(s, latest); renderWatch(s); renderChanges(s);
-  renderMap(s); renderKol(s, latest); renderTabs(s); renderViews(); renderRules(); renderFoot();
+  renderMap(s); renderKol(s, latest); renderTabs(); renderViews(); renderRules(); renderFoot();
 }
 
 /* ---- 고정 자리 1: 지금 ---- */
@@ -156,12 +154,13 @@ function drawer(id, d, posts) {
   const cnt = v => countIn(v, id, d, 7);
   return `<details class="drawer"><summary>근거 서랍 · 최근 글 ${posts.length}개</summary>
     <ul class="ev">${posts.map(p => `<li><span class="who ${p.who}">${WHO[p.who] || p.who}</span> <span class="t">${esc(p.title)}</span> ${g(p.g)}<br><span class="w">${esc(p.ts)} · ${KIND[p.kind] || p.kind} · 근거 ${esc(p.src)}</span><br>${esc(p.gist)}</li>`).join('') || '<li class="empty">없음</li>'}</ul>
-    <div class="jump">${['ledger', 'ladder', 'radar', 'catalysts', 'contagion'].map(v => `<button class="btn" data-v="${v}" data-i="${id}">${M.views.find(x => x.id === v).label} ${cnt(v)}</button>`).join('')}</div>
+    <div class="jump"><button class="btn" data-i="${id}">이 사안 이야기 보기 (판정 ${cnt('ledger')} · 가격선 ${cnt('ladder')} · 정정 ${cnt('radar')} · 일정 ${cnt('catalysts')})</button></div>
   </details>`;
 }
 document.addEventListener('click', e => {
-  const b = e.target.closest('.jump .btn'); if (b) { VIEW = b.dataset.v; ISS = b.dataset.i; LIMIT = 30; renderTabs(S[IDX]); renderViews(); writeHash(); $('#h-views').scrollIntoView({ behavior: 'smooth' }); return; }
-  const w = e.target.closest('.wi'); if (w) { VIEW = 'timeline'; ISS = w.dataset.i; LIMIT = 30; renderTabs(S[IDX]); renderViews(); writeHash(); $('#h-views').scrollIntoView({ behavior: 'smooth' }); }
+  const b = e.target.closest('.jump .btn, .wi'); if (!b) return;
+  if (window.MMV) window.MMV.pick(b.dataset.i);
+  setView(3); $('#h-views').scrollIntoView({ behavior: 'smooth' });
 });
 
 /* ---- 관찰 ---- */
@@ -294,60 +293,23 @@ async function renderMtf() {
   $('#mr').onchange = e => { MQ.ref = e.target.checked; renderMtf(); };
 }
 
-/* ---- 화면 탭 ---- */
-function renderTabs(s) {
+/* ---- 화면: 시안 다섯 개 (lab/views.js가 그린다. 11/17 다섯 개 모두 채택) ---- */
+const VNAMES = ['차트 한 장', '질문 여섯 개', '사안별 이야기', '하루씩 흐름', '종목 한 줄씩'];
+function renderTabs() {
   const tabs = $('#tabs');
-  tabs.innerHTML = s.views.map((v, n) => { const meta = M.views.find(x => x.id === v); return `<button class="tab" role="tab" aria-selected="${v === VIEW}" data-v="${v}"><span class="o">${n + 1}</span>${esc(meta.label)}</button>`; }).join('');
-  tabs.querySelectorAll('.tab').forEach(b => b.onclick = () => { VIEW = b.dataset.v; LIMIT = 30; renderTabs(S[IDX]); renderViews(); writeHash(); });
-  const sel = $('#ifilter');
-  sel.innerHTML = '<option value="">전체</option>' + M.issues.map(i => `<option value="${i.id}" ${i.id === ISS ? 'selected' : ''}>${esc(i.label)}</option>`).join('');
-  const meta = M.views.find(x => x.id === VIEW);
-  $('#viewwhy').textContent = `${meta.label}: ${meta.what}` + (VIEW !== 'timeline' ? ` · 이 날 무게 ${(s.vs[VIEW] || 0).toFixed(2)}` : '');
+  tabs.innerHTML = VNAMES.map((v, i) => `<button class="tab" role="tab" aria-selected="${i + 1 === VN}" data-vn="${i + 1}"><span class="o">${i + 1}</span>${esc(v)}</button>`).join('');
+  tabs.querySelectorAll('.tab').forEach(b => b.onclick = () => setView(+b.dataset.vn));
+  $('#viewwhy').textContent = window.MMV ? window.MMV.WHAT[VN - 1] : '';
 }
+function setView(n) { VN = n; renderTabs(); renderViews(); writeHash(); }
 function renderViews() {
-  const s = S[IDX];
-  let rows = IT[VIEW].filter(r => known(r, s.d) && (!ISS || r.iss.includes(ISS)));
-  const body = $('#viewbody');
-  $('#vcount').textContent = `${rows.length}건`;
-  if (!rows.length) { body.innerHTML = '<p class="empty">이 조건에 맞는 항목이 없습니다.</p>'; return; }
-  const tags = r => r.iss.map(i => `<span class="chip">${esc(L(i))}</span>`).join(' ');
-  const more = n => n > LIMIT ? `<div class="more"><button class="btn" id="more">더 보기 (${n - LIMIT}건 남음)</button></div>` : '';
-  let h = '';
-  if (VIEW === 'timeline') {
-    rows = rows.slice().reverse();
-    h = `<div class="rows">${rows.slice(0, LIMIT).map(p => `<div class="rowi"><div class="h"><span class="who ${p.who}">${WHO[p.who] || p.who}</span><span>${esc(p.ts)}</span><span>${KIND[p.kind] || p.kind}</span>${g(p.g)}${tags(p)}</div><div class="b"><b>${esc(p.title)}</b></div><div class="x">${esc(p.gist)}</div><div class="src">근거 ${esc(p.src)}</div></div>`).join('')}</div>` + more(rows.length);
-  } else if (VIEW === 'ledger') {
-    rows = rows.slice().reverse();
-    h = `<p class="why2">채점은 11/14까지의 4시간봉 기준(v2.1)입니다. 그 뒤 판정은 아직 채점하지 않았습니다.</p><div class="rows">${rows.slice(0, LIMIT).map(c => `<div class="rowi"><div class="h"><span class="who ${c.who}">${WHO[c.who] || c.who}</span><span>${esc(c.ts)}</span><b>${esc(c.asset)}</b>${c.cat ? `<span class="chip">${CAT[c.cat] || c.cat}</span>` : ''}${g(c.g)}${tags(c)}</div><div class="b">${esc(c.st)}</div>${c.exp ? `<div class="x">기대: ${esc(c.exp)}${c.hz ? ' · 기한 ' + esc(c.hz) : ''}</div>` : ''}${c.res ? `<div class="x">채점: <b>${esc(RES[c.res] || c.res)}</b></div>` : ''}<div class="src">근거 ${esc(c.src)}</div></div>`).join('')}</div>` + more(rows.length);
-  } else if (VIEW === 'ladder') {
-    const by = {}; rows.forEach(r => (by[r.asset] = by[r.asset] || []).push(r));
-    const order = Object.keys(by).sort((a, b) => (a === 'BTC' ? -1 : b === 'BTC' ? 1 : a === 'ETH' ? -1 : b === 'ETH' ? 1 : by[b].length - by[a].length));
-    const cutoff = new Date(new Date(s.d + 'T23:59:00+09:00').getTime() - 7 * 864e5);
-    h = `<p class="why2">흐린 줄 = 7일 넘은 스냅샷 값(청산·옵션·지지·저항·원가). 지금도 유효한지 다시 봐야 합니다.</p><div class="ladder">${order.map(a => {
-      const seen = new Map(); by[a].forEach(r => seen.set(Math.round(r.price * 1e6) + r.label, r));
-      const lv = [...seen.values()].sort((x, y) => y.price - x.price);
-      return `<div class="panel lad"><h4>${esc(a)} <span class="kind">${lv.length}개</span></h4>${lv.slice(0, a === 'BTC' ? 40 : 15).map(r => { const old = SNAPKIND.has(r.kind) && new Date(r.ts.replace(' ', 'T') + ':00+09:00') < cutoff; return `<div class="lv ${old ? 'old' : ''}"><span class="p">${r.price >= 100 ? n0(r.price) : r.price}</span><span>${esc(r.label)}</span><span class="w">${LKIND[r.kind] || r.kind} · ${esc(r.ts.slice(5, 10))} ${WHO[r.who] || ''}${old ? ' · 재확인 필요' : ''} · 근거 ${esc(r.src)}</span></div>`; }).join('')}</div>`;
-    }).join('')}</div>`;
-  } else if (VIEW === 'radar') {
-    rows = rows.slice().reverse();
-    h = `<div class="rows">${rows.slice(0, LIMIT).map(r => r.type === '정정'
-      ? `<div class="rowi"><div class="h"><span class="chip">정정</span><span>${esc(r.ts)}</span><span>${WHO[r.who] || r.who} → ${WHO[r.tgt] || r.tgt}</span>${tags(r)}</div><div class="b">틀린 것: ${esc(r.a)}</div><div class="b">바로잡음: <b>${esc(r.b)}</b></div>${r.why ? `<div class="x">원인: ${esc(r.why)}</div>` : ''}<div class="src">근거 ${esc(r.src)}</div></div>`
-      : `<div class="rowi"><div class="h"><span class="chip">이견</span><span>${esc(r.ts)}</span><b>${esc(r.topic)}</b>${tags(r)}</div><div class="b"><span class="who claude">Claude</span> ${esc(r.a)}</div><div class="b"><span class="who gpt">GPT</span> ${esc(r.b)}</div>${r.why ? `<div class="x">결론: ${esc(r.why)}</div>` : ''}<div class="src">근거 ${esc(r.src)}</div></div>`).join('')}</div>` + more(rows.length);
-  } else if (VIEW === 'catalysts') {
-    const up = rows.filter(r => r.date && r.date >= s.d).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
-    const past = rows.filter(r => !r.date || r.date < s.d).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    const row = r => `<div class="rowi"><div class="h"><b>${esc(r.date ? md(r.date) : '날짜 미상')}${r.time ? ' ' + esc(r.time) : ''}</b>${g(r.g)}${tags(r)}</div><div class="b">${esc(r.ev)}</div>${r.exp ? `<div class="x">당시 예상: ${esc(r.exp)}</div>` : ''}${r.out ? `<div class="x">결과: ${esc(r.out)}</div>` : ''}<div class="src">근거 ${esc(r.src)}</div></div>`;
-    h = `<h2 style="margin-top:0">${md(s.d)} 기준 앞으로 <span class="sub">${up.length}건</span></h2><div class="rows">${up.slice(0, LIMIT).map(row).join('') || '<p class="empty">없음</p>'}</div>
-      <h2 style="margin-top:18px">지난 일정 <span class="sub">${past.length}건</span></h2><div class="rows">${past.slice(0, LIMIT).map(row).join('')}</div>`;
-  } else if (VIEW === 'contagion') {
-    rows = rows.slice().reverse();
-    h = `<p class="why2">화살표는 우리가 말한 경로입니다. '추정'은 인과가 확인되지 않은 가설입니다.</p><div class="rows">${rows.slice(0, LIMIT).map(r => `<div class="rowi"><div class="h"><span class="chip">${esc(r.st)}</span>${r.ts ? `<span>${esc(r.ts)}</span>` : ''}${tags(r)}</div><div class="b"><b>${esc(r.a)}</b> → <b>${esc(r.b)}</b></div><div class="x">${esc(r.how)}</div><div class="src">근거 ${esc(r.src)}</div></div>`).join('')}</div>` + more(rows.length);
-  }
-  body.innerHTML = h;
-  const mb = $('#more'); if (mb) mb.onclick = () => { LIMIT += 30; renderViews(); };
+  const el = $('#viewbody');
+  if (!window.MMV) { el.innerHTML = '<p class="empty">화면을 불러오는 중…</p>'; return; }
+  window.MMV.show(el, VN, S[IDX].d);
 }
+window.addEventListener('mmv-ready', () => { if (S) { renderTabs(); renderViews(); } });
+document.addEventListener('vw-go', e => { setView(e.detail); $('#h-views').scrollIntoView({ behavior: 'smooth' }); });
 
-/* ---- 규칙 · 바닥글 ---- */
 function renderRules() {
   const w = M.weights;
   $('#rules').innerHTML = `<p style="margin-top:0">기본 단위는 화면이 아니라 <b>사안</b>입니다. 리서치가 쌓이면 사안마다 점수가 바뀌고, 화면은 그 무게대로 다시 짜입니다.</p>

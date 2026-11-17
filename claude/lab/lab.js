@@ -2,8 +2,8 @@
 export const WHO = { claude: 'Claude', gpt: 'GPT', kol: 'KOL' };
 export const KIND = { research: '리서치', followup: '팔로업', brief: '브리핑', answer: '답변', review: '검토', correction: '정정', kol: 'KOL 수집' };
 export const CAT = { P: '예측', S: '시나리오', W: '관찰', D: '설명', C: '복합', X: '서술' };
-export const RES = { H: '목표 도달', AH: '이미 조건 · 목표 도달', T: '조건 충족 · 목표 미도달', N: '조건 안 옴', I: '무효', O: '유지 중', A: '이미 조건 상태', U: '순서 불명' };
-export const RESK = { H: 'good', AH: 'good', T: 'warn', N: 'mute', I: 'bad', O: 'live', A: 'mute', U: 'mute' };
+export const RES = { H: '목표 도달', AH: '이미 조건 · 목표 도달', T: '조건 충족 · 목표 미도달', N: '조건 안 옴', I: '무효', O: '유지 중', A: '이미 조건 상태', U: '순서 불명', P: '그날까지 결과 전' };
+export const RESK = { H: 'good', AH: 'good', T: 'warn', N: 'mute', I: 'bad', O: 'live', A: 'mute', U: 'mute', P: 'live' };
 export const RESI = { good: '✓', warn: '◐', mute: '·', bad: '✕', live: '…' };
 export const LGROUP = { support: 'sup', low_high: 'sup', resistance: 'res', ma: 'ma', cost_basis: 'ma', thesis: 'ma', liquidation: 'liq', option: 'liq', other: 'oth' };
 export const LGNAME = { sup: '지지·고저점', res: '저항', ma: '이평·원가', liq: '청산·옵션', oth: '기타' };
@@ -29,8 +29,8 @@ export const md = t => { const d = new Date(t + 9 * 36e5); return `${d.getUTCMon
 export const mdh = t => { const d = new Date(t + 9 * 36e5); return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
 
 // 데이터 -------------------------------------------------------------
-export async function load() {
-  const get = f => fetch('../data/' + f, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
+export async function load(base = '../data/') {
+  const get = f => fetch(base + f, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
   const [meta, snaps, items, now, px] = await Promise.all(['meta.json', 'snapshots.json', 'items.json', 'now.json', 'px.json'].map(get));
   const D = { meta, snaps, items, now, px, snap: snaps[snaps.length - 1] };
   D.iss = Object.fromEntries(meta.issues.map(i => [i.id, i]));
@@ -40,11 +40,28 @@ export async function load() {
   for (const r of items.ledger) { r.t = kst(r.ts); r.a = asset(r.asset); r.ta = r.at ? kst(r.at) : null; r.scored = r.res && RESK[r.res] && ['P', 'S', 'W'].includes(r.cat); }
   for (const r of items.ladder) { r.t = kst(r.ts); r.a = asset(r.asset); r.gp = LGROUP[r.kind] || 'oth'; }
   for (const r of items.radar) r.t = kst(r.ts);
+  // 시각이 없는 항목(연결·일정)은 근거 Discord 메시지 ID에서 언급 시각을 꺼낸다(스노플레이크)
+  const snow = id => { try { return Number(BigInt(id) >> 22n) + 1420070400000; } catch { return null; } };
+  for (const r of items.contagion) r.t = r.ts ? kst(r.ts) : snow(r.src);
+  for (const r of items.catalysts) r.mt = r.ts ? kst(r.ts) : snow(r.src);
   const seen = new Set();
   D.cats = items.catalysts.filter(c => c.date).map(c => ({ ...c, t: kst(c.date + ' ' + (c.time || '09:00')) }))
     .filter(c => { const k = c.date + (c.time || '') + c.ev.replace(/^(미|美)\s*/, '').replace(/\d+월/g, '').replace(/[^가-힣A-Za-z]/g, '').slice(0, 4); if (seen.has(k)) return false; seen.add(k); return true; })
     .sort((a, b) => a.t - b.t);
   return D;
+}
+// 타임머신: 그날 밤(KST 23:59)까지 알 수 있었던 것만 남긴 사본. 판정 결과도 그날 이후에 난 것은 '결과 전'(P)으로 돌린다
+export function cut(D, day) {
+  const tEnd = Date.parse(day + 'T23:59:59+09:00');
+  if (tEnd >= D.built) return D;
+  const keep = r => r.t == null || r.t <= tEnd;
+  const items = {};
+  for (const k in D.items) items[k] = D.items[k].filter(r => k === 'catalysts' ? (!r.mt || r.mt <= tEnd) : keep(r));
+  items.ledger = items.ledger.map(r => r.scored && !(r.ta && r.ta <= tEnd) ? { ...r, res: 'P', ta: null, at: null } : r);
+  const px = {};
+  for (const a in D.px) { const p = D.px[a], n = p.t.filter(t => t + p.s * 1000 <= tEnd).length; if (n > 1) px[a] = { t0: p.t0, s: p.s, t: p.t.slice(0, n), o: p.o.slice(0, n), h: p.h.slice(0, n), l: p.l.slice(0, n), c: p.c.slice(0, n) }; }
+  const snaps = D.snaps.filter(s => s.d <= day);
+  return { ...D, items, px, snaps, snap: snaps[snaps.length - 1] || D.snap, built: tEnd, cats: D.cats.filter(c => !c.mt || c.mt <= tEnd), past: day };
 }
 export const last = (D, a) => { const p = D.px[a]; return p ? p.c[p.c.length - 1] : null; };
 export function priceAt(D, a, t) {
@@ -83,7 +100,7 @@ export function clusters(D, a, opt = {}) {
 let TIP;
 export function tip() {
   if (TIP) return TIP;
-  TIP = document.createElement('div'); TIP.className = 'tip'; TIP.setAttribute('role', 'tooltip'); document.body.append(TIP);
+  TIP = document.createElement('div'); TIP.className = 'ltip'; TIP.setAttribute('role', 'tooltip'); document.body.append(TIP);
   const show = (html, x, y) => {
     TIP.innerHTML = html; TIP.style.display = 'block';
     const w = TIP.offsetWidth, h = TIP.offsetHeight, vw = innerWidth;

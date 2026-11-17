@@ -4,83 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>시안 5 · 종목 한 줄씩</title>
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="lab.css">
-<style>
-.mx{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);margin-top:12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.mx .in{min-width:980px}
-.mr{display:grid;grid-template-columns:150px 150px 230px 170px 170px minmax(120px,1fr);gap:14px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--surface-2);cursor:pointer}
-.mr.hd{cursor:default;font-size:11.5px;font-weight:700;color:var(--ink-3);letter-spacing:.02em;position:sticky;top:0;background:var(--surface);z-index:1}
-.mr:not(.hd):hover{background:var(--surface-2)}
-.mr[aria-expanded=true]{background:var(--surface-2)}
-.mr .nm b{font-size:16px}
-.mr .nm div{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
-.mr .sub{font-size:11.5px;color:var(--ink-3)}
-.trk text{font-size:10.5px;fill:var(--ink-3);font-variant-numeric:tabular-nums}
-.dots{display:flex;flex-wrap:wrap;gap:3px}
-.dots i{width:10px;height:10px;border-radius:50%;display:block}
-.dots i.good{background:var(--good)}.dots i.warn{background:var(--warn)}.dots i.mute{background:var(--h0);outline:1px solid var(--ink-3);outline-offset:-1px}.dots i.bad{background:var(--critical)}.dots i.live{background:var(--accent)}
-.hm{display:grid;grid-template-columns:repeat(14,1fr);gap:2px}
-.hm i{height:18px;border-radius:2px;background:var(--h0);display:block}
-.hm i.k1{background:var(--h2)}.hm i.k2{background:var(--h4)}.hm i.k3{background:var(--h6)}
-.nx{font-size:12.5px;line-height:1.45}
-.nx b{font-variant-numeric:tabular-nums}
-.det{padding:6px 14px 16px;border-bottom:1px solid var(--line)}
-.lead{max-width:880px}
-</style>
+<link rel="stylesheet" href="../style.css?v=1117g">
+<link rel="stylesheet" href="lab.css?v=1117g">
+<link rel="stylesheet" href="views.css?v=1117g">
 </head>
 <body>
 <div id="app"></div>
 <script type="module">
-import { load, head, theme, foot, tip, priceChart, clusters, last, chg, spark, fp, pct, esc, mdh, md, WHO, RES, RESK, RESI, CAT, LGNAME, DAY, tt, onResize } from './lab.js';
+import { load, head, theme, foot } from './lab.js';
+import { render, WHAT } from './views.js';
 const D = await load();
-tip();
 const app = document.getElementById('app');
-app.innerHTML = head(5, '종목 한 줄씩 훑기', '한 줄이 한 종목입니다. 가격 흐름, 지금 가격 가까이의 우리 선, 판정 결과, 최근 2주 언급, 다음 일정을 가로로 나란히 놓았습니다. 줄을 누르면 그 종목의 차트가 펼쳐집니다.') +
-  `<main class="wrap"><p class="lead mute" style="font-size:13px;margin:8px 0 0">순서: 최근 7일 동안 그 종목을 다룬 기록이 많은 순. 가격선 칸의 가운데 굵은 선이 지금 가격, 눈금은 우리가 말한 가격(±12% 안)입니다.</p><div class="mx"><div class="in" id="mx"></div></div></main>` + foot(D);
+app.innerHTML = head(5, '종목 한 줄씩 훑기', WHAT[4]) + '<main class="wrap"><div id="v"></div></main>' + foot(D);
 theme();
-const S = { open: null };
-const A = Object.keys(D.px);
-const mention = (a, t0, t1) => [...D.items.timeline.filter(r => (r.assets || []).includes(a)), ...D.items.ledger.filter(r => r.a === a), ...D.items.ladder.filter(r => r.a === a)].filter(r => r.t >= t0 && r.t < t1);
-const t7 = D.built - 7 * DAY;
-const rowsA = A.map(a => ({ a, n7: mention(a, t7, D.built + 1).length, n: mention(a, 0, D.built + 1).length })).sort((x, y) => y.n7 - x.n7 || y.n - x.n);
-function track(a) {
-  const now = last(D, a), cl = clusters(D, a, { rng: 0.12 }), W = 230, H = 44, X = d => W / 2 + d / 0.12 * (W / 2 - 6);
-  const col = { sup: 's1', res: 's2', ma: 's3', liq: 's4', oth: 'ink-3' };
-  const up = cl.filter(c => c.d > 0).sort((x, y) => x.d - y.d)[0], dn = cl.filter(c => c.d < 0).sort((x, y) => y.d - x.d)[0];
-  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="trk" role="img" aria-label="${a} 가격선 거리"><line x1="4" x2="${W - 4}" y1="18" y2="18" stroke="var(--line)" stroke-width="6" stroke-linecap="round"/>`;
-  for (const c of cl) s += `<line x1="${X(c.d)}" x2="${X(c.d)}" y1="${18 - 5 - Math.min(6, c.n)}" y2="${18 + 5 + Math.min(6, c.n)}" stroke="var(--${col[c.gp]})" stroke-width="2.5" ${tt(`${fp(c.p)} (${pct(c.d)}) · ${c.n}번`, c.label)}/>`;
-  s += `<line x1="${W / 2}" x2="${W / 2}" y1="4" y2="32" stroke="var(--ink)" stroke-width="2.5"/>`;
-  if (dn) s += `<text x="${X(dn.d)}" y="${H - 1}" text-anchor="middle">${pct(dn.d)}</text>`;
-  if (up) s += `<text x="${X(up.d)}" y="${H - 1}" text-anchor="middle">${pct(up.d)}</text>`;
-  return s + `</svg>`;
-}
-function heat(a) {
-  const t0 = Math.floor((D.built + 9 * 36e5) / DAY) * DAY - 9 * 36e5 - 13 * DAY;
-  return `<div class="hm">${[...Array(14)].map((_, i) => { const n = mention(a, t0 + i * DAY, t0 + (i + 1) * DAY).length; return `<i class="k${n ? Math.min(3, 1 + Math.floor(n / 6)) : 0}" ${tt(md(t0 + i * DAY), `${a} 기록 ${n}건`)}></i>`; }).join('')}</div>`;
-}
-function nextCat(a) {
-  const re = new RegExp(a, 'i'), iss = D.meta.issues.filter(i => i.assets.includes(a)).map(i => i.id);
-  const c = D.cats.find(c => c.t > D.built - DAY / 2 && (re.test(c.ev) || (c.iss || []).some(i => iss.includes(i) && a !== 'BTC'))) || (a === 'BTC' ? D.cats.find(c => c.t > D.built - DAY / 2) : null);
-  return c ? `<div class="nx"><b>${c.date.slice(5)}${c.time ? ' ' + c.time : ''}</b> ${esc(c.ev)}</div>` : '<span class="mute" style="font-size:12px">걸린 일정 없음</span>';
-}
-function render() {
-  let h = `<div class="mr hd"><span>종목 · 지금</span><span>30일 흐름(4시간봉)</span><span>지금 가격 ±12% 안의 우리 선</span><span>판정 결과</span><span>최근 14일 언급</span><span>다음 일정</span></div>`;
-  for (const { a, n7 } of rowsA) {
-    const calls = D.items.ledger.filter(r => r.a === a && r.scored).sort((x, y) => x.t - y.t);
-    const c7 = chg(D, a, 7);
-    h += `<div class="mr" role="button" tabindex="0" data-a="${a}" aria-expanded="${S.open === a}"><div class="nm"><b>${a}</b><div>${fp(last(D, a))} <span class="${c7 >= 0 ? 'pos' : 'neg'}">${pct(c7)}</span></div><div class="sub">7일 기록 ${n7}건</div></div>
-      <div>${spark(D, a, 150, 40, 30)}</div><div>${track(a)}</div>
-      <div>${calls.length ? `<div class="dots">${calls.map(r => `<i class="${RESK[r.res]}" ${tt(`${mdh(r.t)} ${WHO[r.who] || r.who}`, r.st, RES[r.res])}></i>`).join('')}</div><div class="sub">채점 ${calls.length} · ✓${calls.filter(r => RESK[r.res] === 'good').length} ◐${calls.filter(r => RESK[r.res] === 'warn').length} ✕${calls.filter(r => RESK[r.res] === 'bad').length}</div>` : '<span class="mute" style="font-size:12px">채점 판정 없음</span>'}</div>
-      <div>${heat(a)}</div><div>${nextCat(a)}</div></div>`;
-    if (S.open === a) h += `<div class="det"><div id="ch"></div><div class="key"><span class="sup"><i></i>지지</span><span class="res"><i></i>저항</span><span class="ma"><i></i>이평·원가</span><span class="liq"><i></i>청산·옵션</span><span class="good"><i class="dash"></i>판정 ✓</span><span class="warn"><i class="dash"></i>◐</span><span class="bad"><i class="dash"></i>✕</span><span class="claude"><i class="dot"></i>Claude 글</span><span class="gpt"><i class="dot"></i>GPT 글</span></div></div>`;
-  }
-  document.getElementById('mx').innerHTML = h + `<div class="mr hd" style="position:static"><span class="mute" style="font-weight:400">판정 점: <span class="good">●목표 도달</span> <span class="warn">●조건만 충족</span> ○조건 안 옴 <span class="bad">●무효</span></span></div>`;
-  if (S.open) { const el = document.getElementById('ch'); el.style.width = Math.min(innerWidth - 60, 1100) + 'px'; priceChart(el, D, S.open, { future: 3 * DAY, h: 360 }); }
-}
-app.addEventListener('click', e => { const r = e.target.closest('.mr[data-a]'); if (!r) return; S.open = S.open === r.dataset.a ? null : r.dataset.a; render(); });
-app.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.mr[data-a]')) { e.preventDefault(); e.target.click(); } });
-render(); onResize(render);
+const v = document.getElementById('v');
+v.addEventListener('vw-go', e => { location.href = './' + e.detail + '.html'; });
+render(v, 5, D);
 </script>
 </body>
 </html>
