@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시안 1 · 차트 한 장</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="lab.css">
+<style>
+.s1sum{font-size:17px;line-height:1.55;margin:6px 0 12px;max-width:900px}
+.s1sum b{font-variant-numeric:tabular-nums}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0}
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 12px 8px;box-shadow:var(--shadow)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:900px){.three{grid-template-columns:1fr}}
+.three .panel h3{font-size:14px;margin:0 0 8px}
+.near{list-style:none;margin:0;padding:0;font-size:13px}
+.near li{display:grid;grid-template-columns:76px 1fr 54px;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--surface-2)}
+.near li.now{font-weight:700;border-bottom:2px solid var(--ink)}
+.near .p{font-variant-numeric:tabular-nums;text-align:right}
+.near .d{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-3)}
+.near .l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.near .l i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:currentColor}
+.ev{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:8px}
+.ev li{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.ev .w{color:var(--ink-3);font-size:12px;white-space:nowrap}
+.when{margin-top:14px}
+.when h3{font-size:14px;margin:0 0 8px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { load, head, theme, foot, tip, priceChart, clusters, last, chg, fp, pct, esc, mdh, WHO, KIND, RES, RESK, RESI, CAT, LGNAME, DAY, onResize } from './lab.js';
+const D = await load();
+tip();
+const ASSETS = Object.keys(D.px).map(a => ({ a, n: D.items.ladder.filter(r => r.a === a).length + D.items.ledger.filter(r => r.a === a).length + D.items.timeline.filter(r => (r.assets || []).includes(a)).length })).sort((x, y) => y.n - x.n);
+const S = { a: 'BTC', range: 'all', L: { lv: 1, calls: 1, posts: 1, cats: 1, fix: 1 }, pick: null };
+try { Object.assign(S, JSON.parse(sessionStorage.getItem('lab1') || '{}')); } catch { }
+const app = document.getElementById('app');
+app.innerHTML = head(1, '차트 한 장에 전부', '가격 위에 우리가 한 말(가격선·판정·리서치·일정·정정)을 겹쳐서, "그때 무슨 말을 했고 가격은 어떻게 갔나"를 한눈에 봅니다.') +
+  `<main class="wrap"><p class="s1sum" id="sum"></p>
+  <div class="tabs" id="assets" role="group" aria-label="종목"></div>
+  <div class="ctl"><div class="tog" id="layers"></div><div class="tabs" id="range" role="group" aria-label="기간"></div></div>
+  <div class="chartbox"><div id="chart"></div>
+  <div class="key"><span class="sup"><i></i>지지·고저점</span><span class="res"><i></i>저항</span><span class="ma"><i></i>이평·원가</span><span class="liq"><i></i>청산·옵션</span>
+  <span class="good"><i class="dash"></i>판정 ✓ 목표 도달</span><span class="warn"><i class="dash"></i>◐ 조건만 충족</span><span class="mute"><i class="dash"></i>· 조건 안 옴</span><span class="bad"><i class="dash"></i>✕ 무효</span>
+  <span class="claude"><i class="dot"></i>Claude 글</span><span class="gpt"><i class="dot"></i>GPT 글</span><span>▪ 일정</span><span class="bad">✕ 정정</span></div>
+  <p class="mute" style="font-size:12px;margin:6px 0 0">선 굵기 = 같은 가격대(±0.4%)를 말한 횟수. 선은 처음 말한 때부터 그어집니다. 차트를 누르면 그 시각 앞뒤 12시간의 기록이 아래에 나옵니다.</p></div>
+  <section class="when" id="when"></section>
+  <div class="three"><div class="panel" id="near"></div><div class="panel" id="open"></div><div class="panel" id="next"></div></div></main>` + foot(D);
+theme();
+const save = () => { try { sessionStorage.setItem('lab1', JSON.stringify({ a: S.a, range: S.range, L: S.L })); } catch { } };
+function render() {
+  const a = S.a, now = last(D, a);
+  document.getElementById('assets').innerHTML = ASSETS.map(x => `<button type="button" aria-pressed="${x.a === a}" data-a="${x.a}">${x.a}<small>${x.n}</small></button>`).join('');
+  const LN = { lv: '가격선', calls: '판정', posts: '리서치 글', cats: '일정', fix: '정정' };
+  document.getElementById('layers').innerHTML = Object.entries(LN).map(([k, v]) => `<label><input type="checkbox" data-l="${k}" ${S.L[k] ? 'checked' : ''}>${v}</label>`).join('');
+  const RG = { all: '전체', w2: '2주', w1: '1주' };
+  document.getElementById('range').innerHTML = Object.entries(RG).map(([k, v]) => `<button type="button" aria-pressed="${S.range === k}" data-r="${k}">${v}</button>`).join('');
+  const end = D.px[a].t.at(-1);
+  const from = S.range === 'w1' ? end - 7 * DAY : S.range === 'w2' ? end - 14 * DAY : undefined;
+  priceChart(document.getElementById('chart'), D, a, { layers: S.L, from, future: 4 * DAY, onPick: t => { S.pick = t; when(); } });
+  // 요약 문장
+  const calls = D.items.ledger.filter(r => r.a === a && r.scored);
+  const cnt = k => calls.filter(r => RESK[r.res] === k).length;
+  const cl = clusters(D, a), up = cl.filter(c => c.d > 0).sort((x, y) => x.d - y.d)[0], dn = cl.filter(c => c.d < 0).sort((x, y) => y.d - x.d)[0];
+  const nx = D.cats.find(c => c.t > D.built);
+  document.getElementById('sum').innerHTML = `<b>${a} ${fp(now)}</b> (7일 ${pct(chg(D, a, 7))}). ` +
+    (up || dn ? `가장 가까운 우리 선은 위 <b>${up ? fp(up.p) + ' (' + pct(up.d) + ')' : '없음'}</b>, 아래 <b>${dn ? fp(dn.p) + ' (' + pct(dn.d) + ')' : '없음'}</b>. ` : '') +
+    (calls.length ? `채점한 판정 ${calls.length}개 중 목표 도달 <b class="good">${cnt('good')}</b>, 조건만 충족 <b class="warn">${cnt('warn')}</b>, 조건 안 옴 <b>${cnt('mute')}</b>, 무효 <b class="bad">${cnt('bad')}</b>. ` : '') +
+    (nx ? `다음 일정은 <b>${nx.date.slice(5)}${nx.time ? ' ' + nx.time : ''} ${esc(nx.ev)}</b>.` : '');
+  // 가까운 선
+  const around = [...cl.filter(c => c.d > 0).sort((x, y) => x.d - y.d).slice(0, 4).reverse(), { now: 1 }, ...cl.filter(c => c.d <= 0).sort((x, y) => y.d - x.d).slice(0, 4)];
+  document.getElementById('near').innerHTML = `<h3>지금 가격 가까이의 우리 선</h3><ul class="near">${around.map(c => c.now ? `<li class="now"><span class="p">${fp(now)}</span><span>지금</span><span></span></li>` :
+    `<li class="lv"><span class="p">${fp(c.p)}</span><span class="l ${c.gp}" style="color:var(--${{ sup: 's1', res: 's2', ma: 's3', liq: 's4', oth: 'ink-3' }[c.gp]})"><i></i><span style="color:var(--ink)">${esc(c.label)}</span></span><span class="d">${pct(c.d)}</span></li>`).join('')}</ul>`;
+  // 아직 결과 없는 판정 + 최근 판정
+  const open = D.items.ledger.filter(r => r.a === a && r.trg && (r.res === 'O' || r.res === 'N' || r.res === 'T')).sort((x, y) => y.t - x.t).slice(0, 5);
+  document.getElementById('open').innerHTML = `<h3>최근 판정과 결과</h3><ul class="ev">${open.map(r => `<li><span class="rb ${RESK[r.res]}">${RESI[RESK[r.res]]} ${RES[r.res]}</span><span>${esc(r.st)}<br><span class="w">${mdh(r.t)} ${WHO[r.who] || r.who} · 조건 ${fp(r.trg)} (지금 ${pct(now / r.trg - 1)})</span></span></li>`).join('') || '<li class="empty">이 종목의 채점 판정이 없습니다.</li>'}</ul>`;
+  const nx5 = D.cats.filter(c => c.t > D.built - DAY / 2).slice(0, 6);
+  document.getElementById('next').innerHTML = `<h3>다음 일정</h3><ul class="ev">${nx5.map(c => `<li><span class="w">${c.date.slice(5)}${c.time ? ' ' + c.time : ''}</span><span>${esc(c.ev)}${c.exp ? `<br><span class="w">${esc(c.exp)}</span>` : ''}</span></li>`).join('')}</ul>`;
+  when(); save();
+}
+function when() {
+  const el = document.getElementById('when');
+  if (!S.pick) { el.innerHTML = ''; return; }
+  const a = S.a, t0 = S.pick - DAY / 2, t1 = S.pick + DAY / 2, near = r => r.t >= t0 && r.t <= t1;
+  const rows = [
+    ...D.items.timeline.filter(r => near(r)).map(r => [r.t, `${WHO[r.who] || r.who} ${KIND[r.kind] || ''}`, r.title + ' — ' + r.gist]),
+    ...D.items.ledger.filter(r => near(r) && r.a === a).map(r => [r.t, `판정 · ${CAT[r.cat] || ''}`, r.st + (r.res && RES[r.res] ? ` → ${RES[r.res]}` : '')]),
+    ...D.items.ladder.filter(r => near(r) && r.a === a).map(r => [r.t, '가격선', `${fp(r.price)} ${r.label}`]),
+    ...D.items.radar.filter(r => near(r)).map(r => [r.t, r.type, `${r.a} → ${r.b}`]),
+  ].sort((x, y) => x[0] - y[0]);
+  el.innerHTML = `<div class="panel"><h3>${mdh(S.pick)} 앞뒤 12시간 · ${rows.length}건 <button class="btn" type="button" id="unpick" style="margin-left:8px">닫기</button></h3><ul class="ev">${rows.map(r => `<li><span class="w">${mdh(r[0])}<br>${esc(r[1])}</span><span>${esc(r[2])}</span></li>`).join('') || '<li class="empty">이 시간대 기록이 없습니다.</li>'}</ul></div>`;
+  document.getElementById('unpick').onclick = () => { S.pick = null; when(); };
+}
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-a],[data-r]'); if (!b) return;
+  if (b.dataset.a) S.a = b.dataset.a; if (b.dataset.r) S.range = b.dataset.r; S.pick = null; render();
+});
+app.addEventListener('change', e => { const c = e.target.closest('[data-l]'); if (c) { S.L[c.dataset.l] = c.checked ? 1 : 0; render(); } });
+render(); onResize(render);
+</script>
+</body>
+</html>

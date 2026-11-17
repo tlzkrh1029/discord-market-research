@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>화면 시안 다섯 개</title>
+<meta name="description" content="시장 기억장치 Claude 판의 '화면' 칸을 바꿀 시안 다섯 개. 같은 데이터, 다른 정리 방식.">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="lab.css">
+<style>
+.li{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:16px 0}
+.lc{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink)}
+.lc:hover{border-color:var(--ink-3)}
+.lc .no{font-size:12px;font-weight:700;color:var(--accent-ink)}
+.lc h2{font-size:19px;color:var(--ink);margin:0;display:block;letter-spacing:-.01em}
+.lc p{margin:0;font-size:14px;color:var(--ink-2)}
+.lc dl{margin:4px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px}
+.lc dt{color:var(--ink-3)}
+.lc dd{margin:0}
+.lc .go{margin-top:auto;font-size:13px;color:var(--accent-ink)}
+.note{font-size:14px;color:var(--ink-2);max-width:860px}
+</style>
+</head>
+<body>
+<header class="lh"><div class="wrap"><a class="back" href="../">← Claude 판으로</a><span style="flex:1"></span><button class="btn" id="theme" type="button" aria-label="밝게/어둡게">◐</button></div></header>
+<main class="wrap">
+<div class="lt"><span class="no">"화면" 칸 전면 개선</span><h1>시안 다섯 개</h1><p class="q">지금의 "화면" 칸(탭 6개 + 글 목록)을 대신할 다섯 가지 정리 방식입니다. 데이터는 모두 같고(채널 기록 10/17~, 가격 4시간봉), 무엇을 기준으로 묶느냐만 다릅니다.</p></div>
+<div class="li">
+<a class="lc" href="1.html"><span class="no">시안 1</span><h2>차트 한 장에 전부</h2><p>가격 차트 위에 가격선·판정·리서치 글·일정·정정을 층으로 겹칩니다. 층은 켜고 끌 수 있습니다.</p><dl><dt>답하는 질문</dt><dd>그때 무슨 말을 했고, 가격은 어떻게 갔나</dd><dt>묶는 기준</dt><dd>종목(가격)</dd><dt>약한 점</dt><dd>기록이 많은 BTC는 선이 빽빽함</dd></dl><span class="go">열기 →</span></a>
+<a class="lc" href="2.html"><span class="no">시안 2</span><h2>질문 여섯 개, 답 여섯 개</h2><p>탭 대신 늘 궁금한 질문 여섯 개에 그림 하나와 한 문장으로 답합니다.</p><dl><dt>답하는 질문</dt><dd>가까운 선 · 판정 성적 · 다음 일정 · 요즘 관심 · 정정 · 연결</dd><dt>묶는 기준</dt><dd>질문</dd><dt>약한 점</dt><dd>BTC 외 종목은 깊게 못 봄</dd></dl><span class="go">열기 →</span></a>
+<a class="lc" href="3.html"><span class="no">시안 3</span><h2>사안별 이야기</h2><p>사안 하나를 고르면 그 사안의 가격·판정·가격선·일정·정정·연결·글 흐름이 한 화면에 모입니다.</p><dl><dt>답하는 질문</dt><dd>이 사안은 지금 어디까지 왔나</dd><dt>묶는 기준</dt><dd>사안(주요 자리와 같은 단위)</dd><dt>약한 점</dt><dd>사안 사이 비교는 어려움</dd></dl><span class="go">열기 →</span></a>
+<a class="lc" href="4.html"><span class="no">시안 4</span><h2>하루씩 흐름</h2><p>날짜마다 한 줄: 그날 BTC, 대표 글, 판정·가격선·정정 수, 다룬 사안. 맨 위 띠로 날짜를 건너뜁니다.</p><dl><dt>답하는 질문</dt><dd>그날 무슨 일이 있었나</dd><dt>묶는 기준</dt><dd>날짜</dd><dt>약한 점</dt><dd>여러 날에 걸친 흐름은 안 보임</dd></dl><span class="go">열기 →</span></a>
+<a class="lc" href="5.html"><span class="no">시안 5</span><h2>종목 한 줄씩</h2><p>한 줄 = 한 종목. 30일 흐름, 지금 가격 근처의 우리 선, 판정 결과, 2주 언급, 다음 일정을 가로로 훑습니다.</p><dl><dt>답하는 질문</dt><dd>어느 종목이 어디쯤에 있나</dd><dt>묶는 기준</dt><dd>종목(표)</dd><dt>약한 점</dt><dd>휴대폰에선 옆으로 밀어야 함</dd></dl><span class="go">열기 →</span></a>
+</div>
+<p class="note">모든 시안에서 점·선·칸에 마우스를 올리면(휴대폰은 누르면) 원래 문장이 나옵니다. 하나를 고르셔도 되고, 섞으셔도 됩니다(예: 1번 차트 + 2번 질문 카드).</p>
+</main>
+<script type="module">import { theme } from './lab.js'; theme();</script>
+</body>
+</html>

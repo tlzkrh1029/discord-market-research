@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시안 3 · 사안별 이야기</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="lab.css">
+<style>
+.s3{display:grid;grid-template-columns:290px minmax(0,1fr);gap:18px;margin-top:12px;align-items:start}
+@media (max-width:900px){.s3{grid-template-columns:1fr}}
+.il{display:flex;flex-direction:column;gap:6px;position:sticky;top:64px}
+@media (max-width:900px){.il{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px}}
+.ii{appearance:none;text-align:left;font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;color:var(--ink);display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;min-width:220px}
+.ii[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink)}
+.ii .lb{font-size:13.5px;font-weight:600;line-height:1.3}
+.ii .mt{font-size:11.5px;color:var(--ink-3);grid-column:1}
+.ii .spk{grid-row:1/3;grid-column:2}
+.ii .sec{font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;margin:6px 0 0}
+.grp{font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;margin:8px 2px 0}
+@media (max-width:900px){.grp{display:none}}
+.story{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sh{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.sh h2{font-size:24px;color:var(--ink);margin:0;letter-spacing:-.02em;display:block}
+.lede{font-size:15.5px;line-height:1.6;margin:0}
+.lede .w{color:var(--ink-3);font-size:12.5px}
+.why{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center;font-size:13px}
+.why .bar{height:12px}
+.blocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.blocks{grid-template-columns:1fr}}
+.blocks .panel h3{font-size:14px;margin:0 0 8px}
+.ev{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:8px}
+.ev li{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.ev .w{color:var(--ink-3);font-size:12px;white-space:nowrap}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:10px;font-size:13.5px}
+.tl li{position:relative}
+.tl li::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--cl);border:2px solid var(--surface)}
+.tl li.gpt::before{background:var(--gp)}
+.tl .w{color:var(--ink-3);font-size:12px}
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { load, head, theme, foot, tip, priceChart, clusters, last, chg, spark, fp, pct, esc, mdh, md, WHO, KIND, RES, RESK, RESI, CAT, LGNAME, DAY, tt, onResize } from './lab.js';
+const D = await load();
+tip();
+const sn = D.snap, S = { i: sn.major[0], a: null };
+try { Object.assign(S, JSON.parse(sessionStorage.getItem('lab3') || '{}')); } catch { }
+const app = document.getElementById('app');
+app.innerHTML = head(3, '사안 하나를 고르면, 그 이야기 전부', '왼쪽에서 사안을 고르면 그 사안의 가격, 판정, 가격선, 일정, 정정, 연결이 한 화면에 모입니다. 사안 순서는 지금 무게(주요 자리 → 관찰) 순입니다.') +
+  `<main class="wrap"><div class="s3"><nav class="il" id="il" aria-label="사안"></nav><div class="story" id="story"></div></div></main>` + foot(D);
+theme();
+const scoreLine = id => { const v = D.snaps.map(s => s.sc[id]?.s ?? 0), w = 70, h = 26, mx = Math.max(...v, 0.1); return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" class="spk" aria-hidden="true"><path d="${v.map((x, i) => `${i ? 'L' : 'M'}${(i / (v.length - 1) * (w - 2) + 1).toFixed(1)},${(h - 2 - x / mx * (h - 4)).toFixed(1)}`).join('')}"/></svg>`; };
+const has = (r, id) => (r.iss || []).includes(id);
+function list() {
+  const grp = (t, ids) => `<div class="grp">${t}</div>` + ids.map(id => {
+    const i = D.iss[id], n = D.items.timeline.filter(r => has(r, id)).length;
+    return `<button class="ii" type="button" data-i="${id}" aria-pressed="${S.i === id}"><span class="lb">${esc(i.label)}</span><span class="mt">${sn.status[id] || ''} · 글 ${n}</span>${scoreLine(id)}</button>`;
+  }).join('');
+  document.getElementById('il').innerHTML = grp('주요 자리', sn.major) + grp('관찰', sn.rest) + grp('고정', ['thesis']);
+}
+function story() {
+  const id = S.i, I = D.iss[id], sc = sn.sc[id] || {};
+  const assets = I.assets.filter(a => D.px[a]); const a = assets.includes(S.a) ? S.a : assets[0];
+  const posts = D.items.timeline.filter(r => has(r, id)).sort((x, y) => y.t - x.t);
+  const calls = D.items.ledger.filter(r => has(r, id)).sort((x, y) => y.t - x.t);
+  const cats = D.cats.filter(c => has(c, id));
+  const fx = D.items.radar.filter(r => has(r, id)).sort((x, y) => y.t - x.t);
+  const ct = D.items.contagion.filter(r => has(r, id));
+  const tot = (sc.m || 0) + (sc.q || 0) + (sc.p || 0) + (sc.o || 0) || 1;
+  const lead = posts.find(r => (r.rel || []).includes(id)) || posts[0];
+  const scored = calls.filter(r => r.scored), k = x => scored.filter(r => RESK[r.res] === x).length;
+  const cl = a ? clusters(D, a, { iss: id, rng: 0.3 }) : [], now = a ? last(D, a) : null;
+  const near = [...cl.filter(c => c.d > 0).sort((x, y) => x.d - y.d).slice(0, 3).reverse(), ...cl.filter(c => c.d <= 0).sort((x, y) => y.d - x.d).slice(0, 3)];
+  const nextC = cats.filter(c => c.t > D.built - DAY / 2).slice(0, 5), pastC = cats.filter(c => c.t <= D.built - DAY / 2).slice(-3).reverse();
+  document.getElementById('story').innerHTML = `
+  <div class="sh"><h2>${esc(I.label)}</h2><span class="chip ${sn.status[id]}">${sn.status[id] || ''}</span><span class="mute" style="font-size:13px">글 ${posts.length} · 판정 ${calls.length} · 일정 ${cats.length} · 정정·이견 ${fx.length} · 연결 ${ct.length}</span></div>
+  ${lead ? `<p class="lede"><b>${esc(lead.title)}</b> — ${esc(lead.gist)}<br><span class="w">${mdh(lead.t)} ${WHO[lead.who] || lead.who} ${KIND[lead.kind] || ''} · 이 사안의 가장 최근 글</span></p>` : ''}
+  <div class="why"><span class="mute">왜 이 무게?</span><div class="bar" ${tt('오늘 점수 ' + (sc.s ?? 0).toFixed(1), `최근 언급 ${(sc.m || 0).toFixed(1)} · 질문 ${(sc.q || 0).toFixed(1)} · 가격 영향 ${(sc.p || 0).toFixed(1)} · 일정·정정 ${(sc.o || 0).toFixed(1)}`)}><i class="m" style="width:${(sc.m || 0) / tot * 100}%"></i><i class="q" style="width:${(sc.q || 0) / tot * 100}%"></i><i class="p" style="width:${(sc.p || 0) / tot * 100}%"></i><i class="o" style="width:${(sc.o || 0) / tot * 100}%"></i></div>
+  <span></span><div class="legend"><span style="--c:var(--s1)">최근 언급</span><span style="--c:var(--s2)">사용자 질문</span><span style="--c:var(--s3)">가격 영향</span><span style="--c:var(--s4)">일정·정정</span></div></div>
+  ${a ? `<div class="chartbox">${assets.length > 1 ? `<div class="tabs" style="margin-bottom:8px">${assets.map(x => `<button type="button" data-a="${x}" aria-pressed="${x === a}">${x}</button>`).join('')}</div>` : ''}<div class="row" style="justify-content:space-between"><b>${a} ${fp(now)} <span class="mute" style="font-weight:400">7일 ${pct(chg(D, a, 7))}</span></b><span class="mute" style="font-size:12px">이 사안에 걸린 기록만 겹쳤습니다</span></div><div id="ch"></div>
+  <div class="key"><span class="sup"><i></i>지지</span><span class="res"><i></i>저항</span><span class="ma"><i></i>이평·원가</span><span class="liq"><i></i>청산·옵션</span><span class="claude"><i class="dot"></i>Claude 글</span><span class="gpt"><i class="dot"></i>GPT 글</span><span>▪ 일정</span></div></div>` : ''}
+  <div class="blocks">
+    <div class="panel"><h3>판정 ${scored.length ? `<span class="mute" style="font-weight:400">채점 ${scored.length} · <span class="good">✓${k('good')}</span> <span class="warn">◐${k('warn')}</span> · ${k('mute')} <span class="bad">✕${k('bad')}</span></span>` : ''}</h3><ul class="ev">${calls.slice(0, 5).map(r => `<li>${r.scored ? `<span class="rb ${RESK[r.res]}">${RESI[RESK[r.res]]} ${RES[r.res]}</span>` : `<span class="rb mute">${CAT[r.cat] || '서술'}</span>`}<span>${esc(r.st)}<br><span class="w">${mdh(r.t)} ${WHO[r.who] || r.who} · ${r.a}</span></span></li>`).join('') || '<li class="empty">이 사안의 판정이 없습니다.</li>'}</ul></div>
+    <div class="panel"><h3>${a || ''} 가격선 <span class="mute" style="font-weight:400">지금 ${fp(now)} 기준</span></h3><ul class="ev">${near.map(c => `<li><span class="w" style="min-width:58px;text-align:right">${pct(c.d)}</span><span><b>${fp(c.p)}</b> ${esc(c.label)} <span class="w">${LGNAME[c.gp]} · ${c.n}번</span></span></li>`).join('') || '<li class="empty">이 사안에 걸린 가격선이 없습니다.</li>'}</ul></div>
+    <div class="panel"><h3>일정</h3><ul class="ev">${nextC.map(c => `<li><span class="w"><b>${c.date.slice(5)}</b>${c.time ? ' ' + c.time : ''}</span><span>${esc(c.ev)}${c.exp ? `<br><span class="w">${esc(c.exp)}</span>` : ''}</span></li>`).join('')}${pastC.map(c => `<li class="mute"><span class="w">${c.date.slice(5)} 지남</span><span>${esc(c.ev)}${c.out ? ' → ' + esc(c.out) : ''}</span></li>`).join('')}${cats.length ? '' : '<li class="empty">이 사안에 걸린 일정이 없습니다.</li>'}</ul></div>
+    <div class="panel"><h3>정정·이견과 연결</h3><ul class="ev">${fx.slice(0, 3).map(r => `<li><span class="w">${md(r.t)} ${r.type}</span><span>${esc(r.a)} → <b>${esc(r.b)}</b></span></li>`).join('')}${ct.slice(-3).map(c => `<li><span class="w">연결 · ${c.st}</span><span><b>${esc(c.a)}</b> → <b>${esc(c.b)}</b><br><span class="w">${esc(c.how || '')}</span></span></li>`).join('')}${fx.length + ct.length ? '' : '<li class="empty">없음</li>'}</ul></div>
+  </div>
+  <div class="panel"><h3 style="font-size:14px;margin:0 0 10px">이 사안의 글 흐름 (최근 8개)</h3><ul class="tl">${posts.slice(0, 8).map(r => `<li class="${r.who}"><span class="w">${mdh(r.t)} · ${WHO[r.who] || r.who} ${KIND[r.kind] || ''}</span><br><b>${esc(r.title)}</b> ${esc(r.gist.slice(0, 120))}</li>`).join('')}</ul></div>`;
+  if (a) priceChart(document.getElementById('ch'), D, a, { iss: id, future: 3 * DAY, h: innerWidth < 560 ? 260 : 340 });
+}
+function render() { list(); story(); try { sessionStorage.setItem('lab3', JSON.stringify({ i: S.i, a: S.a })); } catch { } }
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-i],[data-a]'); if (!b) return;
+  if (b.dataset.i) { S.i = b.dataset.i; S.a = null; } if (b.dataset.a) S.a = b.dataset.a; render();
+  if (b.dataset.i && innerWidth < 900) document.getElementById('story').scrollIntoView({ behavior: 'smooth' });
+});
+render(); onResize(story);
+</script>
+</body>
+</html>

@@ -11,6 +11,7 @@ from issues import ISSUES, ASSET_ISSUE, VIEWS
 MM, LOG, RAW, OUT = sys.argv[1:5]
 HERE = os.path.dirname(__file__)
 K = dt.timezone(dt.timedelta(hours=9)); U = dt.timezone.utc
+T0H = dt.datetime(2026, 10, 17, tzinfo=K)   # calls2 'at'(시간) 기준
 MAIN = '1560906410366074970'
 J = lambda p: json.load(open(p, encoding='utf-8'))
 X = J(os.path.join(MM, 'merged.json')); ADD = J(os.path.join(HERE, 'additions.json')); CUR = J(os.path.join(HERE, 'curated.json'))
@@ -48,6 +49,8 @@ for c in X['calls']:
     s2 = CALLS2.get(c['src'] + '|' + c['statement'][:20], {})
     items['ledger'].append(dict(src=c['src'], ts=c['ts'], who=c['author'], asset=c['asset'], st=c['statement'], exp=c.get('expected'),
                                 hz=c.get('horizon'), cat=s2.get('cat'), res=s2.get('res'), kol=c.get('kol'),
+                                trg=s2.get('trg'), dir=s2.get('dir'), tgt=s2.get('tgt'), daily=s2.get('daily'),
+                                at=(T0H + dt.timedelta(hours=s2['at'])).strftime('%Y-%m-%d %H:%M') if s2.get('at') is not None else None,
                                 iss=link(c['statement'] + ' ' + (c.get('expected') or ''), c['asset'], c['src']), g='주장' if c.get('kol') else '해석'))
 for l in X['levels']:
     items['ladder'].append(dict(src=l['src'], ts=l['ts'], who=l['author'], asset=l['asset'], price=l['price'], label=l['label'], kind=l['kind'],
@@ -300,6 +303,21 @@ dump('meta.json', meta)
 dump('snapshots.json', snap)
 dump('items.json', items)
 dump('now.json', dict(curated=CUR, thesis=thesis, blind=blind[:6], blind_asof=cg_time))
+
+# 4시간봉 (화면 시안용, 공개 API 원자료를 종가·고가·저가로 줄여서)
+PX4 = {'BTC': 'BTCUSDT', 'ETH': 'ETHUSDT', 'SOL': 'SOLUSDT', 'BNB': 'BNBUSDT', 'ZEC': 'ZECUSDT', 'ENA': 'ENAUSDT', 'UNI': 'UNIUSDT',
+       'HYPE': 'HYPEUSDT', 'SPX': 'SPXUSDT', 'PEPE': '1000PEPEUSDT', 'XMR': 'XMR_kraken'}
+px = {}
+for a, f in PX4.items():
+    p4 = os.path.join(RAW, 'h4_%s.json' % f)
+    if not os.path.exists(p4): continue
+    rows = J(p4)
+    if isinstance(rows, dict): rows = rows['result']['XXMRZUSD']; rows = [[r[0] * 1000] + r[1:5] for r in rows]
+    sc = 1e-3 if a == 'PEPE' else 1
+    sig = lambda v: float('%.6g' % (float(v) * sc))
+    px[a] = dict(t0=int(rows[0][0] // 1000), s=14400, o=[sig(r[1]) for r in rows], h=[sig(r[2]) for r in rows],
+                 l=[sig(r[3]) for r in rows], c=[sig(r[4]) for r in rows])
+dump('px.json', px)
 for f in sorted(os.listdir(OUT)): print(f, os.path.getsize(os.path.join(OUT, f)))
 s = snap[-1]
 print(s['d'], 'major', s['major'], '\nrest', s['rest'][:8], '\nviews', s['views'], '\nsuggest', s['suggest'])
