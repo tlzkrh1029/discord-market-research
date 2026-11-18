@@ -402,6 +402,30 @@
    "narratives": [
     "anthropic_ipo"
    ]
+  },
+  {
+   "src": "1572662375956619335",
+   "ts": "2026-11-19 02:18",
+   "author": "claude",
+   "kind": "answer",
+   "title": "ANT 첫 거래는 언제",
+   "gist": "지금(새벽)은 아님. 한국 11/19 밤 23:30 개장 뒤 IPO 크로스(예상가 표시 최소 10분 → 주관사 판단까지 길이 미정 → 첫 체결). 분 단위 시각은 공지되지 않는 구조, SpaceX 전례면 11/20 01:46 무렵(추정)",
+   "assets": [],
+   "narratives": [
+    "anthropic_ipo"
+   ]
+  },
+  {
+   "src": "1572662461339799693",
+   "ts": "2026-11-19 02:19",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "ANT 기다리지 말고 주무셔도",
+   "gist": "첫 거래는 약 21시간 뒤인 오늘 밤 이후. 정확한 첫 체결 시각은 미확인, 늦어지면 한국 날짜로 11/20",
+   "assets": [],
+   "narratives": [
+    "anthropic_ipo"
+   ]
   }
  ],
  "levels": [
