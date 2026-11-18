@@ -35,7 +35,7 @@ ISSUES = [
   dict(id='eth', label='ETH', kind='자산', tags=['eth'], kw=r'\bETH\b|이더리움', assets=['ETH'], pw=1.0),
   dict(id='sol', label='SOL·솔라나', kind='자산', tags=['solana'], kw=r'(?-i:\bSOL\b)|솔라나', assets=['SOL'], pw=1.0),
   dict(id='ena', label='에테나 ENA', kind='섹터', tags=['ethena'], kw=r'\bENA\b|에테나|USDe', assets=['ENA'], pw=1.0),
-  dict(id='magic', label='MAGIC·TIP-63 증자', kind='자산', tags=['magic', 'treasure'],
+  dict(id='magic', label='MAGIC·TIP-63 추가 발행', kind='자산', tags=['magic', 'treasure'],
        kw=r'\bMAGIC\b|TIP-6[34]|Treasure\b|트레저(?!리)', assets=['MAGIC'], pw=1.0),
   dict(id='alt_supply', label='알트 수급·언락·바이백', kind='섹터', tags=['altseason', 'supply_overhang', 'buyback_tokenomics', 'btcfi'],
        kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b|NIGHT', assets=['UNI', 'STX'], pw=0.6),
