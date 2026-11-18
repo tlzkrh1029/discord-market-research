@@ -1,34 +1,555 @@
 {
  "_note": "merged.json(10/17~11/14 추출본) 뒤에 생긴 항목. 리서치마다 Claude가 덧붙인다. src는 Discord 메시지 ID(근거 ID), 없으면 넣지 않는다.",
  "posts": [
-  {"src":"1571562280993292380","ts":"2026-11-16 01:27","author":"claude","kind":"review","title":"사용자 THESIS 검토","gist":"USDT.D가 HMA89·144·3일봉 사선에 막혀 꺾임 → BTC 4년선·ETH 9·10년선 바닥 → 365선 위 알트 7종 현물. TradingView 값이 필요한 항목은 미확인으로 분류","assets":["BTC","ETH"],"narratives":["thesis","stablecoin","altseason"]},
-  {"src":"1571566677399834738","ts":"2026-11-16 01:44","author":"claude","kind":"answer","title":"ETHU·BITX WMA200 배수 계산","gist":"ETHU 4D 0.31·BITX 6D 0.40(11/13 종가). 과거 최저 ETHU 1D 0.20(2025-04)·BITX 1D 0.33(2026-02). 표본 각 1번","assets":["ETH","BTC"],"narratives":["thesis","eth"]},
-  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","kind":"followup","title":"크립토 팔로업: 62k 급락과 한 시간 반등","gist":"11/15 10시 BTC 62,006·ETH 1,711 찍고 반등. 바이낸스 코인 OI -2.2%, 바이빗 +0.4%. 펀딩 음수 전환, HL OI -10.5%. 공포탐욕 10","assets":["BTC","ETH","SOL"],"narratives":["leverage","onchain_cost","thesis","etf_flows","sentiment","stablecoin"]},
-  {"src":"1571578116172947556","ts":"2026-11-16 02:30","author":"gpt","kind":"followup","title":"GPT 팔로업: 청산 직접 조회·Saylor 매수 암시","gist":"CoinGlass 24시간 청산 $14.96억(BTC $6.47억) 직접 조회. Saylor 추가 매수 암시 보도","assets":["BTC"],"narratives":["leverage","treasury_cos"]},
-  {"src":"1571582440844038261","ts":"2026-11-16 02:47","author":"claude","kind":"kol","title":"X KOL 반응 시험 수집","gist":"급락 해석이 양분: 매수 기회 vs 추가 저점. 수치는 작성자 주장","assets":["BTC"],"narratives":["sentiment"]},
-  {"src":"1571583613739204731","ts":"2026-11-16 02:52","author":"gpt","kind":"kol","title":"GPT KOL 수집","gist":"X 검색으로 주요 계정 발언 확인. 바닥 확정에 대한 합의는 없음(작성자 주장)","assets":["BTC"],"narratives":["sentiment"]},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","kind":"research","title":"09시 이후: 장기선 아래 마감, 바깥은 아시아 반도체","gist":"BTC 일·주봉 65,351로 4년선 아래 마감(208주선 -1.0%, 조건 불충족). 주봉 -12.7%. 대만 -5.7%·코스피 -3.6%. 바이빗 코인 OI 증가(BTC +1.6%·ETH +3.0%)","assets":["BTC","ETH","SOL","PEPE"],"narratives":["thesis","leverage","asia_stocks","nvda","fed_hike","etf_flows","treasury_cos","memecoins","stablecoin"]},
-  {"src":"1571815236632051773","ts":"2026-11-16 18:12","author":"gpt","kind":"research","title":"GPT 재조사: 회복 판단 보류","gist":"09시 주봉 마감 뒤 -1.5%. 바이낸스 코인 OI -0.27%로 추가 정리는 작음. 바닥 가능성은 열되 회복 시작 판단은 보류","assets":["BTC"],"narratives":["thesis","leverage","etf_flows"]},
-  {"src":"1571816742198710283","ts":"2026-11-16 18:18","author":"claude","kind":"kol","title":"X KOL 반응(11/16 09~18시)","gist":"28명 중 10명 발언. '바닥 횡보·높은 저점' vs '60k 한 번 더'. THESIS 알트·USDT.D 언급 없음(작성자 주장)","assets":["BTC"],"narratives":["sentiment"]}
+  {
+   "src": "1571562280993292380",
+   "ts": "2026-11-16 01:27",
+   "author": "claude",
+   "kind": "review",
+   "title": "사용자 THESIS 검토",
+   "gist": "USDT.D가 HMA89·144·3일봉 사선에 막혀 꺾임 → BTC 4년선·ETH 9·10년선 바닥 → 365선 위 알트 7종 현물. TradingView 값이 필요한 항목은 미확인으로 분류",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "thesis",
+    "stablecoin",
+    "altseason"
+   ]
+  },
+  {
+   "src": "1571566677399834738",
+   "ts": "2026-11-16 01:44",
+   "author": "claude",
+   "kind": "answer",
+   "title": "ETHU·BITX WMA200 배수 계산",
+   "gist": "ETHU 4D 0.31·BITX 6D 0.40(11/13 종가). 과거 최저 ETHU 1D 0.20(2025-04)·BITX 1D 0.33(2026-02). 표본 각 1번",
+   "assets": [
+    "ETH",
+    "BTC"
+   ],
+   "narratives": [
+    "thesis",
+    "eth"
+   ]
+  },
+  {
+   "src": "1571577382727458999",
+   "ts": "2026-11-16 02:27",
+   "author": "claude",
+   "kind": "followup",
+   "title": "크립토 팔로업: 62k 급락과 한 시간 반등",
+   "gist": "11/15 10시 BTC 62,006·ETH 1,711 찍고 반등. 바이낸스 코인 OI -2.2%, 바이빗 +0.4%. 펀딩 음수 전환, HL OI -10.5%. 공포탐욕 10",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL"
+   ],
+   "narratives": [
+    "leverage",
+    "onchain_cost",
+    "thesis",
+    "etf_flows",
+    "sentiment",
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1571578116172947556",
+   "ts": "2026-11-16 02:30",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "GPT 팔로업: 청산 직접 조회·Saylor 매수 암시",
+   "gist": "CoinGlass 24시간 청산 $14.96억(BTC $6.47억) 직접 조회. Saylor 추가 매수 암시 보도",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "leverage",
+    "treasury_cos"
+   ]
+  },
+  {
+   "src": "1571582440844038261",
+   "ts": "2026-11-16 02:47",
+   "author": "claude",
+   "kind": "kol",
+   "title": "X KOL 반응 시험 수집",
+   "gist": "급락 해석이 양분: 매수 기회 vs 추가 저점. 수치는 작성자 주장",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1571583613739204731",
+   "ts": "2026-11-16 02:52",
+   "author": "gpt",
+   "kind": "kol",
+   "title": "GPT KOL 수집",
+   "gist": "X 검색으로 주요 계정 발언 확인. 바닥 확정에 대한 합의는 없음(작성자 주장)",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "kind": "research",
+   "title": "09시 이후: 장기선 아래 마감, 바깥은 아시아 반도체",
+   "gist": "BTC 일·주봉 65,351로 4년선 아래 마감(208주선 -1.0%, 조건 불충족). 주봉 -12.7%. 대만 -5.7%·코스피 -3.6%. 바이빗 코인 OI 증가(BTC +1.6%·ETH +3.0%)",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "PEPE"
+   ],
+   "narratives": [
+    "thesis",
+    "leverage",
+    "asia_stocks",
+    "nvda",
+    "fed_hike",
+    "etf_flows",
+    "treasury_cos",
+    "memecoins",
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1571815236632051773",
+   "ts": "2026-11-16 18:12",
+   "author": "gpt",
+   "kind": "research",
+   "title": "GPT 재조사: 회복 판단 보류",
+   "gist": "09시 주봉 마감 뒤 -1.5%. 바이낸스 코인 OI -0.27%로 추가 정리는 작음. 바닥 가능성은 열되 회복 시작 판단은 보류",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "thesis",
+    "leverage",
+    "etf_flows"
+   ]
+  },
+  {
+   "src": "1571816742198710283",
+   "ts": "2026-11-16 18:18",
+   "author": "claude",
+   "kind": "kol",
+   "title": "X KOL 반응(11/16 09~18시)",
+   "gist": "28명 중 10명 발언. '바닥 횡보·높은 저점' vs '60k 한 번 더'. THESIS 알트·USDT.D 언급 없음(작성자 주장)",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1572442333461610636",
+   "ts": "2026-11-18 11:44",
+   "author": "gpt",
+   "kind": "research",
+   "title": "MAGIC(Treasure) 리서치",
+   "gist": "AI·DePIN 재편과 약 50% 추가 발행을 묶은 고위험 턴어라운드. 소각은 돈을 내는 에이전트가 있어야 생기고, 운영진의 손익분기점은 모델 추정",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "kind": "research",
+   "title": "MAGIC(Treasure) 종합 리서치",
+   "gist": "게임 DAO → AI 에이전트 네트워크. TIP-63은 최대 1.73억 개(+49.8%) 발행: 1억 개는 2/3 재단으로(조건인 감사는 이미 완료), 7,300만 개는 목표 연동. 시총 약 $2,300만, 선물 OI는 10월 말보다 -24%, 가격은 365일선(0.0677) 바로 위",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572444809430442026",
+   "ts": "2026-11-18 11:54",
+   "author": "claude",
+   "kind": "answer",
+   "title": "TIP-63 증자 평가",
+   "gist": "절반만 납득. 목표 연동 7,300만 개는 나은 설계지만, 바로 나오는 1억 개는 잔고·용도별 배분·잠금 조건이 없어 근거 부족",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572445238545350717",
+   "ts": "2026-11-18 11:55",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "TIP-63 증자 평가",
+   "gist": "추가 발행이 필요한 이유는 설명되지만 왜 50%인지는 근거 부족. 목표 일부가 누적 계정 기준이고, 누적 500만 개 소각 → 730만 개 발행은 순증",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572446180414070866",
+   "ts": "2026-11-18 11:59",
+   "author": "claude",
+   "kind": "review",
+   "title": "TIP-63 답 상호 검증",
+   "gist": "GPT가 인용한 사실은 원문과 일치. Claude 답 3곳 정정(창업자 직책, 에이전트 수의 기준가, 판정의 공개 검증 가능성)",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572446396098019504",
+   "ts": "2026-11-18 12:00",
+   "author": "gpt",
+   "kind": "review",
+   "title": "TIP-63 답 상호 검증",
+   "gist": "'안 하면 멈춘다'는 최신 잔고 없이 미확인, '보유자가 막을 방법이 거의 없다'는 근거보다 강함. '실매출 연결'은 실적이 아닌 제안된 설계",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572454227861708882",
+   "ts": "2026-11-18 12:31",
+   "author": "gpt",
+   "kind": "kol",
+   "title": "MAGIC KOL 언급",
+   "gist": "11/4 이후 표본: 'AI 사업 재평가 기대'(GpaAndy), '희석 우려'(CryptoDiffer), 단타 신호로 나뉨. 강세 합의 아님(작성자 주장)",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572455035659620493",
+   "ts": "2026-11-18 12:34",
+   "author": "claude",
+   "kind": "kol",
+   "title": "MAGIC KOL 언급",
+   "gist": "KOL 관심은 10/10 급등 때 차트·시그널 계정에 몰림. TIP-63 이후 사업 논평은 CryptoDiffer(경계)·GpaAndy(조건부 긍정) 둘. 주목 계정 28명은 9/1 이후 언급 0건",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572576601613541397",
+   "ts": "2026-11-18 20:37",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "MAGIC X·KOL 팔로업",
+   "gist": "12:30 이후 새 KOL 평가 근거를 찾지 못함. 공식 계정 마지막 글은 11/11. 차트 홍보·단축링크 글은 제외",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  },
+  {
+   "src": "1572577581079986300",
+   "ts": "2026-11-18 20:41",
+   "author": "claude",
+   "kind": "followup",
+   "title": "MAGIC X·KOL 팔로업",
+   "gist": "12:30 이후 새 KOL 글 0건. TIP-63 투표가 예고일(11/18) 20:40까지 Snapshot에 안 올라옴. 가격 +2.8%에도 선물 OI(코인 수량) 그대로",
+   "assets": [
+    "MAGIC"
+   ],
+   "narratives": [
+    "magic"
+   ]
+  }
  ],
  "levels": [
-  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","asset":"BTC","price":62006,"label":"11/15 10시 저점(현물)","kind":"low_high"},
-  {"src":"1571577382727458999","ts":"2026-11-16 02:27","author":"claude","asset":"ETH","price":1711,"label":"11/15 10시 저점","kind":"low_high"},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":64294,"label":"11/16 15시대 저점(현물)","kind":"low_high"},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":65854,"label":"일봉 4년선(1460일, 하루 약 +30)","kind":"ma"},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":66035,"label":"주봉 208주선(11/16 마감 때)","kind":"ma"},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"BTC","price":63500,"label":"허용 이탈폭 -3.6%(숫자는 Claude 제안·미확정)","kind":"thesis"},
-  {"src":"1571814096695992336","ts":"2026-11-16 18:08","author":"claude","asset":"ETH","price":1746,"label":"ETH 9년선(108개월)","kind":"ma"}
+  {
+   "src": "1571577382727458999",
+   "ts": "2026-11-16 02:27",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 62006,
+   "label": "11/15 10시 저점(현물)",
+   "kind": "low_high"
+  },
+  {
+   "src": "1571577382727458999",
+   "ts": "2026-11-16 02:27",
+   "author": "claude",
+   "asset": "ETH",
+   "price": 1711,
+   "label": "11/15 10시 저점",
+   "kind": "low_high"
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 64294,
+   "label": "11/16 15시대 저점(현물)",
+   "kind": "low_high"
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 65854,
+   "label": "일봉 4년선(1460일, 하루 약 +30)",
+   "kind": "ma"
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 66035,
+   "label": "주봉 208주선(11/16 마감 때)",
+   "kind": "ma"
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 63500,
+   "label": "허용 이탈폭 -3.6%(숫자는 Claude 제안·미확정)",
+   "kind": "thesis"
+  },
+  {
+   "src": "1571814096695992336",
+   "ts": "2026-11-16 18:08",
+   "author": "claude",
+   "asset": "ETH",
+   "price": 1746,
+   "label": "ETH 9년선(108개월)",
+   "kind": "ma"
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "asset": "MAGIC",
+   "price": 0.1639,
+   "label": "MAGIC 10/10 고점",
+   "kind": "low_high"
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "asset": "MAGIC",
+   "price": 0.0677,
+   "label": "MAGIC 365일선",
+   "kind": "ma"
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "asset": "MAGIC",
+   "price": 0.0653,
+   "label": "MAGIC 11/16 저점",
+   "kind": "low_high"
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "asset": "MAGIC",
+   "price": 0.0574,
+   "label": "MAGIC 200일선",
+   "kind": "ma"
+  },
+  {
+   "src": "1572443038687690814",
+   "ts": "2026-11-18 11:47",
+   "author": "claude",
+   "asset": "MAGIC",
+   "price": 0.0383,
+   "label": "MAGIC 7/29 저점",
+   "kind": "low_high"
+  }
  ],
  "corrections": [
-  {"src":"1571814149359665174","ts":"2026-11-16 18:08","by":"claude","target":"claude","wrong":"코인베이스 프리미엄 -0.10%(02:40엔 -0.04%)를 현물 약세로 봄","right":"USDT 할인을 보정하면 -0.01%로 사실상 0","cause":"방법 오류(USDT/USD 환산 누락)"}
+  {
+   "src": "1571814149359665174",
+   "ts": "2026-11-16 18:08",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "코인베이스 프리미엄 -0.10%(02:40엔 -0.04%)를 현물 약세로 봄",
+   "right": "USDT 할인을 보정하면 -0.01%로 사실상 0",
+   "cause": "방법 오류(USDT/USD 환산 누락)"
+  },
+  {
+   "src": "1572446180414070866",
+   "ts": "2026-11-18 11:59",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "TIP-63: 창업자를 '재단을 이끄는' 사람으로 씀",
+   "right": "원문은 '현재 핵심 기여자'로만 적음. 재단 직책은 확인하지 못함",
+   "cause": "원문 확인 부족"
+  },
+  {
+   "src": "1572446180414070866",
+   "ts": "2026-11-18 11:59",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "TIP-63: 스테이킹 상쇄에 필요한 에이전트 3,000~7,200개를 현재가 기준이라 씀",
+   "right": "팀 계산은 $0.084 기준. 지금 가격이면 필요한 수가 조금 줄어듦",
+   "cause": "기준가 혼동"
+  },
+  {
+   "src": "1572455187778371597",
+   "ts": "2026-11-18 12:35",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "TIP-63: '안 하면 멈춘다', '보유자가 막을 방법이 거의 없다'",
+   "right": "최신 잔고 없이는 확정할 수 없음 / 위임·거래소 보관분을 구분하지 않은 강한 표현",
+   "cause": "GPT 지적 수용(12:00)"
+  },
+  {
+   "src": "1572446396098019504",
+   "ts": "2026-11-18 12:00",
+   "by": "gpt",
+   "target": "gpt",
+   "wrong": "TIP-63: '실매출 연결'을 실적처럼 씀",
+   "right": "현재 실적이 아니라 제안된 설계",
+   "cause": "스스로 보완"
+  },
+  {
+   "src": "1572577581079986300",
+   "ts": "2026-11-18 20:41",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "MAGIC: 투표·발행 때 KOL발 매수세를 기대하기 어렵다(예측)",
+   "right": "지금까지 KOL에게서 나온 수요 신호는 없다(관측)",
+   "cause": "GPT 지적 수용(20:37)"
+  }
  ],
  "catalysts": [
-  {"src":"1571814199573618721","event_date":"2026-11-17","time_kst":"22:30","event":"美 10월 소매판매","expectation":"","outcome":null},
-  {"src":"1571814199573618721","event_date":"2026-11-18","time_kst":"06:20","event":"엔비디아 실적","expectation":"젠슨 황 사임 뒤 첫 실적, 아시아 반도체 급락 이어짐","outcome":null},
-  {"src":"1571814199573618721","event_date":"2026-11-19","time_kst":"04:00","event":"FOMC 의사록(10월 회의)","expectation":"","outcome":null},
-  {"src":"1571814199573618721","event_date":"2026-11-19","time_kst":null,"event":"앤트로픽 나스닥 상장(예정, 보도)","expectation":"","outcome":null},
-  {"src":"1571814199573618721","event_date":"2026-11-20","time_kst":"17:00","event":"옵션 주간물 만기(ETH 1,800 풋 39,827)","expectation":"","outcome":null}
+  {
+   "src": "1571814199573618721",
+   "event_date": "2026-11-17",
+   "time_kst": "22:30",
+   "event": "美 10월 소매판매",
+   "expectation": "",
+   "outcome": null
+  },
+  {
+   "src": "1571814199573618721",
+   "event_date": "2026-11-18",
+   "time_kst": "06:20",
+   "event": "엔비디아 실적",
+   "expectation": "젠슨 황 사임 뒤 첫 실적, 아시아 반도체 급락 이어짐",
+   "outcome": null
+  },
+  {
+   "src": "1571814199573618721",
+   "event_date": "2026-11-19",
+   "time_kst": "04:00",
+   "event": "FOMC 의사록(10월 회의)",
+   "expectation": "",
+   "outcome": null
+  },
+  {
+   "src": "1571814199573618721",
+   "event_date": "2026-11-19",
+   "time_kst": null,
+   "event": "앤트로픽 나스닥 상장(예정, 보도)",
+   "expectation": "",
+   "outcome": null
+  },
+  {
+   "src": "1571814199573618721",
+   "event_date": "2026-11-20",
+   "time_kst": "17:00",
+   "event": "옵션 주간물 만기(ETH 1,800 풋 39,827)",
+   "expectation": "",
+   "outcome": null
+  },
+  {
+   "src": "1572577581079986300",
+   "event_date": "2026-11-18",
+   "time_kst": "",
+   "event": "TIP-63 Snapshot 투표 시작(예고)",
+   "expectation": "참여 주소 수·반대표",
+   "outcome": "20:40 KST 기준 Snapshot에 아직 없음"
+  },
+  {
+   "src": "1572443038687690814",
+   "event_date": "2026-12-02",
+   "time_kst": "",
+   "event": "TIP-63 투표 마감(예고)",
+   "expectation": "최근 안건은 23명 투표·반대 0",
+   "outcome": null
+  },
+  {
+   "src": "1572443038687690814",
+   "event_date": "2027-02-03",
+   "time_kst": "",
+   "event": "TIP-63 1억 MAGIC 재단 발행(통과 시)",
+   "expectation": "거래소 공지, 재단 지갑에서 거래소로 이동 여부",
+   "outcome": null
+  },
+  {
+   "src": "1572443038687690814",
+   "event_date": "2027-03-03",
+   "time_kst": "",
+   "event": "Treasure Network 출시(예고)",
+   "expectation": "돈을 내는 에이전트 수·월 소각량",
+   "outcome": null
+  }
  ],
- "disagreements": []
+ "disagreements": [
+  {
+   "src": "1572446396098019504",
+   "ts": "2026-11-18 12:00",
+   "topic": "TIP-63 목표 연동 7,300만 개 평가",
+   "claude": "성과가 나와야 발행되니 납득할 만하다",
+   "gpt": "누적 계정·누적 소각 기준이라 성과 연동만으로 좋은 조건은 아니다",
+   "resolution": "Claude가 평가를 한 단계 낮춤"
+  },
+  {
+   "src": "1572576601613541397",
+   "ts": "2026-11-18 20:37",
+   "topic": "MAGIC KOL발 수요 전망",
+   "claude": "투표·발행 때 KOL발 매수세를 기대하기 어렵다",
+   "gpt": "제한된 검색 결과만으로 단정하기엔 강하다",
+   "resolution": "Claude가 '지금까지 수요 신호 없음'으로 고침"
+  }
+ ]
 }
