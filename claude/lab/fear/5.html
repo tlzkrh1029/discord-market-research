@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>공포 키워드 신뢰도</title>
+<meta name="description" content="구글 트렌드 비트코인 공포 검색 시안 5: 어떤 키워드가 신호를 내고, 원문 검색어는 왜 못 쓰나.">
+<link rel="stylesheet" href="../../style.css?v=1119a">
+<link rel="stylesheet" href="../lab.css?v=1119a">
+<link rel="stylesheet" href="fear.css?v=1119b">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { load, head, foot, theme, p5 } from './fear.js?v=1119d';
+const D = await load();
+const app = document.getElementById('app');
+app.innerHTML = head(5, '키워드와 신뢰도', '어떤 키워드가 신호를 내고, 원문 검색어는 왜 못 쓰나') + '<main id="v"></main>' + foot(D);
+theme();
+p5(D, document.getElementById('v'));
+</script>
+</body>
+</html>

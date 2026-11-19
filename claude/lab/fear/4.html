@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>공포 검색 달력</title>
+<meta name="description" content="구글 트렌드 비트코인 공포 검색 시안 4: 어느 해 어느 달에 공포 검색이 몰렸나.">
+<link rel="stylesheet" href="../../style.css?v=1119a">
+<link rel="stylesheet" href="../lab.css?v=1119a">
+<link rel="stylesheet" href="fear.css?v=1119b">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { load, head, foot, theme, p4 } from './fear.js?v=1119d';
+const D = await load();
+const app = document.getElementById('app');
+app.innerHTML = head(4, '달력 열지도', '어느 해 어느 달에 공포 검색이 몰렸나') + '<main id="v"></main>' + foot(D);
+theme();
+p4(D, document.getElementById('v'));
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>바닥 전후 공포 검색</title>
+<meta name="description" content="구글 트렌드 비트코인 공포 검색 시안 3: 지난 바닥 주 앞뒤로 공포 검색은 어떻게 움직였고, 지금은 어디쯤인가.">
+<link rel="stylesheet" href="../../style.css?v=1119a">
+<link rel="stylesheet" href="../lab.css?v=1119a">
+<link rel="stylesheet" href="fear.css?v=1119b">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { load, head, foot, theme, p3 } from './fear.js?v=1119d';
+const D = await load();
+const app = document.getElementById('app');
+app.innerHTML = head(3, '바닥에 맞춰 겹치기', '지난 바닥 주 앞뒤로 공포 검색은 어떻게 움직였고, 지금은 어디쯤인가') + '<main id="v"></main>' + foot(D);
+theme();
+p3(D, document.getElementById('v'));
+</script>
+</body>
+</html>
