@@ -713,6 +713,157 @@
     "ai_semis",
     "btc_floor"
    ]
+  },
+  {
+   "src": "1573196767095300136",
+   "ts": "2026-11-20 13:42",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "크립토 촉매: 금리·기술주·ETF 수급이 핵심",
+   "gist": "BTC 약 $61,400(13:39~41). 가까운 촉매: 11/21 02:15 쿡 이사 연설(연준 일정), ETF 11/18 -$3.065억·11/19 IBIT 빼고 -$4,120만, 17:00 데리빗 주간 만기(최대 고통 가격 끌림 보장 없음), 23:30 미국장·ANT 2일차. 공모 결제 뒤 자금 복귀는 가설",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL"
+   ],
+   "narratives": [
+    "fed_hike",
+    "etf_flows",
+    "anthropic_ipo"
+   ]
+  },
+  {
+   "src": "1573196769486180412",
+   "ts": "2026-11-20 13:42",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "KOL: 거시 악화 경계 대 과매도 반등 기대",
+   "gist": "IncomeSharks 복합 원인, MizerXBT 하방 시나리오 재언급, CryptoMichNL 매수 기회, kidzevn '매우 싼 영역', MylesGinvest(홍보 이해관계). 판단: 상승 촉매 없음, ETF 최종 → 만기 → 미국장 → 쿡 순서로 보고 반등 땐 현물 매수 동반 확인",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573199036268159119",
+   "ts": "2026-11-20 13:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "크립토 팔로업: 지금 가격·청산·파생(OI 증가·롱 77%)",
+   "gist": "13:51 BTC 61,450(09시 대비 -0.9%, 4년선 66,014 대비 -6.9%), ETH 1,722(13시 저점 1,717.8, 11/15 저점 1,711과 0.4%), SOL 72.04. 24h 청산 $6.67억 롱 84%(CoinGlass). 바이낸스 BTC 코인 OI 95.9K(11/19 01시)→98.1K, 바이빗 71.9K→70.0K, 롱 계정 76.9%, 펀딩 중립. HL AguilaTrades 40배 롱 1,550 BTC 청산 60,182(HL API), James Wynn 60,178(주장). DVOL 45.6→49.2",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL"
+   ],
+   "narratives": [
+    "leverage",
+    "btc_floor"
+   ]
+  },
+  {
+   "src": "1573199099220594771",
+   "ts": "2026-11-20 13:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "촉매 일정: 오늘~12/12",
+   "gist": "오늘 17:00 데리빗 주간(BTC 3.5만 개, 최대 고통 $70k라 끌림 의미 작음, 11/27 월물 BTC 10.5만 개), 22:25 월러 환영사, 23:30 미국장·ANT 2일차, 11/21 02:15 쿡. ETF 11/18 BTC -$3.07억·ETH -$0.40억, 11/19 IBIT 빼고 -$0.41억(Farside 직접). 11/24 MON 클리프, 11/25 PCE·GDP, 11/26 휴장, 12/1 06:00 MSCI Strategy 편출(패시브 매도 JPM $28억 보도)·트럼프 미디어 사채 상환 청구, 12/10 04:00 FOMC·22:30 CPI, 12/12 14:01 정부 자금 만료",
+   "assets": [
+    "BTC",
+    "ETH",
+    "MSTR"
+   ],
+   "narratives": [
+    "fed_hike",
+    "etf_flows",
+    "treasury_cos"
+   ]
+  },
+  {
+   "src": "1573199163859017901",
+   "ts": "2026-11-20 13:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "이미 나온 촉매·KOL 반응",
+   "gist": "의사록 '거의 모두 추가 인상'(보도), Sky USDS 하루 -39%($52억→$31.8억, 불법 자금 보고서 뒤) — 전체 스테이블 -$16억 중 USDS -$20억, 빼면 +$4억. CFTC 의장 'HL 등 온체인 거래소는 등록·제휴', 바이낸스US DCM·DCO 본심사, 바이낸스 $65억 동결명령. KOL: 온체인 '싸다'(STH 수익 4.6%·MVRV 6분위·MVRV Z 0.2 근접) 대 '아직'(헤이즈 손절, 매수세 없음, ETH 고래 손절). 주목 31개 중 22개 글",
+   "assets": [
+    "BTC",
+    "ETH",
+    "USDS"
+   ],
+   "narratives": [
+    "stablecoin",
+    "sentiment",
+    "fed_hike"
+   ]
+  },
+  {
+   "src": "1573199211682340915",
+   "ts": "2026-11-20 13:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "THESIS 점검·판단",
+   "gist": "알트 7종 365선(13:50): GRASS +5.9·USELESS +3.4·UNI +0.5·STX +0.1·RUNE -0.8·PUMP -4.0·PEPE -7.7%. ENA -29.5·SPX -26.7·ZEC +41.5·HYPE +22.8%. 판단: 하락 중 OI 증가·롱 비중 높음 → 한 번 더 털릴 수 있는 구조(해석). 큰 구조 촉매는 12/1 MSCI·12/10 FOMC. 아래 60.2k·60k·57.8k. 바뀔 조건: OI·롱 동반 감소, ETF 유입, 쿡·PCE 완화",
+   "assets": [
+    "BTC",
+    "ETH",
+    "UNI",
+    "PEPE",
+    "STX",
+    "PUMP",
+    "RUNE",
+    "GRASS",
+    "USELESS"
+   ],
+   "narratives": [
+    "thesis",
+    "leverage"
+   ]
+  },
+  {
+   "src": "1573199294109061251",
+   "ts": "2026-11-20 13:57",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 호재 없는 금요일, 아직 다 털리지 않은 롱 (1~3)",
+   "gist": "61k에서 버티지만 받쳐 주는 손은 없음, 가격은 빠지는데 베팅은 늘었다(60.2k 큰손 청산가), 오늘 밤 세 개의 문(만기·ANT 2일차·쿡)",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "btc_floor",
+    "leverage",
+    "fed_hike",
+    "etf_flows",
+    "stablecoin",
+    "treasury_cos",
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573199347741622315",
+   "ts": "2026-11-20 13:57",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 호재 없는 금요일 (4~6)",
+   "gist": "달력에 박힌 큰 날(12/1 MSCI·트럼프 미디어·12/10 FOMC), 줄어드는 달러와 한 종목의 사고(USDS), '역사적으로 싸다'와 '나는 빠진다'",
+   "assets": [
+    "BTC",
+    "ETH",
+    "MSTR"
+   ],
+   "narratives": [
+    "btc_floor",
+    "leverage",
+    "fed_hike",
+    "etf_flows",
+    "stablecoin",
+    "treasury_cos",
+    "sentiment"
+   ]
   }
  ],
  "levels": [
@@ -859,6 +1010,15 @@
    "price": 92.72,
    "label": "ANT 첫날 저가(03:18)",
    "kind": "low_high"
+  },
+  {
+   "src": "1573199036268159119",
+   "ts": "2026-11-20 13:56",
+   "author": "claude",
+   "asset": "ETH",
+   "price": 1717.82,
+   "label": "ETH 11/20 13시 저점",
+   "kind": "low_high"
   }
  ],
  "corrections": [
@@ -973,7 +1133,7 @@
    "event_date": "2026-11-20",
    "time_kst": "17:00",
    "event": "옵션 주간물 만기(ETH 1,800 풋 39,827)",
-   "expectation": "",
+   "expectation": "11/20 13:40 데리빗: BTC 3.5만 개(콜 2.2만·풋 1.3만), 최대 고통 $70k(현물 61.4k), ETH 19.9만 개 1,800 풋 37,991. 규모 작아 끌림 의미 작음",
    "outcome": null
   },
   {
@@ -1086,6 +1246,86 @@
    "time_kst": "23:30",
    "event": "ANT 나스닥100 편입(보도 기준 예정)",
    "expectation": "패시브 매수 수요",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-11-21",
+   "time_kst": "02:15",
+   "event": "쿡 연준 이사 연설 \"The U.S. Economy in Global Context\"(칠레 중앙은행 콘퍼런스)",
+   "expectation": "10월 FOMC 25bp 인상 소수의견(보도). 연준 일정표 확인",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-11-24",
+   "time_kst": "",
+   "event": "MON(모나드) 1년 클리프 언락",
+   "expectation": "약 166억~171억 개, $2.1억~3.2억(추정 엇갈림)",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-11-25",
+   "time_kst": "22:30",
+   "event": "美 3분기 GDP 2차·10월 PCE",
+   "expectation": "BEA 일정. 다음 날 04:00 베이지북",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-11-26",
+   "time_kst": "",
+   "event": "美 추수감사절 휴장(ETF 흐름 없음)",
+   "expectation": "11/28 03:00 조기 폐장, 11/28 14:00 연준 블랙아웃 시작",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-11-27",
+   "time_kst": "17:00",
+   "event": "데리빗 11월 월물 만기",
+   "expectation": "11/20 13:40 BTC 10.5만 개(P/C 0.96), ETH 31만 개",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-12-01",
+   "time_kst": "06:00",
+   "event": "MSCI Strategy(MSTR) 편출 효력(11/30 미국 종가)",
+   "expectation": "'비영업회사' 기준 첫 적용, 메타플래닛 등도 편출(11/12 보도). 패시브 매도 JPM $28억 추정(보도). 같은 날 트럼프 미디어 사채 $8.8억 상환 청구일",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-12-04",
+   "time_kst": "22:30",
+   "event": "美 11월 고용보고서",
+   "expectation": "BLS 일정",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-12-10",
+   "time_kst": "04:00",
+   "event": "FOMC 결정·점도표(12/8~9 미국)",
+   "expectation": "25bp 인상 거의 100% 반영(보도), 월러 50bp",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-12-10",
+   "time_kst": "22:30",
+   "event": "美 11월 CPI",
+   "expectation": "FOMC 다음 날",
+   "outcome": null
+  },
+  {
+   "src": "1573199099220594771",
+   "event_date": "2026-12-12",
+   "time_kst": "14:01",
+   "event": "美 연방정부 자금 만료(셧다운 위험)",
+   "expectation": "CLARITY는 1월까지 보류 보도, 12월 필수 법안 편승 가능성",
    "outcome": null
   }
  ],
