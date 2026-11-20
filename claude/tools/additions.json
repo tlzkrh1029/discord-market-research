@@ -864,6 +864,166 @@
     "treasury_cos",
     "sentiment"
    ]
+  },
+  {
+   "src": "1573302145279598683",
+   "ts": "2026-11-20 20:41",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "레버리지 정리만이 아니라 ETF 유출도 함께 보는 약세",
+   "gist": "CoinGecko 20:38~40: BTC $61,739(-2.8%, 7일 -10.2%)·ETH $1,750·SOL $71.98·ZEC $822.92(-11.9%). ETF 11/19 BTC -$5.82억·ETH -$1.31억, 11/17~19 BTC -$11.29억·ETH -$2.00억(Farside). CoinGlass BTC 달러 OI $417.4억 -1.74%(가격 하락만으로도 줄어든다고 단서). XMR1 99% 급락은 XMR 본체가 아님. 다음: ETF 유출 둔화 → BTC 종가 → ZEC 상대 약세",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "ZEC",
+    "XMR",
+    "HYPE"
+   ],
+   "narratives": [
+    "etf_flows",
+    "leverage",
+    "privacy"
+   ]
+  },
+  {
+   "src": "1573306047437865003",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "크립토 팔로업: 박스 속 BTC, IBIT 최대 유출",
+   "gist": "20:53 BTC 61,781(13:51 대비 +0.5%, 13시 이후 61,389~62,342, 4년선 66,015 대비 -6.4%)·ETH 1,749(9년선 1,746 위 복귀)·SOL 71.75. 24h ZEC -14%·XMR -7.7%·HYPE -6.8%. 바이낸스 ANT 무기한 $90.2(첫날 종가 -7%, 시간외 저점 $91.4 아래). IBIT 11/19 -$5.411억 = Farside 전체 표(2024-01~, 734거래일) 하루 최대 유출(종전 1/30 -$5.283억·5/27 -$5.278억), ETF 전체 -$5.823억은 최대 아님(2025-02-25 -$11.137억). ETH ETF -$1.312억(ETHA -$1.242억) 4일 연속",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "ANT"
+   ],
+   "narratives": [
+    "etf_flows",
+    "anthropic_ipo"
+   ]
+  },
+  {
+   "src": "1573306079855648891",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "파생: 정리 시작(바이낸스만), 큰손 롱→숏",
+   "gist": "BTC 코인 OI 바이낸스 98.2K(14시)→96.8K(20:50)·바이빗 70.9K→70.8K, 롱 계정 77.5→75.6%. ETH 코인 OI +0.6%인데 롱 계정 75.4→71.3%(숏 계정 증가). 청산 24h $7.26억 롱 86%, 12h $2.72억, 4h $0.38억(CoinGlass 20:45). HL AguilaTrades 16:24~16:37 롱 1,550개 대부분(확인 1,420+) 평균 61.6k 정리(실현 약 -$13만), 16:40부터 40배 숏 → 1,500개 평단 61,823 청산 63,169(HL API). 데리빗 BTC 옵션 OI 38만 개, 60k 풋 1.77만 개 최대, 11/27 월물 10.5만 개 최대 고통 $74k, DVOL 49.3",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "leverage",
+    "hyperliquid",
+    "btc_floor"
+   ]
+  },
+  {
+   "src": "1573306112583671871",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "새 촉매: XMR1 사고·해커 ETH 이동·일정",
+   "gist": "Wagyu XMR1 HL 현물 $507→$0.875(-99.8%, HL API), 발행자 연계 지갑 $1,350만 매도(CoinDesk), XMR 본체 아님. 바이낸스 해커 이틀 ETH $5.94억 이동(THORChain). 12월 인상 확률 95~98%, 10년물 4.989%(-6bp). 닛케이 -5.06%·코스피 -5.21%·소프트뱅크 -14.5%. 세일러 STRC 자연 수요 $50억~75억, 반에크 제미니 수탁 종료, 홍콩 인가 법안(12/2 1독회), 상원 예측시장 금지법, ARK ANT 93.5만 주. 일정: 22:25 월러·23:30 ANT 2일차·00:00 미시간·02:15 쿡·06:00 美 월물 옵션, 11/23 PMI·11/26 금통위",
+   "assets": [
+    "XMR",
+    "ETH",
+    "BTC",
+    "MSTR",
+    "ANT"
+   ],
+   "narratives": [
+    "privacy",
+    "hyperliquid",
+    "fed_hike"
+   ]
+  },
+  {
+   "src": "1573306145605423237",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "KOL 반응·THESIS 365선",
+   "gist": "'싸다'(kidzevn 지난주 매수·CryptoJelleNL 美 증시 200일선 아래=매수 기회·AshCrypto) 대 '아직'(AxelAdlerJr STH 실현가 -15%·STH-SOPR 0.98·CryptoJelleNL 강세 다이버전스 무효·CryptoMichNL 극단 약세), glassnode MVRV 1 바로 위. 38개 계정 중 15개 글. 365선 20:40: GRASS +3.8·UNI +1.2·RUNE +0.1·STX -1.3·USELESS -2.4·PUMP -5.3·PEPE -6.3%(선 아래 3→4종). ZEC +36.9·HYPE +20.9·XMR +9.8·MAGIC 0.0·ENA -28.1·SPX -31.3%",
+   "assets": [
+    "BTC",
+    "UNI",
+    "PEPE",
+    "STX",
+    "PUMP",
+    "RUNE",
+    "GRASS",
+    "USELESS",
+    "ZEC",
+    "HYPE",
+    "XMR",
+    "ENA",
+    "SPX",
+    "MAGIC"
+   ],
+   "narratives": [
+    "sentiment",
+    "thesis"
+   ]
+  },
+  {
+   "src": "1573306166845509633",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "kind": "followup",
+   "title": "판단: 받쳐 주는 손이 더 줄었다",
+   "gist": "GPT와 같음: ETF 유출을 같이 보는 약세, XMR1≠XMR, GPT ETF 수치 맞음. 더함: 코인 수량으로도 바이낸스 -1.5%라 정리 시작(바이빗·ETH 아직), 바닥 큰손 숏 전환+IBIT 기록 유출 = 받쳐 주는 손 감소(해석), 롱 비중 하락으로 털릴 연료는 13시보다 적음. 아래 61,291·60k·57.8k, 위 63.2k. 바뀔 조건: 바이빗 OI 감소·11/20 ETF 유입·쿡 완화·ANT/나스닥 반등에 BTC 동행",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "leverage",
+    "etf_flows"
+   ]
+  },
+  {
+   "src": "1573306247854301306",
+   "ts": "2026-11-20 20:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 기록적인 출구, 돌아선 큰손 (1~3)",
+   "gist": "조용한 박스와 시끄러운 바깥(아시아 -5%), 블랙록 창구로 나간 $5.4억(IBIT 최대), 바닥에 건 40배가 여섯 시간 만에 숏으로",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "etf_flows",
+    "leverage",
+    "btc_floor",
+    "hyperliquid",
+    "sentiment",
+    "anthropic_ipo"
+   ]
+  },
+  {
+   "src": "1573306281463386156",
+   "ts": "2026-11-20 20:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 기록적인 출구, 돌아선 큰손 (4~6)",
+   "gist": "처음 줄어든 레버리지(바이낸스만), 같은 날 두 사고(XMR1·바이낸스 해커 ETH), 오늘 밤의 문(ANT $90·월러·쿡)과 갈라진 KOL",
+   "assets": [
+    "BTC",
+    "ETH",
+    "XMR",
+    "ANT"
+   ],
+   "narratives": [
+    "etf_flows",
+    "leverage",
+    "btc_floor",
+    "hyperliquid",
+    "sentiment",
+    "anthropic_ipo"
+   ]
   }
  ],
  "levels": [
@@ -1019,6 +1179,15 @@
    "price": 1717.82,
    "label": "ETH 11/20 13시 저점",
    "kind": "low_high"
+  },
+  {
+   "src": "1573306079855648891",
+   "ts": "2026-11-20 20:56",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 63169,
+   "label": "HL AguilaTrades 40배 숏 1,500개 청산가(롱에서 전환, 평단 61,823)",
+   "kind": "liquidation"
   }
  ],
  "corrections": [
@@ -1134,7 +1303,7 @@
    "time_kst": "17:00",
    "event": "옵션 주간물 만기(ETH 1,800 풋 39,827)",
    "expectation": "11/20 13:40 데리빗: BTC 3.5만 개(콜 2.2만·풋 1.3만), 최대 고통 $70k(현물 61.4k), ETH 19.9만 개 1,800 풋 37,991. 규모 작아 끌림 의미 작음",
-   "outcome": null
+   "outcome": "만기 뒤 뚜렷한 가격 영향 없음: BTC 17시 61,859→20:53 61,781, 바이낸스 코인 OI 97.1K→96.8K, DVOL 48.7→49.3. 남은 BTC 옵션 OI 38만 개(데리빗 20:40)"
   },
   {
    "src": "1572577581079986300",
@@ -1229,7 +1398,7 @@
    "event_date": "2026-11-20",
    "time_kst": "23:30",
    "event": "ANT 상장 2일차",
-   "expectation": "첫날 시초가 $111.5 회복 여부, 시간외 저점 $91.4. 직원 지분 10%는 첫날부터 매도 가능",
+   "expectation": "첫날 시초가 $111.5 회복 여부, 시간외 저점 $91.4. 직원 지분 10%는 첫날부터 매도 가능 / 11/20 20:53 바이낸스 ANT 무기한 $90.2(첫날 종가 -7%), 프리마켓 -6%(CNBC 보도)",
    "outcome": null
   },
   {
@@ -1326,6 +1495,46 @@
    "time_kst": "14:01",
    "event": "美 연방정부 자금 만료(셧다운 위험)",
    "expectation": "CLARITY는 1월까지 보류 보도, 12월 필수 법안 편승 가능성",
+   "outcome": null
+  },
+  {
+   "src": "1573306112583671871",
+   "event_date": "2026-11-20",
+   "time_kst": "22:25",
+   "event": "월러 연준 이사 환영사(College Fed Challenge)",
+   "expectation": "대학 대회 환영사라 정책 발언 가능성 낮음. 11/18 CNBC에선 12월 50bp 언급",
+   "outcome": null
+  },
+  {
+   "src": "1573306112583671871",
+   "event_date": "2026-11-21",
+   "time_kst": "00:00",
+   "event": "美 미시간대 소비자심리 11월 확정치",
+   "expectation": "예비 51.0, 컨센서스 51.5(보도)",
+   "outcome": null
+  },
+  {
+   "src": "1573306112583671871",
+   "event_date": "2026-11-21",
+   "time_kst": "06:00",
+   "event": "美 주식·지수·ETF 월물 옵션 만기, 11/20 ETF 흐름 집계",
+   "expectation": "IBIT 11/19 -$5.41억(최대) 뒤 첫 집계",
+   "outcome": null
+  },
+  {
+   "src": "1573306112583671871",
+   "event_date": "2026-11-23",
+   "time_kst": "23:45",
+   "event": "美 S&P 예비 PMI(금요일에서 월요일로 옮겨짐)",
+   "expectation": "보도 일정",
+   "outcome": null
+  },
+  {
+   "src": "1573306112583671871",
+   "event_date": "2026-11-26",
+   "time_kst": "",
+   "event": "한은 금통위(올해 마지막, 점도표 첫 공개)",
+   "expectation": "신한투자 0.25%p 인상 전망(보도). 발표 시각 미확인",
    "outcome": null
   }
  ],
