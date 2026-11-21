@@ -2217,6 +2217,84 @@
    "narratives": [
     "sentiment"
    ]
+  },
+  {
+   "src": "1573723810190860349",
+   "ts": "2026-11-22 00:36",
+   "author": "gpt",
+   "kind": "research",
+   "title": "가렛 진 최근 발언: 10/30 패닉 경계 → 11/13 extreme panic → 11/21 time to bid",
+   "gist": "10/30 바이낸스 출금 공지 인용 '패닉할 이유 없다', 11/13 18:37 'extreme panic $BTC', 11/21 22:12 Markets.xyz '바이낸스에 6,500만 USDT 입금' 글에 'time to bid'. 6,500만 입금은 제3자 주장(원장 미검증), 입금≠BTC 매수, 발언은 21:35·22:07 급등 뒤. 11월 본인 글 2건(전수조사 아님)",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573729228971577431",
+   "ts": "2026-11-22 00:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "가렛 진 타임라인: 2/1 청산 -$2.2억 → 9월 ZEC 숏 -$3,200만·계정 비움 → 11/21 time to bid",
+   "gist": "전 BitForex CEO, 2025-10-10 관세 직전 약 $11억 숏 '1011 고래'와 연결(Eye ENS 근거, ZachXBT 반론, 본인 '고객 돈·내부자 아님'). 원장: 0xb317 10/10 $8,000만 입금 → 10/11 $1.5억 출금. 이름: BitcoinOG(룩온체인)·Hyperunit whale(Arkham)·1011内幕巨鲸. 2026-09-29 미 하원 감독위 하이퍼리퀴드 자료 요구(보도, 이름 없음)",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "sentiment",
+    "leverage"
+   ]
+  },
+  {
+   "src": "1573729265709748407",
+   "ts": "2026-11-22 00:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "가렛 진 원장 대조: 0xb317 2/1 ETH 롱 청산, 0x92ea 5~9월 BTC 롱·ZEC 숏, 9/24 $1.47억 인출",
+   "gist": "2/1 03:43 0xb317 ETH 롱 $2.19억 청산(ETH 약 2,220·BTC 약 76.5k), 1/26~2/1 실현 -$2.22억. 0x92ea: 5/20~28 BTC 롱 1,268개, 6/7 ZEC 숏 +$1,124만, 6/16 HYPE 18.4만 매도, 8/25~26 BTC 롱 600개, 9/18 ETH 35,396개 $2,500 매도·BTC 롱 1,337개, 9/21 ZEC 숏 38,000개 -$3,199만·BTC 롱 +$853만, 9/24 USDC $1.47억 인출 뒤 거래 없음. 9/10 '사이클 바닥 6만 확률 70%'(보도), 9/19 ZEC 약 20만 개 현물·HL 숏은 부분 헤지(본인)",
+   "assets": [
+    "BTC",
+    "ETH",
+    "ZEC",
+    "HYPE"
+   ],
+   "narratives": [
+    "leverage",
+    "hyperliquid"
+   ]
+  },
+  {
+   "src": "1573729295937830963",
+   "ts": "2026-11-22 00:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "11/21 밤 바이낸스 입금 $2.7억 원장 확인, 가렛 돈이라는 근거는 없음",
+   "gist": "20:17 USDC 3,200만·20:59 1,301만·21:11 USDT 1억5,336만·21:40 7,200만 → 바이낸스 입금 주소 0x2DFee…(새 지갑 3개, 1~5분 안 이동). 룩온체인 '가렛이 사나?' 질문뿐, Odaily·ChainCatcher 증거 없음. 6,500만 USDT와 별건. GPT 대조 4항목 맞음, 원장 보강. 판단: 'time to bid'는 방향 발언, HL 포지션 없음·바이낸스 안은 안 보여 따라갈 근거로는 약함",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment",
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1573729324895305831",
+   "ts": "2026-11-22 00:58",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 1011의 숏에서 \"time to bid\"까지",
+   "gist": "1011(관세 직전 숏, ENS 연결, 고객 돈 해명), 2월의 청산(ETH 3,000 매집론 → 2,220 청산), ZEC(헤지라던 숏 -$3,200만, 9/24 인출), 두 달의 침묵(바닥 6만 예상 깨짐), time to bid($2.7억 입금, 주인 미확인)",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "sentiment"
+   ]
   }
  ],
  "levels": [
