@@ -278,6 +278,61 @@ thesis = dict(daily=th_daily, weekly=th_weekly, m48_live=round(sum(mc[-48:]) / 4
               alts=alts, asof=built.strftime('%Y-%m-%d %H:%M'), src='바이낸스 일·주·월봉(현물, 알트는 선물) · 사이트 갱신 때 Claude 계산')
 
 
+# ---- 주목 3선 (사용자 지정 11/21): BTCUSD 3일봉 사선 지지 · ETHUSD 10일봉 365SMA · USDT.D(손 문장) ----
+def fday(fname):
+    return {dt.datetime.fromtimestamp(r[0], U).date(): tuple(r[1:5]) for r in kl(fname)}
+def nbar(d, n):  # TradingView nD: 해마다 1월 1일부터 다시 센다
+    out = {}
+    for day in sorted(d):
+        k = (day.year, (day.timetuple().tm_yday - 1) // n); o, h, l, c = d[day]
+        if k not in out: out[k] = [day, o, h, l, c, 1]
+        else: x = out[k]; x[2] = max(x[2], h); x[3] = min(x[3], l); x[4] = c; x[5] += 1
+    return [out[k] for k in sorted(out)]
+def bar_close(day, n):  # 이 봉이 닫히는 시각(KST)
+    y0 = dt.date(day.year, 1, 1); k = (day - y0).days // n
+    end = min(y0 + dt.timedelta(days=(k + 1) * n), dt.date(day.year + 1, 1, 1))
+    return end.isoformat() + ' 09:00'
+def tests(rows, gap):  # 선에 3% 안으로 다가간 저점을 무리별로 하나씩
+    out, cur = [], None
+    for i, r in enumerate(rows):
+        if r['dl'] < 3:
+            if cur and i - cur['i'] <= gap:
+                if r['dl'] < cur['dl']: cur.update(r, i=i)
+                else: cur['i'] = i
+            else:
+                cur = dict(r, i=i); out.append(cur)
+    return [dict(d=x['d'], low=x['low'], dl=x['dl'], dc=x['dc']) for x in out]
+def diag(fname, a, b):
+    bars = nbar(fday(fname), 3); ix = {x[0]: i for i, x in enumerate(bars)}
+    ia, ib = ix[a], ix[b]; ha, hb = bars[ia][2], bars[ib][2]
+    sl = (math.log(hb) - math.log(ha)) / (ib - ia); sn = (hb - ha) / (ib - ia)
+    return bars, ia, ib, ha, hb, (lambda i: math.exp(math.log(ha) + sl * (i - ia))), (lambda i: ha + sn * (i - ia))
+A_, B_ = dt.date(2024, 3, 13), dt.date(2024, 6, 5)
+bars, ia, ib, ha, hb, lg, ln = diag('f_cb_btc.json', A_, B_)
+rows = [dict(d=x[0].isoformat(), close=x[4], low=x[3], line=round(lg(i), 1), dl=round((x[3] / lg(i) - 1) * 100, 2), dc=round((x[4] / lg(i) - 1) * 100, 2)) for i, x in enumerate(bars)]
+cur = bars[-1]; alt = diag('f_bs_btc.json', A_, B_)
+f_btc = dict(sym='BTCUSD', tf='3일봉', kind='support', src='코인베이스 BTC-USD 일봉을 3일봉으로 묶음(1월 1일 기준)',
+             a=dict(d=A_.isoformat(), h=ha), b=dict(d=B_.isoformat(), h=hb), scale='로그',
+             line=round(lg(len(bars) - 1)), line_lin=round(ln(len(bars) - 1)), line_alt=dict(name='비트스탬프', v=round(alt[5](len(alt[0]) - 1))),
+             step=round((lg(len(bars)) / lg(len(bars) - 1) - 1) * 100, 3),
+             bar=cur[0].isoformat(), closes_at=bar_close(cur[0], 3), days=cur[5], price=cur[4], low=cur[3],
+             pct=rows[-1]['dc'], pct_low=rows[-1]['dl'], prev=dict(d=rows[-2]['d'], close=rows[-2]['close'], pct=rows[-2]['dc']),
+             tests=[x for x in tests(rows[ib + 1:-1], 4) if x['d'] >= '2024-12-01'],  # 진행 중 봉은 뺀다
+             series=[[r['d'], r['close'], r['low'], r['line']] for r in rows if r['d'] >= '2024-01-01'])
+def sma10(fname):
+    bars = nbar(fday(fname), 10); c = [x[4] for x in bars]
+    return bars, [sum(c[i - 364:i + 1]) / 365 if i >= 364 else None for i in range(len(c))]
+eb, es = sma10('f_cb_eth.json'); ab_, as_ = sma10('f_bf_eth.json')
+erows = [dict(d=x[0].isoformat(), close=x[4], low=x[3], line=round(es[i], 1), dl=round((x[3] / es[i] - 1) * 100, 2), dc=round((x[4] / es[i] - 1) * 100, 2)) for i, x in enumerate(eb) if es[i]]
+ec = eb[-1]
+f_eth = dict(sym='ETHUSD', tf='10일봉', kind='support', src='코인베이스 ETH-USD 일봉을 10일봉으로 묶음(1월 1일 기준), 종가 365개 평균',
+             line=round(es[-1], 1), line_alt=dict(name='비트파이넥스', v=round(as_[-1], 1)), step=round(es[-1] - es[-2], 1),
+             bar=ec[0].isoformat(), closes_at=bar_close(ec[0], 10), days=ec[5], price=ec[4], low=ec[3],
+             pct=erows[-1]['dc'], pct_low=erows[-1]['dl'], prev=dict(d=erows[-2]['d'], close=erows[-2]['close'], pct=erows[-2]['dc']),
+             below_closes=sum(1 for r in erows[:-1] if r['dc'] < 0), first=erows[0]['d'],
+             tests=tests(erows[:-1], 1), series=[[r['d'], r['close'], r['low'], r['line']] for r in erows])
+focus = dict(asof=built.strftime('%Y-%m-%d %H:%M'), btc=f_btc, eth=f_eth)
+
 meta = dict(built=built.strftime('%Y-%m-%d %H:%M'), first=days[0].isoformat(), last=days[-1].isoformat(), kmaj=KMAJ,
             issues=[dict(id=i['id'], label=i['label'], kind=i['kind'], fixed=bool(i.get('fixed')), assets=i['assets']) for i in ISSUES],
             views=VIEWS, weights=dict(m='최근 언급: 리서치 글·레벨·판정, 하루마다 약 28% 감소', q='사용자 질문 ×2.5(같은 감소), 주제 없는 요청은 그 요청으로 나온 리서치 사안에 절반', p='가격 영향 ×1.5: 관련 종목 3일 등락 8%=1, 논의 중인 사안에만', o='정정·이견(7일)·7일 안 일정 ×0.5'),
@@ -296,7 +351,7 @@ def sma_hist(fname, n, keep):
         if i + 1 >= n: out.append([dt.datetime.fromtimestamp(rows[i][0] / 1000, U).date().isoformat(), round(c[i], 2), round(sum(c[i + 1 - n:i + 1]) / n, 1)])
     return out[-keep:]
 thesis_hist = dict(w208=sma_hist('btc1w.json', 208, 330), m48=sma_hist('btc1M.json', 48, 80))
-dump('now.json', dict(curated=CUR, thesis=thesis, thesis_hist=thesis_hist))
+dump('now.json', dict(curated=CUR, thesis=thesis, thesis_hist=thesis_hist, focus=focus))
 
 # 4시간봉 (화면 시안용, 공개 API 원자료를 종가·고가·저가로 줄여서)
 PX4 = {'BTC': 'BTCUSDT', 'ETH': 'ETHUSDT', 'SOL': 'SOLUSDT', 'BNB': 'BNBUSDT', 'ZEC': 'ZECUSDT', 'ENA': 'ENAUSDT', 'UNI': 'UNIUSDT', 'MAGIC': 'MAGICUSDT',

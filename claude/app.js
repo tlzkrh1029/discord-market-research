@@ -61,8 +61,83 @@ function render() {
   $('#dlabel').textContent = md(s.d) + (latest ? ' 최신' : '');
   $('#past').classList.toggle('on', !latest);
   $('#prev').disabled = IDX === 0; $('#next').disabled = latest;
-  renderNow(s, latest); renderThesis(s, latest); renderCards(s, latest); renderWatch(s); renderChanges(s);
+  renderFocus(s, latest); renderNow(s, latest); renderThesis(s, latest); renderCards(s, latest); renderWatch(s); renderChanges(s);
   renderMap(s); renderKol(s, latest); renderTabs(); renderViews(); renderRules(); renderFoot();
+}
+
+/* ---- 주목 3선 (사용자 지정 11/21) ---- */
+const FOCUS_BORN = '2026-11-21';
+function fState(f) {  // 지지선: 진행 중 봉의 지금 값 기준
+  if (f.pct < 0) return ['no', '아래', '이번 봉이 지금 선 아래에 있습니다. 마감 전이라 판정은 아직입니다'];
+  if (f.pct_low < 0) return ['risk', '장중 이탈', '장중엔 선 아래로 내려갔고, 지금은 위입니다'];
+  if (f.pct < 3) return ['risk', '시험 중', '선 위 3% 안에서 버티고 있습니다'];
+  return ['ok', '위', '선 위에 있습니다'];
+}
+function fChart(f, opt) {
+  const W = 320, H = 132, P = { l: 4, r: 4, t: 10, b: 16 }, ser = f.series, n = ser.length;
+  const lgs = opt.log, vals = ser.flatMap(r => [r[1], r[3]]).concat(opt.extra || []);
+  const tf = v => lgs ? Math.log(v) : v;
+  let lo = Math.min(...vals.map(tf)), hi = Math.max(...vals.map(tf)); const pad = (hi - lo) * .06; lo -= pad; hi += pad;
+  const x = i => P.l + (W - P.l - P.r) * (n === 1 ? .5 : i / (n - 1)), y = v => P.t + (H - P.t - P.b) * (1 - (tf(v) - lo) / (hi - lo));
+  const path = k => ser.map((r, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(r[k]).toFixed(1)}`).join('');
+  const marks = (opt.marks || []).map(m => { const i = ser.findIndex(r => r[0] === m.d); return i < 0 ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(m.v).toFixed(1)}" r="4" class="fk"><title>${esc(m.t)}</title></circle>`; }).join('');
+  const yrs = []; ser.forEach((r, i) => { if (i && r[0].slice(0, 4) !== ser[i - 1][0].slice(0, 4)) yrs.push(`<line x1="${x(i)}" x2="${x(i)}" y1="${P.t}" y2="${H - P.b}" class="fy"/><text x="${x(i) + 3}" y="${H - 4}" class="ft">${r[0].slice(0, 4)}</text>`); });
+  const last = ser[n - 1];
+  return `<svg class="fchart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(opt.label)}">${yrs.join('')}
+    <path d="${path(3)}" class="fl"/><path d="${path(1)}" class="fp"/>${marks}
+    <circle cx="${x(n - 1).toFixed(1)}" cy="${y(last[1]).toFixed(1)}" r="4" class="fn"/>
+    <line class="fx" x1="0" x2="0" y1="${P.t}" y2="${H - P.b}" style="display:none"/>
+    <rect class="fhit" x="0" y="0" width="${W}" height="${H}" data-n="${n}"/></svg>`;
+}
+function fHover(box, f, unit) {
+  const svg = box.querySelector('svg'); if (!svg) return; const hit = svg.querySelector('.fhit'), cx = svg.querySelector('.fx'), tip = $('#tip'), ser = f.series;
+  const show = e => {
+    const r = svg.getBoundingClientRect(), px = ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width;
+    const i = Math.max(0, Math.min(ser.length - 1, Math.round(px * (ser.length - 1)))), s = ser[i], X = 4 + 312 * (ser.length === 1 ? .5 : i / (ser.length - 1));
+    cx.setAttribute('x1', X); cx.setAttribute('x2', X); cx.style.display = '';
+    const d = (s[1] / s[3] - 1) * 100;
+    tip.innerHTML = `${esc(s[0].slice(2).replace(/-/g, '/'))} 봉 시작<br>종가 ${fmtF(s[1], unit)} · 저가 ${fmtF(s[2], unit)}<br>선 ${fmtF(s[3], unit)} · 종가 대비 <b class="${d < 0 ? 'neg' : 'pos'}">${pct(d)}</b>`;
+    tip.style.display = 'block'; tip.style.left = Math.max(8, Math.min(innerWidth - 270, r.left + px * r.width - 120)) + 'px'; tip.style.top = (r.bottom + 6) + 'px';
+  };
+  const hide = () => { tip.style.display = 'none'; cx.style.display = 'none'; };
+  hit.addEventListener('mousemove', show); hit.addEventListener('touchstart', show, { passive: true }); hit.addEventListener('mouseleave', hide);
+}
+const fmtF = (v, u) => u === 'btc' ? n0(v) : v.toLocaleString('en-US', { maximumFractionDigits: 1 });
+function fTable(f, unit) {
+  return `<details class="drawer"><summary>숫자로 보기 · 최근 6봉</summary><div class="scrollx"><table class="tbl"><thead><tr><th>봉 시작</th><th>종가</th><th>선</th><th>대비</th></tr></thead><tbody>${f.series.slice(-6).map(r => { const d = (r[1] / r[3] - 1) * 100; return `<tr><td>${md(r[0])}</td><td>${fmtF(r[1], unit)}</td><td>${fmtF(r[3], unit)}</td><td class="${d < 0 ? 'neg' : 'pos'}">${pct(d)}</td></tr>`; }).join('')}</tbody></table></div></details>`;
+}
+function fCard(no, f, C, unit, opt) {
+  const [k, lab, why] = fState(f), tst = f.tests.map(x => `${md(x.d)} 저가 ${pct(x.dl)} · 종가 ${pct(x.dc)}`).join(' / ');
+  return `<article class="fcard"><div class="fh"><span class="fno">${no}</span><h3>${esc(C.name)}</h3><span class="st ${k}">${ICON[k]} ${esc(lab)}</span></div>
+    <p class="fdef">${esc(C.def)}</p>
+    <div class="fnum"><div><span>선</span><b class="num">${fmtF(f.line, unit)}</b></div><div><span>지금</span><b class="num">${fmtF(f.price, unit)}</b></div><div><span>대비</span><b class="num ${f.pct < 0 ? 'neg' : 'pos'}">${pct(f.pct)}</b></div></div>
+    <p class="fwhy">${esc(why)}. 이번 ${esc(f.tf)}(${md(f.bar)} 시작, ${f.days}일째)은 <b>${esc(md(f.closes_at.slice(0, 10)))} 09:00 KST</b>에 닫힙니다. 장중 저가 ${fmtF(f.low, unit)}(${pct(f.pct_low)}).</p>
+    ${fChart(f, opt)}
+    <div class="fleg"><span class="lp">종가</span><span class="ll">선</span>${opt.marks ? '<span class="lk">기준 고가</span>' : ''}</div>
+    <ul class="fmeta"><li>직전 봉(${md(f.prev.d)}) 종가 ${fmtF(f.prev.close, unit)} · 선 대비 ${pct(f.prev.pct)}</li>
+      <li>앞선 시험: ${esc(tst || '없음')}</li>${(C.notes || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    ${fTable(f, unit)}</article>`;
+}
+function renderFocus(s, latest) {
+  const el = $('#focus'), F = NOW.focus, C = NOW.curated.focus;
+  if (!F || !C) { el.innerHTML = ''; return; }
+  if (s.d < FOCUS_BORN) { el.innerHTML = `<p class="empty">이 칸은 ${md(FOCUS_BORN)}에 생겼습니다. 최신 판에서 보세요.</p>`; return; }
+  if (!latest) { el.innerHTML = `<p class="empty">주목 3선은 최신 판에만 있습니다(봉이 아직 진행 중인 값이라).</p>`; return; }
+  const b = F.btc, e = F.eth, u = C.usdt;
+  const yy = d => d.slice(2).replace(/-/g, '/');
+  const bNotes = [`${yy(b.a.d)} 봉 고가 ${n0(b.a.h)} → ${yy(b.b.d)} 봉 고가 ${n0(b.b.h)}, ${b.scale} 눈금으로 이은 선. 한 봉마다 ${b.step}%씩 내려갑니다`,
+    `선형 눈금이면 지금 약 ${n0(b.line_lin)} · ${b.line_alt.name} 기준 ${n0(b.line_alt.v)}`].concat(C.btc.notes || []);
+  const eNotes = [`선은 한 봉마다 약 +${e.step}씩 올라갑니다 · ${e.line_alt.name} 기준 ${e.line_alt.v.toLocaleString('en-US')}`,
+    `${md(e.first)} 이후 닫힌 10일봉 ${e.series.length - 1}개 중 선 아래 종가 ${e.below_closes}개`].concat(C.eth.notes || []);
+  el.innerHTML = `<p class="fintro">${esc(C.why)}</p><div class="focus3">
+    ${fCard('①', b, Object.assign({}, C.btc, { notes: bNotes }), 'btc', { log: true, label: `BTCUSD 3일봉 종가와 사선(로그). 지금 ${n0(b.price)}, 선 ${n0(b.line)}`, marks: [{ d: b.a.d, v: b.a.h, t: '2024-03-13 봉 고가' }, { d: b.b.d, v: b.b.h, t: '2024-06-05 봉 고가' }], extra: [b.a.h, b.b.h] })}
+    ${fCard('②', e, Object.assign({}, C.eth, { notes: eNotes }), 'eth', { log: false, label: `ETHUSD 10일봉 종가와 365SMA. 지금 ${e.price}, 선 ${e.line}` })}
+    <article class="fcard"><div class="fh"><span class="fno">③</span><h3>${esc(u.name)}</h3><span class="st unk">${ICON.unk} ${esc(u.status)}</span></div>
+      <p class="fdef">${esc(u.def)}</p>
+      <ul class="fmeta">${u.obs.map(x => `<li>${g(x.g)} ${esc(x.t)}</li>`).join('')}</ul>
+      <p class="fwhy">${esc(u.note)}</p></article>
+  </div><div class="src" style="margin-top:8px">${esc(b.src)} · ${esc(e.src)} · ${esc(F.asof)} KST 계산 · ${srcs(C.src)}</div>`;
+  fHover(el.querySelectorAll('.fcard')[0], b, 'btc'); fHover(el.querySelectorAll('.fcard')[1], e, 'eth');
 }
 
 /* ---- 고정 자리 1: 지금 ---- */
