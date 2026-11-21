@@ -1288,6 +1288,159 @@
     "ai_semis",
     "sentiment"
    ]
+  },
+  {
+   "src": "1573510187778703440",
+   "ts": "2026-11-21 10:27",
+   "author": "gpt",
+   "kind": "followup",
+   "title": "60k 아래, ETF 유출 확정, 쿡은 매파",
+   "gist": "CoinDesk 10:24: BTC $59,071(-4.0%)·ETH $1,624(-6.3%)·SOL $68.93. Farside 11/19 BTC ETF -$5.823억(IBIT -$5.411억), 11/20 -$5,210만(IBIT·FBTC 빠진 부분합). 11/20 미국장 나스닥 -5.28%·S&P -3.70%·ANT -8.5%(CNBC). 쿡 '인상 미루면 뒤처지고 나중에 더 크게 올려야 할 수도'. 트럼프 해외 데이터센터 제재 발언(CNBC 보도, 시행 아님). KOL CryptoMichNL 투매 구간·kidzevn 일생의 기회·MizerXBT 적중 주장. 다음 11/25 PCE. OI·롱 비중은 재조회 안 함",
+   "assets": [
+    "BTC",
+    "ETH",
+    "ANT"
+   ],
+   "narratives": [
+    "leverage",
+    "btc_floor",
+    "etf",
+    "ai_semis",
+    "rates",
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573513756464386081",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "kind": "followup",
+   "title": "크립토 팔로업: 57,778 올해 최저, 선이 모두 뚫린 09시",
+   "gist": "10:40 BTC 58,986(00:24 대비 -1.9%)·ETH 1,622(-3.0%)·SOL 68.84. 저점 BTC 04:25 57,778(7/1 57,800 아래 올해 최저, 2024-09 이후 최저, 선물 57,700)·ETH 04:15 1,581(7/1 이후 최저)·SOL 67.15. 사상 최고가 대비 -54%, 주봉 BTC -9.8%·ETH -11.7%. 09시 일봉: BTC 58,951(4년선 66,013 대비 -10.7%, 허용 이탈폭 사흘 연속)·ETH 1,623(9년선 -7.0%, 허용 이탈폭 -5.4% 첫 종가 이탈). THESIS 7종 처음으로 모두 365선 아래(GRASS -2.0·RUNE -3.7·STX -3.7·UNI -5.4·PUMP -7.9·PEPE -9.7·USELESS -17.3%). ENA -31.3·SPX -33.1 / ZEC +27.1·HYPE +15.3·XMR +8.4 / MAGIC -0.0",
+   "assets": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "UNI",
+    "PEPE",
+    "STX",
+    "PUMP",
+    "RUNE",
+    "GRASS",
+    "USELESS",
+    "ENA",
+    "SPX",
+    "ZEC",
+    "HYPE",
+    "XMR",
+    "MAGIC"
+   ],
+   "narratives": [
+    "leverage",
+    "btc_floor",
+    "etf",
+    "ai_semis",
+    "rates",
+    "sentiment",
+    "memes",
+    "ena",
+    "eth"
+   ]
+  },
+  {
+   "src": "1573513791537414166",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "kind": "followup",
+   "title": "청산 $18.7억(롱 91%)인데 코인 OI 그대로, 바닥 신호 BTC 0/4",
+   "gist": "CoinGlass 10:35 24h $18.7억 롱 91%(BTC $7.4억 92%·ETH $4.3억 88%), 287,791명, 최대 단건 바이낸스 BTCUSDT $5,171만. Coinalyze 일 롱 청산 BTC $4.17억·ETH $2.58억 각 301일 중 3번째. BTC 코인 OI 바이낸스 97.0K→96.4K·바이빗 70.5K→69.4K·집계 346.8K→345.5K(11/20 하루 343.2→343.0K). 롱 계정 75.3→77.8%, 상위 트레이더 롱 65.1→62.3%. 펀딩 바이낸스 BTC -0.0074%·ETH -0.0205%, 집계 일 BTC +0.0038%·ETH -0.0050%. 바닥 신호 BTC 0/4·ETH 1/4(펀딩). HL Aguila 04:26~28 숏 2,000개 58,118에 정리 +$710만, HL OI $59.5억(-8%). CoinGlass 지도 위 59,586 $74M·아래 57,820 $67M, 숏 78%. DVOL 54.1→50.7, 공포탐욕 12, USDT 0.9977",
+   "assets": [
+    "BTC",
+    "ETH",
+    "HYPE"
+   ],
+   "narratives": [
+    "leverage",
+    "hyperliquid",
+    "btc_floor",
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1573513837796397263",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "kind": "followup",
+   "title": "쿡 매파에도 금리 하락, 방아쇠는 엔비디아",
+   "gist": "쿡(연준 원문): 10월 반대표·25bp 추가 원함, '9월 한 번으로 부족', '기다리면 뒤처지고 나중에 더 크게', 10월 PCE 추정 3.8%·근원 3.2%, 12월 직접 언급 없음. 10년물 4.912%(-14bp), 12월 인상 확률 97.5→91.8%(보도). 미국장(AP·CNBC) 나스닥 -5.28%(주 -10%)·S&P -3.70%(주 -8.6%)·다우 -1.93%(주 -8%, 2020-03 이후 최악). 로이터 SEC 엔비디아 회계 검토 → NVDA -14.0%, 구글 TPU 주문 -20% 보고서 → AVGO -12%, AMD -13.3%·MSTR -9.7%·VIX 35.89. ANT $88.91(-8.5%), 저점 $83.05(공모가 +5센트). ETF 11/20(Farside 10:40) BTC -$1.245억(IBIT·BTCO·HODL 미기입)·ETH -$1,320만, 주 월~목 -$11.2억. 나스닥 동조 5분 상관 BTC 0.71·ETH 0.77, 동조 풀림 없음. 해커 2,310 BTC 코인조인(Elliptic), Sky USDS $20억 PSM 교환, 글램스테르담 메인넷 빨라야 2027-01 중순(ACDE #249)",
+   "assets": [
+    "BTC",
+    "ETH",
+    "NVDA",
+    "ANT"
+   ],
+   "narratives": [
+    "rates",
+    "ai_semis",
+    "etf",
+    "eth",
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1573513883287822468",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "kind": "followup",
+   "title": "KOL·판단: 투매는 있었지만 정리는 아님",
+   "gist": "KOL: 바닥(IncomeSharks VIX·만기일·MylesGinvest 국지 바닥·CryptoMichNL 첫 대량 봉·kidzevn·AlgodTrading) 대 아직(rektcapital 4년 주기·Alphractal 큰 주문 매도·joao_wedson·market_sleuth·CryptoHayes 더 비싸게 사라·DonAlt). 38개 중 29개. 판단: 털린 롱 자리를 새 롱이 채움, 방아쇠는 AI 주식, THESIS '선 근처 바닥' 깨짐 → 알트 정리 기준 결정 필요(사용자). 아래 57,778·57,820·58k 풋·53.9k. GPT 11/20 ETF -$5,210만은 FBTC 기입 전 값",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "sentiment",
+    "leverage",
+    "btc_floor"
+   ]
+  },
+  {
+   "src": "1573513917563404339",
+   "ts": "2026-11-21 10:42",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 금리는 내렸는데, 엔비디아가 무너진 밤",
+   "gist": "매파 연설과 반대로 간 금리, 엔비디아 -14%와 나스닥 주간 -10%, 04:25 57,778과 저점 1분 뒤 Aguila의 숏 익절",
+   "assets": [
+    "BTC",
+    "NVDA",
+    "ANT"
+   ],
+   "narratives": [
+    "leverage",
+    "btc_floor",
+    "etf",
+    "ai_semis",
+    "rates",
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573513946147848213",
+   "ts": "2026-11-21 10:42",
+   "author": "claude",
+   "kind": "research",
+   "title": "서사: 털렸는데 줄지 않은 베팅, 선이 모두 뚫린 아침",
+   "gist": "청산 뒤에도 그대로인 OI와 늘어난 롱 계정, 09시에 4년선·9년선·365선이 모두 종가로 뚫림, '바닥은 이렇게 온다' 대 '더 비싸게 사라'",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "leverage",
+    "btc_floor",
+    "sentiment"
+   ]
   }
  ],
  "levels": [
@@ -1488,6 +1641,51 @@
    "price": 62733,
    "label": "CoinGlass 바이낸스 숏 청산 덩어리 $52.3M(00:21, 62.0~63.2k 가운데 최대)",
    "kind": "liquidation"
+  },
+  {
+   "src": "1573513756464386081",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 57778,
+   "label": "11/21 04:25 저점(현물, 7/1 57,800 아래 올해 최저, 2024-09 이후 최저, 선물 57,700)",
+   "kind": "low"
+  },
+  {
+   "src": "1573513756464386081",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "asset": "ETH",
+   "price": 1581,
+   "label": "11/21 04:15 저점(현물, 7/1 이후 최저, 10년선 약 1,590 찌름)",
+   "kind": "low"
+  },
+  {
+   "src": "1573513791537414166",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 59586,
+   "label": "CoinGlass 바이낸스 숏 청산 덩어리 $74.0M(10:35, 지도에서 가장 큼)",
+   "kind": "liquidation"
+  },
+  {
+   "src": "1573513791537414166",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 57820,
+   "label": "CoinGlass 바이낸스 롱 청산 덩어리 $66.8M(10:35)",
+   "kind": "liquidation"
+  },
+  {
+   "src": "1573513791537414166",
+   "ts": "2026-11-21 10:41",
+   "author": "claude",
+   "asset": "BTC",
+   "price": 58118,
+   "label": "HL AguilaTrades 숏 2,000개 정리 평균가(04:26~28, +$710만)",
+   "kind": "other"
   }
  ],
  "corrections": [
@@ -1691,7 +1889,7 @@
    "time_kst": "",
    "event": "ANT 공모 결제일(공모 $813억 + 사모 $260억)",
    "expectation": "현금 $1,073억 이동. 오늘 아침 아시아 주식·금 동반 하락과 시점이 겹침",
-   "outcome": null
+   "outcome": "결제 뒤 2일차 종가 $88.91(-8.5%), 장중 저점 $83.05(공모가 $83 +5센트). 결제 자금이 위험자산으로 돌아온 흔적 없음"
   },
   {
    "src": "1573164459931996171",
@@ -1723,7 +1921,7 @@
    "time_kst": "02:15",
    "event": "쿡 연준 이사 연설 \"The U.S. Economy in Global Context\"(칠레 중앙은행 콘퍼런스)",
    "expectation": "10월 FOMC 25bp 인상 소수의견(보도). 연준 일정표 확인",
-   "outcome": null
+   "outcome": "매파(연준 원문): 10월 결정에 반대·25bp 추가 원함, '9월 한 번 인상으로는 부족', '기다리면 뒤처지고 나중에 더 크게 올려야 할 수도', 10월 PCE 추정 3.8%·근원 3.2%, 금융여건 너무 느슨. 12월 직접 언급 없음. 그런데 10년물 4.912%(-14bp)·12월 인상 확률 97.5→91.8%(보도)"
   },
   {
    "src": "1573199099220594771",
@@ -1819,7 +2017,7 @@
    "time_kst": "06:00",
    "event": "美 주식·지수·ETF 월물 옵션 만기, 11/20 ETF 흐름 집계",
    "expectation": "IBIT 11/19 -$5.41억(최대) 뒤 첫 집계",
-   "outcome": null
+   "outcome": "나스닥 -5.28%·S&P -3.70%·다우 -1.93%(AP·CNBC), NVDA -14.0%(로이터 SEC 회계 검토 보도), VIX 35.89. 만기 규모·영향 보도는 못 찾음(IncomeSharks 'SPY 풋벽 $700까지 털기' 주장, 바이낸스 SPY 무기한 05시 692). ETF 11/20(Farside 10:40) BTC -$1.245억(IBIT·BTCO·HODL 미기입)·ETH -$1,320만(ETHA 미기입)"
   },
   {
    "src": "1573306112583671871",
@@ -1836,6 +2034,14 @@
    "event": "한은 금통위(올해 마지막, 점도표 첫 공개)",
    "expectation": "신한투자 0.25%p 인상 전망(보도). 발표 시각 미확인",
    "outcome": null
+  },
+  {
+   "src": "1573513756464386081",
+   "event_date": "2026-11-21",
+   "time_kst": "09:00",
+   "event": "BTC·ETH·알트 일봉 마감(4년선·9년선·365선 판정)",
+   "expectation": "00:24 장중: BTC 4년선 -9.0%, ETH 9년선 아래, 알트 365선 6종 아래",
+   "outcome": "BTC 58,951(4년선 -10.7%)·ETH 1,623(9년선 -7.0%, 허용 이탈폭 -5.4% 첫 종가 이탈)·THESIS 알트 7종 처음으로 모두 365선 아래"
   }
  ],
  "disagreements": [
