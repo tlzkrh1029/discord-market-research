@@ -39,13 +39,15 @@ ISSUES = [
        kw=r'\bMAGIC\b|TIP-6[34]|Treasure\b|트레저(?!리)', assets=['MAGIC'], pw=1.0),
   dict(id='gmx', label='GMX 토큰 캡처·공급 잠금', kind='자산', tags=['gmx', 'gmtrade'],
        kw=r'\bGMX\b|GMTrade|GLV|esGMX', assets=['GMX'], pw=1.0),
+  dict(id='picks4', label='v12.1 알트 4종 GMX·UNI·GRASS·JUP', kind='자산', tags=['picks4', 'uniswap', 'jupiter', 'grass'],
+       kw=r'\bJUP\b|Jupiter|주피터|Litterbox|\bGRASS\b|그래스|Uniswap|유니스왑|v12\.1', assets=['UNI', 'JUP', 'GRASS'], pw=1.0),
   dict(id='alt_supply', label='알트 수급·언락·바이백', kind='섹터', tags=['altseason', 'supply_overhang', 'buyback_tokenomics', 'btcfi'],
        kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b|NIGHT', assets=['UNI', 'STX'], pw=0.6),
 ]
 
 # 종목 → 사안 (레벨·판정처럼 종목이 붙은 항목을 이을 때)
 ASSET_ISSUE = {'ZEC': 'privacy', 'XMR': 'privacy', 'HYPE': 'hyperliquid', 'PEPE': 'memes', 'SPX': 'memes',
-               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
+               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'UNI': 'picks4', 'JUP': 'picks4', 'GRASS': 'picks4', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
 
 # 화면(뷰). 사안 원장이 무게를 정하면 이 화면들의 순서가 따라 바뀐다.
 VIEWS = [

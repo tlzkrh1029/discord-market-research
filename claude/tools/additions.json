@@ -2564,6 +2564,202 @@
     "gmx",
     "alt_supply"
    ]
+  },
+  {
+   "src": "1573970220907761704",
+   "ts": "2026-11-22 16:55",
+   "author": "gpt",
+   "kind": "research",
+   "title": "네 종목 분류: UNI·JUP 환원 검증형, GMX 재평가형, GRASS 성장형 — 시총 차트 0.4 이하는 넷 다 없음",
+   "gist": "스크리너 16:00판: 시총 차트 마지막 0.3 GMX 6/5·UNI 2022-06·GRASS 2/24·JUP 없음, 지금 넷 다 0.4 이하 없음, GMX 가격 8일봉 0.37·9일봉 0.34. 여러 봉 주기 신호는 독립 확증 아님, 0.3은 사업가치 대비 싸다는 증거 아님. GMX: 27% 매입·적립, $90 배분 조건, 소각 아님, 언스테이킹 180일(최대 365일까지 변경 가능), 80% 규칙 — 현물 보유와 스테이킹 분리. GT 수익을 GMX 수익으로 합산 금지",
+   "assets": [
+    "GMX",
+    "UNI",
+    "GRASS",
+    "JUP"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573970222573035661",
+   "ts": "2026-11-22 16:55",
+   "author": "gpt",
+   "kind": "research",
+   "title": "UNI는 TokenJar·Firepit 소각 구조로 토큰 연결 있음, GRASS는 매출 실체 있지만 토큰 환원 없음",
+   "gist": "UNI: Firepit에서 UNI를 태워야 인출, 11/10 토큰화 증권 거래 구상, TJAR 확산이 전부 UNI 소각은 아님, 최신 소각량 대조 못 함. GRASS: 2025 매출 $1,700만·2026 상반기 약 $1,700만·2026 훈련 데이터 가이던스 $6,500만~7,500만(전망), 매출 대부분 재투자, FalconX도 환원 정책 부재 지적, Stage 2 USDC, TV 시총이 CoinGecko의 약 1/5.6 경고",
+   "assets": [
+    "UNI",
+    "GRASS"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573970223885844634",
+   "ts": "2026-11-22 16:55",
+   "author": "gpt",
+   "kind": "research",
+   "title": "JUP Net-Zero 75.3% 가결·Litterbox 11월 1,504만 개 — 공급 억제는 보완 근거, 적립≠소각",
+   "gist": "2/23 발표: Jupuary 무기한 연기(7억 JUP 커뮤니티 콜드로 반환), 팀 배출 중지, Mercurial 매도 상쇄. Litterbox 11/22 보고: 전일 64만·11월 1,504만·누적 1억 9,363만. KOL 7개 계정 표본에서 광범위한 매수 합의 없음. 결론: UNI 소각 연결 검증, JUP 집행 검증, GMX 보상·운영·유동성, GRASS 시총 데이터·환원. 네 개 사도 위험 분산 아님, v12.1 결과표 요청",
+   "assets": [
+    "JUP",
+    "UNI",
+    "GMX",
+    "GRASS"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573980136162730067",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "v12.1 네 종목 종합: 1년 상대 강세·365선 위아래, 환원은 UNI 소각이 가장 확실, GRASS는 장치 없음",
+   "gist": "365선(17:34): GMX +1.9·JUP +2.4·GRASS +0.7·UNI -1.3%(11/21 종가는 넷 다 위). WMA 최저 가격/시총(16:00판): GMX 0.34(9일)/0.47(1주), JUP 0.58/0.73, GRASS 0.80/0.80, UNI 0.67/0.67. GMX 9일봉 0.3선 약 $6.42. 90일 BTC 베타 UNI 1.81·GRASS 1.74·JUP 1.44·GMX 0.93. 6/6 이후 GMX +34·UNI +92·JUP +43·GRASS +13% vs BTC -1%. 환원: UNI 0xdead 1억 1,443만(1억 소급+수수료 1,443만), 30일 $820만 → 연 시총 3.6%(46일 실제 수량 연 유통 2.3%). JUP Litterbox 원장 10/1 1.7333억 → 11/1 1.7859억 → 11/22 1.9369억(10월 526만, 11월 1,510만 = 연 유통 7.5%, 10월 속도 1.9%), 소각 없음. GMX 11/17 뒤 유입 0. GRASS 바이백 2025-11 $35만 1회뿐, 매출은 재단 자회사로",
+   "assets": [
+    "GMX",
+    "UNI",
+    "GRASS",
+    "JUP"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573980167976652852",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "네 종목 공급·선물: JUP 숏 밀집(펀딩 연 -28%), GRASS OI +54%·다음 언락 11/27~28, UNI 금고 지갑 매도",
+   "gist": "UNI: 예정 언락 없음, 금고 2억 6,225만(26%), 성장 예산 연 2,000만(소각 속도보다 큼, 청구 기록 미확인), 금고에서 2,032만 받은 0x5069…가 11/5~7 100만 매도(보도), 지금 UNI 1,331만·USDC 902만(원장). JUP: 날짜 언락 없음, 유통 밖 35억 = 팀 콜드 16.8억·커뮤니티 콜드 17.0억·Litterbox 1.9억(원장), Net-Zero 2026 한정, ASR 분기 5천만(연 유통 6%). GRASS: 투자자 10/28 해제 완료, 다음 11/27~28(271만~1,219만), 12/28, 12개월 유통 17~20%, 민트 권한 살아 있음. 선물(바이낸스 17:00): JUP OI +31%(11/08~)·펀딩 -0.013%/4h·롱 42%, GRASS OI +54%(10/31~) 가격 -36%·테이커 매도 12/14일, UNI OI -23%(11/03~)·롱 66→54%, GMX OI $280만. 업비트 UNI·JUP만, 김프 -0.2~-0.3%",
+   "assets": [
+    "UNI",
+    "JUP",
+    "GRASS",
+    "GMX"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573980201019515055",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "네 종목 9월~ 호재·악재: UNI 로빈후드 체인 보조금 종료, JUP Lend 출금 경색·점유율 최저, GRASS 하반기 매출 공백",
+   "gist": "UNI 호재: 수수료 스위치 확장(이더 2025-12·L2 3월·v4·로빈후드 7월·Arc 10월), CME 선물 9/22, SEC 혁신 면제 9/18, REX-Osprey UNI ETF 효력 12/18(미국), v4 수수료 확대 Temp Check 2건 11/17. 악재: 로빈후드 체인 가스 보조금 9/30 종료 → 그 체인 DEX 거래 -53%, 30일 수수료 1년 전 대비 -30%, X Layer 소각분 $30만 묶임 11/7, 고래 매도, Unichain TVL $9억→$2,040만. JUP 호재: Net-Zero, Lend TVL 한때 1위(10/9), Aggregate Everything 11/10, Breakpoint Bullish 렌딩·Ledger 11/16, 11월 바이백 확대. 악재: 10/30 Lend USDC 출금 경색, 애그리게이터 10월 59%(사상 최저, DFlow 24%), 수수료 -46%, YOLO 1000배, 북한 추정 자금 경유 보도, 1월 CTO 바이백 중단 제안. GRASS 호재: 코인베이스 8/27, Multicoin 9/29, Contents API 10/8, 실사 상반기 계약 $1,453만·현금 $1,135만. 악재: 10/28 언락 뒤 -22%, 가이던스 위해 하반기 $4,800만~5,800만 필요·Q3 공시 없음, CEO 네트워크 포화 발언",
+   "assets": [
+    "UNI",
+    "JUP",
+    "GRASS"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573980243192971286",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "네 종목 KOL(10/22~): 추적 KOL UNI 11·JUP 2·GRASS 0건, UNI 고래 매도·인출 엇갈림, GRASS 피싱 의심 글",
+   "gist": "추적 KOL 21/26명 0건. CryptoMichNL 11/14 'UNI 많이 샀다', Nebraskangooner 11/18 99SMMA 이탈. Hayes 10/24 UNI 익절, lookonchain 바이낸스 해커 UNI 매도·금고 지갑 100만 매도·고래 311만 매도, ai_9684xtpa 코인베이스 310만·Paxos 87.8만 인출, punkquidity Labs 2천만 > 소각 1,410만. litterboxtrust 일일 보고, chartexpt 콜드 지갑 미이동. GRASS: FalconX 리포트, 10/28 언락 예고, 11/21 주거용 프록시, LCR 하루 1,000만 건(창업자), 11/19~20 비공식 배분 홍보 글 피싱 의심. 내러티브 UNI '소각에도 바닥', JUP '바이백은 도는데 점유율 감소', GRASS '매출은 진짜, 토큰 흡수 장치 고장'",
+   "assets": [
+    "UNI",
+    "JUP",
+    "GRASS",
+    "GMX"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang",
+    "sentiment"
+   ]
+  },
+  {
+   "src": "1573980299115888681",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "판단: 환원 확실성 UNI>JUP>GMX>GRASS, 공급 위험 GMX<UNI<JUP<GRASS — GRASS는 시총 차트가 희석을 못 거름",
+   "gist": "GPT 대조: 시총 0.4 이하 없음 맞음, Net-Zero 맞음, Litterbox 11월 1,504만 = 원장 1,510만, GRASS 매출 맞음, TV 시총 1/5.6 → 지금 약 1/3(TV 유통량 TGE 2.44억 고정, 실제 7.22억), UNI 소각량 원장으로 채움. 동의: GMX 현물·스테이킹 분리, 네 종목 위험은 하나. 판단: GMX 위치·베타·공급 가장 방어적(거래 $40만), UNI 소각 진짜지만 로빈후드 체인 꺾임·365선 아래, JUP 숏 밀집+바이백 확대 → BTC ① 지키면 반등 가장 셀 수 있음(해석), 2027 공급 정책 최대 변수, GRASS 환원 없음·언락 11/27~28·0.3까지 -62%. 넷 다 BTC ①선(11/24 09:00) 우선",
+   "assets": [
+    "GMX",
+    "UNI",
+    "GRASS",
+    "JUP"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang",
+    "btc_floor"
+   ]
+  },
+  {
+   "src": "1573980334322614404",
+   "ts": "2026-11-22 17:35",
+   "author": "claude",
+   "kind": "narrative",
+   "title": "서사판: 같은 바닥, 다른 지갑 (1/2) — UNI 소각로, JUP 모래상자",
+   "gist": "11/21 같은 자리에서 돈 네 종목, 받치는 지갑은 다름. UNI 소각 주소 1억 1,443만, 로빈후드 체인 보조금 종료로 거래 반토막, 금고 지갑 UNI·USDC 보유, 12/18 ETF. JUP Litterbox 10월 526만→11월 1,510만, 숏 펀딩 지불, 콜드 지갑 34억·Net-Zero 12/31까지",
+   "assets": [
+    "UNI",
+    "JUP"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1573980360805716049",
+   "ts": "2026-11-22 17:36",
+   "author": "claude",
+   "kind": "narrative",
+   "title": "서사판: 같은 바닥, 다른 지갑 (2/2) — GRASS 자회사로 가는 돈, GMX 잠긴 문 앞의 0.3",
+   "gist": "GRASS 상반기 $1,700만 주장·실사 현금 $1,135만, 재단 자회사로, TV 유통량 TGE 고정, OI +54%, 11/27~28 언락. GMX 사서 쌓기·180일 잠금·67.7만 미이동, 9일봉 0.3 $6.4 vs 저가 6.68, 거래 얇음. 네 지갑 모두 BTC ①선에 묶임, 깨지면 UNI·GRASS·JUP부터(해석)",
+   "assets": [
+    "GRASS",
+    "GMX",
+    "BTC"
+   ],
+   "narratives": [
+    "picks4",
+    "gmx",
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
   }
  ],
  "levels": [
@@ -2989,6 +3185,42 @@
    "price": 9.33,
    "label": "11/04 고가(바이낸스 현물), 10/28 이후 최고 — 1년 고점 9.35(2025-12-09)",
    "kind": "high"
+  },
+  {
+   "src": "1573980136162730067",
+   "ts": "2026-11-22 17:34",
+   "author": "claude",
+   "asset": "GMX",
+   "price": 6.42,
+   "label": "가격 9일봉 WMA200 0.3선(스크리너 16:00판 배수 0.341, 선 고정 가정) — 11/21 저가 6.68과 4%",
+   "kind": "ma"
+  },
+  {
+   "src": "1573980136162730067",
+   "ts": "2026-11-22 17:34",
+   "author": "claude",
+   "asset": "UNI",
+   "price": 4.72,
+   "label": "일봉 365SMA(바이낸스 현물, 17:34 -1.3% 아래) — v12.1 무효 기준",
+   "kind": "ma"
+  },
+  {
+   "src": "1573980136162730067",
+   "ts": "2026-11-22 17:34",
+   "author": "claude",
+   "asset": "JUP",
+   "price": 0.2115,
+   "label": "일봉 365SMA(바이낸스 현물, 17:34 +2.4%) — 9/17 이후 종가 이탈 없음",
+   "kind": "ma"
+  },
+  {
+   "src": "1573980136162730067",
+   "ts": "2026-11-22 17:34",
+   "author": "claude",
+   "asset": "GRASS",
+   "price": 0.378,
+   "label": "일봉 365SMA(바이빗 현물, 17:34 +0.7%)",
+   "kind": "ma"
   }
  ],
  "corrections": [
@@ -3117,6 +3349,15 @@
    "wrong": "10/28 22:07 GMX 답 3/3: '2024 말 이후 바이백 누적 200만+ GMX ≈ 유통량 19%, 트레저리 보유(소각 아님)'",
    "right": "200만 개(2,031,625, 2026-01-08 기준)는 2024-10-30~2026-01 누적 바이백이고 그때는 스테이커에게 분배됨. 3/4 보류형 이후 트레저리(바이백 지갑 0x6e65…)에 쌓인 것은 55.2만 개(유통 5.1%, 11/22 원장)",
    "cause": "누적 매수량과 현재 보유량을 구분하지 않음"
+  },
+  {
+   "src": "1573980299115888681",
+   "ts": "2026-11-22 17:35",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "11/22 11:28 답: 'GRASS 시총 차트 2025-12~2026-02 0.3 신호 8주' — 희석을 거른 시총 기준 근거로 셈",
+   "right": "스크리너의 GRASS 시총은 TradingView 유통량 2.44억 개(TGE 2024-10-28 값)에 고정돼 시총 차트 배수가 가격 차트와 같다(16:00판 0.80/0.80). 실제 유통량은 7.22억(CoinGecko)으로 3배 — GRASS의 시총 0.3 이력은 희석을 반영하지 않음",
+   "cause": "시총 차트의 유통량 출처를 확인하지 않음(GPT가 1/5.6 경고를 먼저 짚음)"
   }
  ],
  "catalysts": [
@@ -3478,6 +3719,46 @@
    "time_kst": "",
    "event": "GMX 달러 볼트(USDG) 런치 부스트 1기 종료",
    "expectation": "부스트 뒤 GLV[USDG] 예치($2,500만+)·EVM 수수료 유지 여부",
+   "outcome": ""
+  },
+  {
+   "src": "1573980299115888681",
+   "event_date": "2026-11-23",
+   "time_kst": "09:00",
+   "event": "GMX·UNI·GRASS·JUP 11/22 일봉 종가(365선 판정)",
+   "expectation": "17:34 기준 UNI -1.3% 아래, GRASS +0.7·GMX +1.9·JUP +2.4% 위 — 선 아래 종가면 v12.1 365선 근거 무효 신호",
+   "outcome": ""
+  },
+  {
+   "src": "1573980167976652852",
+   "event_date": "2026-11-27",
+   "time_kst": "",
+   "event": "GRASS 월간 언락(11/27~28, 트래커별 271만~1,219만 개)",
+   "expectation": "투자자 물량 해제 끝난 뒤 첫 월간 언락, 선물 OI +54% 상태에서 가격 반응",
+   "outcome": ""
+  },
+  {
+   "src": "1573980167976652852",
+   "event_date": "2026-12-28",
+   "time_kst": "",
+   "event": "GRASS 월간 언락",
+   "expectation": "12개월 유통 17~20% 해제 일정 중 하나",
+   "outcome": ""
+  },
+  {
+   "src": "1573980201019515055",
+   "event_date": "2026-12-18",
+   "time_kst": "",
+   "event": "REX-Osprey UNI ETF 효력 예정일(미국 12/18, KST 12/18~19)",
+   "expectation": "SEC 485BXT로 연기된 효력일, 실제 출시 여부·UNI 반응",
+   "outcome": ""
+  },
+  {
+   "src": "1573980167976652852",
+   "event_date": "2026-12-31",
+   "time_kst": "",
+   "event": "JUP Net-Zero 배출·Mercurial 매도 상쇄 적용 기간 끝",
+   "expectation": "2027년 배출·Jupuary 정책(콜드 지갑 34억 개) 발표 여부",
    "outcome": ""
   }
  ],
