@@ -97,7 +97,7 @@ def daily(fname):
     p = os.path.join(RAW, fname)
     if not os.path.exists(p): return {}
     return {dt.datetime.fromtimestamp(r[0] / 1000, U).date(): float(r[4]) for r in J(p)}
-PX = {a: daily(f'd_{a}USDT.json') for a in ['BTC', 'ETH', 'SOL', 'BNB', 'ZEC', 'ENA', 'PEPE', 'UNI', 'STX', 'HYPE', 'SPX', 'MAGIC']}
+PX = {a: daily(f'd_{a}USDT.json') for a in ['BTC', 'ETH', 'SOL', 'BNB', 'ZEC', 'ENA', 'PEPE', 'UNI', 'STX', 'HYPE', 'SPX', 'MAGIC', 'NIGHT', 'ADA', 'GRASS', 'JUP', 'GMX']}
 kx = J(os.path.join(RAW, 'k_xmr.json'))['result']; kx = next(v for k, v in kx.items() if k != 'last')
 PX['XMR'] = {dt.datetime.fromtimestamp(r[0], U).date(): float(r[4]) for r in kx}
 
@@ -355,7 +355,8 @@ dump('now.json', dict(curated=CUR, thesis=thesis, thesis_hist=thesis_hist, focus
 
 # 4시간봉 (화면 시안용, 공개 API 원자료를 종가·고가·저가로 줄여서)
 PX4 = {'BTC': 'BTCUSDT', 'ETH': 'ETHUSDT', 'SOL': 'SOLUSDT', 'BNB': 'BNBUSDT', 'ZEC': 'ZECUSDT', 'ENA': 'ENAUSDT', 'UNI': 'UNIUSDT', 'MAGIC': 'MAGICUSDT',
-       'HYPE': 'HYPEUSDT', 'SPX': 'SPXUSDT', 'PEPE': '1000PEPEUSDT', 'XMR': 'XMR_kraken'}
+       'HYPE': 'HYPEUSDT', 'SPX': 'SPXUSDT', 'PEPE': '1000PEPEUSDT', 'XMR': 'XMR_kraken',
+       'NIGHT': 'NIGHTUSDT', 'ADA': 'ADAUSDT', 'JUP': 'JUPUSDT', 'GMX': 'GMXUSDT', 'GRASS': 'GRASSUSDT'}
 px = {}
 for a, f in PX4.items():
     p4 = os.path.join(RAW, 'h4_%s.json' % f)

@@ -41,13 +41,15 @@ ISSUES = [
        kw=r'\bGMX\b|GMTrade|GLV|esGMX', assets=['GMX'], pw=1.0),
   dict(id='picks4', label='v12.1 알트 4종 GMX·UNI·GRASS·JUP', kind='자산', tags=['picks4', 'uniswap', 'jupiter', 'grass'],
        kw=r'\bJUP\b|Jupiter|주피터|Litterbox|\bGRASS\b|그래스|Uniswap|유니스왑|v12\.1', assets=['UNI', 'JUP', 'GRASS'], pw=1.0),
+  dict(id='night', label='Midnight NIGHT·ADA 추월론', kind='자산', tags=['night', 'midnight', 'cardano'],
+       kw=r'(?-i:\bNIGHT\b)|Midnight|미드나잇|미드나이트|호스킨슨|Hoskinson|(?-i:\bADA\b)|카르다노|Cardano|에이다', assets=['NIGHT', 'ADA'], pw=1.0),
   dict(id='alt_supply', label='알트 수급·언락·바이백', kind='섹터', tags=['altseason', 'supply_overhang', 'buyback_tokenomics', 'btcfi'],
-       kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b|NIGHT', assets=['UNI', 'STX'], pw=0.6),
+       kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b', assets=['UNI', 'STX'], pw=0.6),
 ]
 
 # 종목 → 사안 (레벨·판정처럼 종목이 붙은 항목을 이을 때)
 ASSET_ISSUE = {'ZEC': 'privacy', 'XMR': 'privacy', 'HYPE': 'hyperliquid', 'PEPE': 'memes', 'SPX': 'memes',
-               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'UNI': 'picks4', 'JUP': 'picks4', 'GRASS': 'picks4', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
+               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'UNI': 'picks4', 'JUP': 'picks4', 'GRASS': 'picks4', 'NIGHT': 'night', 'ADA': 'night', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
 
 # 화면(뷰). 사안 원장이 무게를 정하면 이 화면들의 순서가 따라 바뀐다.
 VIEWS = [
