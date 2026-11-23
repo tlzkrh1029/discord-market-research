@@ -45,6 +45,8 @@ ISSUES = [
        kw=r'(?-i:\bNIGHT\b)|Midnight|미드나잇|미드나이트|호스킨슨|Hoskinson|(?-i:\bADA\b)|카르다노|Cardano|에이다', assets=['NIGHT', 'ADA'], pw=1.0),
   dict(id='rune', label='THORChain RUNE·정지·해커 흐름', kind='자산', tags=['thorchain', 'rune'],
        kw=r'\bRUNE\b|THORChain|토르체인|쏘체인|(?-i:\bTCY\b)|Rujira|루지라', assets=['RUNE'], pw=1.0),
+  dict(id='intc', label='INTC 365선 밀집·파운드리', kind='미증시', tags=['intc'],
+       kw=r'\bINTC\b|인텔|\bIntel\b', assets=[], pw=1.0),
   dict(id='alt_supply', label='알트 수급·언락·바이백', kind='섹터', tags=['altseason', 'supply_overhang', 'buyback_tokenomics', 'btcfi'],
        kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b', assets=['UNI', 'STX'], pw=0.6),
 ]
