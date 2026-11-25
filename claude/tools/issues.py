@@ -47,13 +47,15 @@ ISSUES = [
        kw=r'\bRUNE\b|THORChain|토르체인|쏘체인|(?-i:\bTCY\b)|Rujira|루지라', assets=['RUNE'], pw=1.0),
   dict(id='intc', label='INTC 365선 밀집·파운드리', kind='미증시', tags=['intc'],
        kw=r'\bINTC\b|인텔|\bIntel\b', assets=[], pw=1.0),
+  dict(id='ai_agents', label='AI 에이전트 토큰 VVV·KITE', kind='섹터', tags=['ai_agents', 'venice', 'kite'],
+       kw=r'(?-i:\bVVV\b)|Venice|베니스|(?-i:\bKITE\b)|카이트|AI 에이전트|ai agent|\bVIRTUAL\b|PIPPIN|Gensyn|x402', assets=[], pw=1.0),
   dict(id='alt_supply', label='알트 수급·언락·바이백', kind='섹터', tags=['altseason', 'supply_overhang', 'buyback_tokenomics', 'btcfi'],
        kw=r'알트|언락|바이백|\bSTX\b|\bUNI\b', assets=['UNI', 'STX'], pw=0.6),
 ]
 
 # 종목 → 사안 (레벨·판정처럼 종목이 붙은 항목을 이을 때)
 ASSET_ISSUE = {'ZEC': 'privacy', 'XMR': 'privacy', 'HYPE': 'hyperliquid', 'PEPE': 'memes', 'SPX': 'memes',
-               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'UNI': 'picks4', 'JUP': 'picks4', 'GRASS': 'picks4', 'NIGHT': 'night', 'ADA': 'night', 'RUNE': 'rune', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
+               'ENA': 'ena', 'MAGIC': 'magic', 'GMX': 'gmx', 'UNI': 'picks4', 'JUP': 'picks4', 'GRASS': 'picks4', 'NIGHT': 'night', 'ADA': 'night', 'RUNE': 'rune', 'VVV': 'ai_agents', 'KITE': 'ai_agents', 'ETH': 'eth', 'SOL': 'sol', 'BNB': 'binance', 'BTC': 'btc_floor'}
 
 # 화면(뷰). 사안 원장이 무게를 정하면 이 화면들의 순서가 따라 바뀐다.
 VIEWS = [
