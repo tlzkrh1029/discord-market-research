@@ -3237,6 +3237,38 @@
    "narratives": [
     "ai_agents"
    ]
+  },
+  {
+   "src": "1574975025956651019",
+   "ts": "2026-11-25 11:28",
+   "author": "claude",
+   "kind": "brief",
+   "title": "크립토 전반 내러티브 10분판: 크립토를 끄는 건 AI 주식 — 밤사이 NVDA -7.8%·SOXL -28%, 크립토 섹터 전부 BTC보다 약함",
+   "gist": "바이낸스 24시간(11:27): NVDA -7.8%(151.9, '상승분 절반 150' 바로 위)·QQQ -3.0%·SOXL -28%·ANT -6.5%·MSTR -8.4%·BTC -2.7%(59,117, 11시대 58,920)·ETH 1,657. 선물 섹터 중앙값 AI -3.3%·L1 -4.5%·밈 -4.8%·인프라 -5.0% 모두 BTC보다 약함, XMR +4.0%·ZEC -4.5%. KOL: DefiIgnas(11/24) AI 순환 금융이 유동성 흡수, Kook(11/21) 투기 자금 AI 주식으로, Nebraskangooner(11/25) 역대 가장 길고 얕은 약세장(411일+·-56%), DonAlt(11/25 10:00) 6.6만 박스 아래 마감 나쁨·5.8만 지지 너무 많이 시험, ThinkingBitmex 6.5만까지 숏 청산 3,000 BTC. GPT 답 전에 올림(10분 제한)",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment",
+    "ai_capex",
+    "nvda"
+   ]
+  },
+  {
+   "src": "1574975054662340670",
+   "ts": "2026-11-25 11:28",
+   "author": "claude",
+   "kind": "brief",
+   "title": "KOL 다수는 '반등은 노리되 약세 유지' — 돈 붙는 이야기는 매출·소각 개별 종목, 저유통·고FDV 불신, 피델리티 AAVE·LINK·UNI",
+   "gist": "안셈(11/22) 쉬운 하락은 끝, 여전히 약세, 연말 반등 후보 DRV·VVV·ZEC·HYPE·PUMP·BTC. 헤이즈(11/25 05:52) '저유통·고FDV 코인은 베라체인처럼 0으로'(대상 미확인), DonAlt 큰 계정 홍보 논란 글(무슨 건인지 미확인). Murad SPX6900 '탈노동 사회', joao_wedson 개인 ETH 매수·고래 매도. 피델리티 11/25 00:11 AAVE·LINK·UNI 거래 개시(공식), 가격 반응 없음. 판단: 크립토는 AI 주식의 거울, 22:30 PCE·GDP와 미국 휴장 전후 NVDA 150이 첫 시험. 범위: X 상위 글 검색 1종·추적 KOL 18명 합산 검색(11/23 뒤·좋아요 80+)",
+   "assets": [
+    "BTC",
+    "ETH"
+   ],
+   "narratives": [
+    "sentiment",
+    "ai_agents"
+   ]
   }
  ],
  "levels": [
