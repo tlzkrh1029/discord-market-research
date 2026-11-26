@@ -4043,6 +4043,40 @@
    "narratives": [
     "privacy"
    ]
+  },
+  {
+   "src": "1575511890300379386",
+   "ts": "2026-11-26 23:01",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "ZEC·XMR 약세: XMR은 KuCoin 상장폐지 공식 공지(11/30 17:00 KST 현물 종료·VIP 대출 담보 제외·출금 12/31), ZEC는 Zakura의 Sapling 약 40만 ZEC Ironwood 이전 제안",
+   "gist": "KuCoin 공지 직접 확인. ZEC: AI 암호해독 진전설·페어링 암호 잠재 위험이 배경, 원문은 실용 공격 가능성이 매우 추측적이라 명시 — 탈취·위조 아님, 이전 자체는 매도 아님. CoinGecko: ZEC $726 24h +1.3%·7d -23.6%, XMR $487 -2.0%·-1.5%. 판단: 단순 ZEC→XMR 순환보다 ZEC 보안 불안 + XMR 실제 거래시장 축소. 발표 시각과 매도 흐름 대조는 안 함",
+   "assets": [
+    "XMR",
+    "ZEC"
+   ],
+   "narratives": [
+    "privacy",
+    "regulation",
+    "security"
+   ]
+  },
+  {
+   "src": "1575512161227374674",
+   "ts": "2026-11-26 23:02",
+   "author": "claude",
+   "kind": "brief",
+   "title": "정정: '오늘 고유 악재 없음'은 틀림 — KuCoin XMR 상장폐지(11/30 17:00 KST 현물 종료, 현물 거래대금 약 55% 창구), ZEC Sapling 이전 제안(GPT 확인)",
+   "gist": "KuCoin 원문(게시 표기 11/26 17:33, 시간대 미표기): 입금 이미 중단·재개 없음, Earn 11/27 21:00·Convert 11/30 12:00·봇 11/30 15:00·현물 11/30 17:00 KST, VIP 대출 담보 11/30 제외(LTV 상승 시 청산 가능 명시), 출금 12/31 17:00 KST. 어제 XMR 리스크 순위 '④ KuCoin·HTX 상폐 공지 → 1위' 조건 발생. 20시부터 매도와 시기 겹침(정확한 시차 미대조). ZEC: Zakura 10:40 KST 글(ID로 계산)에서 Sapling 약 40만 ZEC Ironwood 이전·입금 중단 앞당기기 제안, 원문 미확인. 23:02 XMR 480(19시 525 대비 -8.6%)·ZEC 726·BTC 60,850",
+   "assets": [
+    "XMR",
+    "ZEC"
+   ],
+   "narratives": [
+    "privacy",
+    "regulation",
+    "security"
+   ]
   }
  ],
  "levels": [
@@ -4853,6 +4887,14 @@
    "target": "claude",
    "wrong": "10:15·10:30 답 'USDT.D thesis 절반(HMA89·144 저항)은 깨짐', '주봉 HMA 8.13% 아래 복귀해야 살아남', 'HMA89·144에 함께 막혀 꺾이는 것이 조건'",
    "right": "주목 3선(11/21 사용자 지정) ③은 3일봉 사선 수성 여부 하나. HMA89·144 동시 저항은 11/15 THESIS의 사용자 관측·예상이고 판정 조건이 아님 — 조건·판정 기준은 Claude가 만든 것(사용자 지적 10:32)"
+  },
+  {
+   "src": "1575512161227374674",
+   "ts": "2026-11-26 23:02",
+   "by": "claude",
+   "target": "claude",
+   "wrong": "11/26 23:00 답 '오늘 날짜로 나온 ZEC·XMR 고유 악재 뉴스는 찾지 못했다' — 뉴스 검색 2종만 보고 거래소 공지를 확인하지 않음",
+   "right": "KuCoin 11/26 공지: XMR 상장폐지(현물 11/30 17:00 KST, 출금 12/31 17:00 KST, VIP 대출 담보 제외). ZEC는 Zakura Sapling 이전 제안. GPT가 먼저 찾음"
   }
  ],
  "catalysts": [
@@ -5438,6 +5480,30 @@
    "time_kst": "",
    "event": "EU AMLR(2024/1624) 시행 — 프라이버시 코인 수탁 계좌 금지(제79조)",
    "expectation": "'7/1'로 쓴 기사는 틀림(제90조). MiCA 76(3)은 상장만, AMLR은 보관 계정 자체",
+   "outcome": ""
+  },
+  {
+   "src": "1575512161227374674",
+   "event_date": "2026-11-30",
+   "time_kst": "17:00",
+   "event": "KuCoin XMR 현물 상장폐지(XMR/USDT·USDC·ETH·BTC)",
+   "expectation": "KuCoin은 XMR 현물 거래대금 약 55%(CoinGecko, 신뢰도 점수 빈칸). 입금 이미 중단. Convert 12:00·봇 15:00 KST 먼저 종료, VIP 대출 담보 11/30 제외",
+   "outcome": ""
+  },
+  {
+   "src": "1575512161227374674",
+   "event_date": "2026-11-27",
+   "time_kst": "21:00",
+   "event": "KuCoin XMR Earn(Flexible Savings) 종료",
+   "expectation": "원금·이자는 Funding 계정으로 자동 이동",
+   "outcome": ""
+  },
+  {
+   "src": "1575512161227374674",
+   "event_date": "2026-12-31",
+   "time_kst": "17:00",
+   "event": "KuCoin XMR 출금 마감",
+   "expectation": "공지: 프로젝트 문제 등으로 더 일찍 닫을 수 있음",
    "outcome": ""
   }
  ],
