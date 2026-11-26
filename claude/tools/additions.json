@@ -3981,6 +3981,22 @@
     "thesis",
     "privacy"
    ]
+  },
+  {
+   "src": "1575321708729204817",
+   "ts": "2026-11-26 10:25",
+   "author": "claude",
+   "kind": "brief",
+   "title": "KOL(11/25 22시 뒤): 바닥·반등 쪽 다수(KillaXBT·CryptoJelleNL·scottmelker) vs 경계(TedPillows '선물 주도 반등'·rektcapital·ByzGeneral 주봉 8연속 음봉) — 주목 3선을 직접 짚은 글은 없음",
+   "gist": "KillaXBT 03:04 약세 보기 어렵다·00:53 새 매집 구간 가능, CryptoJelleNL 02:30 실현손실 급증 항복급(glassnode 인용)·23:00 반감기 약 500일 전 바닥설, scottmelker 딥 매수, Trader_XO 실현가 53~54k, ThinkingBitmex 아담&이브(목표가 생략). 경계: TedPillows 03:26 무기한 선물 주도 반등·22:46 PCE 3.8%·GDP 4.3% 악재(주장), rektcapital 200주선 -19%(과거 -15~-31% 안)·매도 거래량 우위, ByzGeneral 루나 뒤 첫 주봉 8연속 음봉, ArdiNSC 숏. 검증 필요: AshCrypto '12월 25bp 인상 확정'·'전략 비트코인 비축 법안 하원 표결 단계'. Claude: OI 99,548→96,900 감소 중 상승이라 숏 정리 몫 큼(해석). 범위: 13묶음 중 4.5 완독 뒤 검색 막힘(약 140계정 미확인), 프로필 12, 주제 검색 0/3, 약 1,020건",
+   "assets": [
+    "BTC"
+   ],
+   "narratives": [
+    "sentiment",
+    "btc_floor",
+    "thesis"
+   ]
   }
  ],
  "levels": [
