@@ -4583,6 +4583,62 @@
    "narratives": [
     "ai_agents"
    ]
+  },
+  {
+   "src": "1575899081371418816",
+   "ts": "2026-11-28 00:40",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "Venice vs 직접 결제: GPT·Claude를 더 잘 쓰는 게 아니라 여러 모델·제작 도구를 한곳에서 쓰는 것",
+   "gist": "Pro $18·기본 크레딧 월 $1, 고급 모델은 크레딧·API 사용량 과금이라 직접 구독보다 싸다는 보장 없음. 공식 앱 프로젝트·메모리·심층 리서치는 안 따라옴. Codex CLI는 Venice API 키로 연결 가능(사용량 과금). GPT·Claude는 Anonymous. 주력 구독 유지·Venice 보조 권고, VVV·DIEM 불필요",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575899372619702424",
+   "ts": "2026-11-28 00:41",
+   "author": "claude",
+   "kind": "research",
+   "title": "Venice vs 직접 결제 ①: Claude·GPT 단가는 공식가와 똑같고 Pro($18)의 고급 모델 몫은 월 $1 — 가격 이점 없음",
+   "gist": "Venice API 모델 목록 직접 조회: Opus 5.5 4/20·Sonnet 5.5 2/10·GPT-6.2 Sol 2/10·Astra 8/40 등 전부 공식가와 동일. Pro '무제한'은 자체·오픈 모델. Plus $68→크레딧 $75·Max $200→$225(10~12.5%). 정액 구독이 많이 쓰는 사람에겐 더 쌈(판단). Batch·캐시 할인 적용 여부 미확인",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575899408799895576",
+   "ts": "2026-11-28 00:41",
+   "author": "claude",
+   "kind": "research",
+   "title": "Venice vs 직접 결제 ②: 프라이버시는 '신원 분리'까지 — Claude·GPT는 Anonymous(제공사가 내용 저장 가정), 이점은 여러 모델·무검열·크립토 결제",
+   "gist": "대화 기록은 기기에만, 중간에 Venice를 하나 더 믿어야 함. Private·TEE·E2EE엔 Claude·GPT 없음, Grok 4.x는 Private. 직접 결제가 나은 것: Claude Code 구독·앱 메모리·프로젝트·커넥터, 많이 쓰는 대화·코딩. 공식가 중계 매출은 마진 얇음 → 자체 모델·미디어가 늘어야 소각에 도움(추정)",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575899428378902541",
+   "ts": "2026-11-28 00:41",
+   "author": "claude",
+   "kind": "research",
+   "title": "Venice vs 직접 결제 GPT 대조: 결론 같음, GPT의 Codex CLI 연동 문서는 실재 — '가끔 쓰면 이점'은 직접 API로도 같은 단가",
+   "gist": "같은 결론(한곳에서 여러 모델·더 싸지 않음·Anonymous·VVV·DIEM 불필요), Pro 크레딧 $1 일치. 주력 구독 유지·Venice 보조 결론에 동의",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
   }
  ],
  "levels": [
