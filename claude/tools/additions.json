@@ -4513,6 +4513,76 @@
    "narratives": [
     "privacy"
    ]
+  },
+  {
+   "src": "1575890266295115839",
+   "ts": "2026-11-28 00:05",
+   "author": "claude",
+   "kind": "research",
+   "title": "VVV ① 누가 왜 쓰나: 수요 중심은 주류가 막는 성인 이미지·영상과 무검열 롤플레이, VVV·DIEM은 이용에 필수 아님",
+   "gist": "OpenRouter Venice 무검열 모델 상위 앱 KLOUT AI 7.97억·SillyTavern 4.17억·HotLive·SkyrimNet·ChatBlink(11/28 00:04 직접). Venice 안 Claude·GPT는 Anonymous 등급(제공자 저장 가정). 크립토 결제 약 8%(7월 보도). 무료·Pro $18 카드 결제. 매출 크레딧 81%·구독 19%(Tokenomist), 영상 사용 30%(Erik). DIEM은 매일 다 쓰면 연 약 18%",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575890370133360830",
+   "ts": "2026-11-28 00:05",
+   "author": "claude",
+   "kind": "research",
+   "title": "VVV ② 구조·소각: VVV→sVVV→잠금으로 DIEM 발행(467.7 sVVV=1), DIEM 스테이킹=하루 $1 API, 소각 30일 $129만은 배출의 36%",
+   "gist": "sVVV 3,249만(유통 65.6%, 858만 DIEM 뒤 잠김), 해제 7일·DIEM 해제 1일. DIEM 3.736만/상한 4만, 시세 $2,030=발행 비용 1/6. 소각: 크레딧 5% $49.3만·구독 $21.2만·재량 $58.8만(30일). 누적 3,398만 중 에어드롭 3,251만·팀 103만·사업 약 44만. 보는 곳 venice.ai/token·/token/burns·venicestats·basescan. 구조 그림 첨부",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575890379683926168",
+   "ts": "2026-11-28 00:05",
+   "author": "claude",
+   "kind": "research",
+   "title": "VVV ③ '매출 95% 성인물'은 11/26 01:34 X 답글의 전언(@absolutquant 'I heard a claim')에서 시작 — 근거 없음",
+   "gist": "Miyamoto 01:24 '어떻게 돈 버나'(18만 조회) 스레드 → 01:50 tuslaw·02:06 pappageorge 'AWS of goontech'·05:08 defido·15:30 vadim('이용자 95%'). 11/26 전 X엔 없음. Erik 05:25 '구독과 크레딧 구매'(부정도 인정도 안 함). 성인·롤플레이 비중이 클 가능성은 있으나 수치 공개 없음",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575890423883497573",
+   "ts": "2026-11-28 00:05",
+   "author": "claude",
+   "kind": "research",
+   "title": "VVV ④ 'private 아님' 검증: 외부 GPU 사용은 사실, 프롬프트 기록 증거는 없음 — 'self-hosted' 과장은 Venice가 3곳 수정",
+   "gist": "KTibow 11/26 10:40(26만 조회), 이미지 모델 18개 중 14개 외부 서버. PR #937 12:23·#938 19:51·#939 19:50(GitHub 직접). Erik 14:26 '일부 자체 GPU·일부 ZDR 계약 US 파트너'. 바꿔치기·브라우저 DB 미확인, E2EE 부분 사실, 독립 감사 없음, KTibow 이해상충(OpenRouter 연구비·약세)",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
+  },
+  {
+   "src": "1575890454178959394",
+   "ts": "2026-11-28 00:05",
+   "author": "claude",
+   "kind": "research",
+   "title": "VVV ④ 판단·⑤ 일정: 프라이버시 축은 깨졌다기보다 '계약 신뢰'로 한 단계 내려옴, 재량 소각 12/8~10·팀 12/27·2027-01-27",
+   "gist": "배출 하루 5,480·자동 소각 약 1,200. 재량 소각 12번 모두 UTC 7~9일. 베스팅 18개 110만(하루 1.33만, 팀 외 약 48만 주인 미확인), 언스테이킹 대기 91.8만, 시리즈A 2027-07~. 회복 근거: 파트너·ZDR 계약 공개·외부 감사 / 위기: 프롬프트 유출 재현. GPT 23:54는 질문 확인만",
+   "assets": [
+    "VVV"
+   ],
+   "narratives": [
+    "ai_agents"
+   ]
   }
  ],
  "levels": [
