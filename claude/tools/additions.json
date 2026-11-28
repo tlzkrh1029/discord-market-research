@@ -4937,6 +4937,36 @@
     "regulation",
     "supply_overhang"
    ]
+  },
+  {
+   "src": "1576155148680437944",
+   "ts": "2026-11-28 17:37",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "WLFI×저스틴 선(GPT): 초기 투자자에서 동결 대상으로 → 소송·거래소로 번진 분쟁 → 11/28 WLFI·USD1 동시 상폐 요구(급락보다 약 3시간 뒤)",
+   "gist": "소장: 4,500만 달러에 30억 개+고문 보상 10억 개. 2025-07~08 USD1 2억 달러 발행 압박·투표 없는 동결 기능 추가 주장. 2026-06 HTX USD1 상폐·WLFI/USDT 중단. 11/2 제재 신청, 심리 12/10. 선 글은 13:30 급락·16:03 USD1 저점보다 뒤",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "regulation"
+   ]
+  },
+  {
+   "src": "1576156266932342832",
+   "ts": "2026-11-28 17:42",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI×저스틴 선 GPT 대조: 결론 같음, GPT의 HTX 6/6 USD1 상폐·소장 2025-07·08 내용은 원문 확인 — 제재 신청일은 11/2로 정정",
+   "gist": "미확인: 소장상 30억+10억 개, 12/10 심리(CourtListener 403). 다른 점: WLF 맞소송의 이체를 GPT는 바이낸스, 2025-09 보도는 HTX. Claude 추가: SEC 중단·합의, WSJ UAE 49%, 4/12·4/15, 22개 법인 공시",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "regulation"
+   ]
   }
  ],
  "levels": [
