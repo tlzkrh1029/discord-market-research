@@ -21,16 +21,59 @@ const n0 = v => Math.round(v).toLocaleString('en-US');
 const g = x => `<span class="g ${esc(x)}">${esc(x)}</span>`;
 const srcs = a => (a || []).length ? `<span class="src" title="Discord 메시지 ID(근거)">근거 ${a.map(esc).join(' · ')}</span>` : '';
 
+/* ---- 신선도: 손으로 쓴 문장이 실제로 언제 쓰였는지는 근거 Discord 메시지 ID(스노플레이크)에서 꺼낸다 ---- */
+const HOUR = 36e5;
+// ID 앞쪽 42비트가 2015-01-01부터의 밀리초다. 2^22로 나누면 되고, 숫자로 바꿀 때 생기는 오차(±256)는 1밀리초에 못 미친다
+const snowT = id => { const n = Number(id); return /^\d{17,20}$/.test(String(id)) && isFinite(n) ? Math.floor(n / 4194304) + 1420070400000 : null; };
+const srcT = a => { const t = (a || []).map(snowT).filter(Boolean); return t.length ? Math.max(...t) : null; };  // 근거 글 중 가장 나중 시각
+const kstT = s => Date.parse(String(s).slice(0, 16).replace(' ', 'T') + ':00+09:00');
+const z2 = n => String(n).padStart(2, '0');
+const fmtT = t => { const d = new Date(t + 9 * HOUR); return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${z2(d.getUTCHours())}:${z2(d.getUTCMinutes())}`; };
+const ago = t => { const h = (Date.now() - t) / HOUR; return h < 1 ? `${Math.max(1, Math.round(h * 60))}분 전` : h < 36 ? `${Math.round(h)}시간 전` : `${Math.round(h / 24)}일 전`; };
+const STALE = { now: 24, issue: 72, focus: 72, thesis: 168 };  // 시간. 이보다 오래된 손 문장은 '오래된 문장'으로 표시한다
+const isOld = (t, k) => t != null && Date.now() - t > STALE[k] * HOUR;
+const age = (t, k, word = '작성') => t == null ? '' : `<span class="age${isOld(t, k) ? ' old' : ''}" title="근거 Discord 메시지가 올라온 시각(KST)에서 계산">${fmtT(t)} ${word} · ${ago(t)}${isOld(t, k) ? ' · 오래된 문장' : ''}</span>`;
+
 async function boot() {
   const get = f => fetch('data/' + f, { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(f); return r.json(); });
-  [M, S, IT, NOW] = await Promise.all(['meta.json', 'snapshots.json', 'items.json', 'now.json'].map(get));
+  // "화면" 칸(lab)이 같은 파일을 다시 내려받지 않도록, 읽은 자료를 그대로 넘겨 준다
+  [M, S, IT, NOW] = await (window.MM_RAW = Promise.all(['meta.json', 'snapshots.json', 'items.json', 'now.json'].map(get)));
   const sl = $('#slider'); sl.max = S.length - 1;
   readHash(); if (!(IDX >= 0 && IDX < S.length)) IDX = S.length - 1;
   sl.value = IDX;
   sl.addEventListener('input', () => go(+sl.value));
   $('#prev').onclick = () => go(IDX - 1); $('#next').onclick = () => go(IDX + 1); $('#latest').onclick = () => go(S.length - 1);
   document.addEventListener('keydown', e => { if (e.target.closest('input,select,textarea')) return; if (e.key === 'ArrowLeft') go(IDX - 1); if (e.key === 'ArrowRight') go(IDX + 1); });
-  setupTheme(); render(); renderMtf();
+  setupTheme(); setupNav(); render(); renderMtf();
+}
+/* ---- 구역 이동 띠: 긴 페이지에서 원하는 칸으로 바로 가고, 지금 보고 있는 칸을 표시한다 ---- */
+function setupNav() {
+  const nav = $('#secnav'); if (!nav) return;
+  const links = [...nav.querySelectorAll('a[data-go]')], top = document.querySelector('.top'), row = nav.querySelector('.wrap');
+  const headH = () => getComputedStyle(top).position === 'sticky' ? top.offsetHeight : 0;  // 좁은 화면에서는 머리가 고정되지 않는다
+  const sync = () => document.documentElement.style.setProperty('--toph', headH() + 'px');
+  sync(); addEventListener('resize', sync);
+  if (window.ResizeObserver) new ResizeObserver(sync).observe(top);
+  // 주소의 # 뒤는 날짜·화면 상태를 담는 데 쓰므로, 구역 이동은 주소를 바꾸지 않고 스크롤만 한다
+  nav.addEventListener('click', e => {
+    const a = e.target.closest('a[data-go]'); if (!a) return;
+    e.preventDefault();
+    const h = document.getElementById(a.dataset.go); if (!h) return;
+    // 먼 칸은 바로 옮기고(긴 페이지를 훑으며 지나가지 않게), 가까운 칸만 부드럽게 옮긴다
+    const jump = Math.abs(h.getBoundingClientRect().top) > innerHeight * 2 || matchMedia('(prefers-reduced-motion: reduce)').matches;
+    h.scrollIntoView({ behavior: jump ? 'auto' : 'smooth', block: 'start' });
+  });
+  $('#pchip').onclick = () => go(S.length - 1);
+  let tick = false;
+  const mark = () => {
+    tick = false;
+    const y = headH() + nav.offsetHeight + 28; let on = links[0];
+    for (const a of links) { const h = document.getElementById(a.dataset.go); if (h && h.getBoundingClientRect().top <= y) on = a; }
+    links.forEach(a => { const v = a === on; a.classList.toggle('on', v); if (v) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    if (row.scrollWidth > row.clientWidth && (on.offsetLeft < row.scrollLeft || on.offsetLeft + on.offsetWidth > row.scrollLeft + row.clientWidth)) row.scrollTo({ left: Math.max(0, on.offsetLeft - 16), behavior: 'smooth' });
+  };
+  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(mark); } }, { passive: true });
+  mark();
 }
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
@@ -42,7 +85,7 @@ function writeHash() {
   const h = new URLSearchParams();
   if (IDX !== S.length - 1) h.set('d', S[IDX].d);
   if (VN !== 1) h.set('v', VN);
-  history.replaceState(null, '', h.toString() ? '#' + h : location.pathname);
+  try { history.replaceState(null, '', h.toString() ? '#' + h : location.pathname); } catch (e) {}  // 주소를 못 바꾸는 환경에서도 화면은 그대로 움직인다
 }
 function go(i) { i = Math.max(0, Math.min(S.length - 1, i)); if (i === IDX) return; IDX = i; $('#slider').value = i; LIMIT = 30; render(); writeHash(); }
 function setupTheme() {
@@ -61,6 +104,7 @@ function render() {
   $('#dlabel').textContent = md(s.d) + (latest ? ' 최신' : '');
   $('#past').classList.toggle('on', !latest);
   $('#prev').disabled = IDX === 0; $('#next').disabled = latest;
+  const pc = $('#pchip'); if (pc) { pc.hidden = latest; pc.textContent = `과거 판 ${md(s.d)} · 최신으로`; }
   renderFocus(s, latest); renderNow(s, latest); renderThesis(s, latest); renderCards(s, latest); renderWatch(s); renderChanges(s);
   renderMap(s); renderKol(s, latest); renderTabs(); renderViews(); renderRules(); renderFoot();
 }
@@ -106,16 +150,28 @@ const fmtF = (v, u) => u === 'btc' ? n0(v) : v.toLocaleString('en-US', { maximum
 function fTable(f, unit) {
   return `<details class="drawer"><summary>숫자로 보기 · 최근 6봉</summary><div class="scrollx"><table class="tbl"><thead><tr><th>봉 시작</th><th>종가</th><th>선</th><th>대비</th></tr></thead><tbody>${f.series.slice(-6).map(r => { const d = (r[1] / r[3] - 1) * 100; return `<tr><td>${md(r[0])}</td><td>${fmtF(r[1], unit)}</td><td>${fmtF(r[3], unit)}</td><td class="${d < 0 ? 'neg' : 'pos'}">${pct(d)}</td></tr>`; }).join('')}</tbody></table></div></details>`;
 }
+// 본문 안에서 다른 칸을 가리키는 링크(data-jump): 주소는 그대로 두고 그 칸으로 스크롤만 한다
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-jump]'); if (!a) return;
+  e.preventDefault();
+  const t = document.getElementById(a.dataset.jump); if (t) t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+});
+// 손으로 적은 메모 묶음: 언제 쓴 것인지 붙이고, 오래됐으면 흐리게 한다
+function handBox(title, ageHtml, old, inner) {
+  return `<div class="hand${old ? ' old' : ''}"><div class="handh">${esc(title)} ${ageHtml}</div>${inner}</div>`;
+}
 function fCard(no, f, C, unit, opt) {
   const [k, lab, why] = fState(f), tst = f.tests.map(x => `${md(x.d)} 저가 ${pct(x.dl)} · 종가 ${pct(x.dc)}`).join(' / ');
+  const held = f.prev.pct >= 0;  // 수성 = 닫힌 봉의 종가가 선 위
   return `<article class="fcard"><div class="fh"><span class="fno">${no}</span><h3>${esc(C.name)}</h3><span class="st ${k}">${ICON[k]} ${esc(lab)}</span></div>
     <p class="fdef">${esc(C.def)}</p>
     <div class="fnum"><div><span>선</span><b class="num">${fmtF(f.line, unit)}</b></div><div><span>지금</span><b class="num">${fmtF(f.price, unit)}</b></div><div><span>대비</span><b class="num ${f.pct < 0 ? 'neg' : 'pos'}">${pct(f.pct)}</b></div></div>
+    <p class="fprev"><span class="st ${held ? 'ok' : 'no'}">${held ? '✓ 직전 봉 수성' : '✕ 직전 봉 이탈'}</span><span>직전 ${esc(f.tf)}(${md(f.prev.d)} 시작)은 ${md(f.bar)} 09:00 KST에 종가 ${fmtF(f.prev.close, unit)}, 선 ${held ? '위' : '아래'} ${pct(f.prev.pct)}에서 닫혔습니다.</span></p>
     <p class="fwhy">${esc(why)}. 이번 ${esc(f.tf)}(${md(f.bar)} 시작, ${f.days}일째)은 <b>${esc(md(f.closes_at.slice(0, 10)))} 09:00 KST</b>에 닫힙니다. 장중 저가 ${fmtF(f.low, unit)}(${pct(f.pct_low)}).</p>
     ${fChart(f, opt)}
     <div class="fleg"><span class="lp">종가</span><span class="ll">선</span>${opt.marks ? '<span class="lk">기준 고가</span>' : ''}</div>
-    <ul class="fmeta"><li>직전 봉(${md(f.prev.d)}) 종가 ${fmtF(f.prev.close, unit)} · 선 대비 ${pct(f.prev.pct)}</li>
-      <li>앞선 시험: ${esc(tst || '없음')}</li>${(C.notes || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    <ul class="fmeta"><li>앞선 시험: ${esc(tst || '없음')}</li>${(C.notes || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    ${(C.hand || []).length ? handBox('손 메모', C.age, C.old, `<ul class="fmeta">${C.hand.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`) : ''}
     ${fTable(f, unit)}</article>`;
 }
 function renderFocus(s, latest) {
@@ -125,58 +181,142 @@ function renderFocus(s, latest) {
   if (!latest) { el.innerHTML = `<p class="empty">주목 3선은 최신 판에만 있습니다(봉이 아직 진행 중인 값이라).</p>`; return; }
   const b = F.btc, e = F.eth, u = C.usdt;
   const yy = d => d.slice(2).replace(/-/g, '/');
+  // 숫자(선·지금·대비·시험 이력)는 사이트를 갱신할 때마다 다시 계산하고, 손 메모는 쓴 시각을 따로 붙인다
+  const tF = srcT(C.src), hand = { age: age(tF, 'focus'), old: isOld(tF, 'focus') };
+  // 세 선에 대한 더 나중 기록이 고정 사안 'thesis'에 쌓여 있으면 그쪽을 가리킨다
+  const TI = (NOW.curated.issues || {}).thesis, tI = TI ? srcT(TI.src) : null;
+  const later = tI && tF && tI > tF ? `<p class="fwhy">이 메모보다 나중에 쓴 기록이 아래 <a href="#thesis" data-jump="thesis">THESIS 사안 기록(${esc(fmtT(tI))})</a>에 있습니다.</p>` : '';
   const bNotes = [`${yy(b.a.d)} 봉 고가 ${n0(b.a.h)} → ${yy(b.b.d)} 봉 고가 ${n0(b.b.h)}, ${b.scale} 눈금으로 이은 선. 한 봉마다 ${b.step}%씩 내려갑니다`,
-    `선형 눈금이면 지금 약 ${n0(b.line_lin)} · ${b.line_alt.name} 기준 ${n0(b.line_alt.v)}`].concat(C.btc.notes || []);
+    `선형 눈금이면 지금 약 ${n0(b.line_lin)} · ${b.line_alt.name} 기준 ${n0(b.line_alt.v)}`];
   const eNotes = [`선은 한 봉마다 약 +${e.step}씩 올라갑니다 · ${e.line_alt.name} 기준 ${e.line_alt.v.toLocaleString('en-US')}`,
-    `${md(e.first)} 이후 닫힌 10일봉 ${e.series.length - 1}개 중 선 아래 종가 ${e.below_closes}개`].concat(C.eth.notes || []);
+    `${md(e.first)} 이후 닫힌 10일봉 ${e.series.length - 1}개 중 선 아래 종가 ${e.below_closes}개`];
   el.innerHTML = `<p class="fintro">${esc(C.why)}</p><div class="focus3">
-    ${fCard('①', b, Object.assign({}, C.btc, { notes: bNotes }), 'btc', { log: true, label: `BTCUSD 3일봉 종가와 사선(로그). 지금 ${n0(b.price)}, 선 ${n0(b.line)}`, marks: [{ d: b.a.d, v: b.a.h, t: '2024-03-13 봉 고가' }, { d: b.b.d, v: b.b.h, t: '2024-06-05 봉 고가' }], extra: [b.a.h, b.b.h] })}
-    ${fCard('②', e, Object.assign({}, C.eth, { notes: eNotes }), 'eth', { log: false, label: `ETHUSD 10일봉 종가와 365SMA. 지금 ${e.price}, 선 ${e.line}` })}
+    ${fCard('①', b, Object.assign({}, C.btc, hand, { notes: bNotes, hand: C.btc.notes }), 'btc', { log: true, label: `BTCUSD 3일봉 종가와 사선(로그). 지금 ${n0(b.price)}, 선 ${n0(b.line)}`, marks: [{ d: b.a.d, v: b.a.h, t: '2024-03-13 봉 고가' }, { d: b.b.d, v: b.b.h, t: '2024-06-05 봉 고가' }], extra: [b.a.h, b.b.h] })}
+    ${fCard('②', e, Object.assign({}, C.eth, hand, { notes: eNotes, hand: C.eth.notes }), 'eth', { log: false, label: `ETHUSD 10일봉 종가와 365SMA. 지금 ${e.price}, 선 ${e.line}` })}
     <article class="fcard"><div class="fh"><span class="fno">③</span><h3>${esc(u.name)}</h3><span class="st unk">${ICON.unk} ${esc(u.status)}</span></div>
       <p class="fdef">${esc(u.def)}</p>
-      <ul class="fmeta">${u.obs.map(x => `<li>${g(x.g)} ${esc(x.t)}</li>`).join('')}</ul>
+      ${handBox('손으로 적은 관측', hand.age, hand.old, `<ul class="fmeta">${u.obs.map(x => `<li>${g(x.g)} ${esc(x.t)}</li>`).join('')}</ul>`)}
+      ${later}
       <p class="fwhy">${esc(u.note)}</p></article>
   </div><div class="src" style="margin-top:8px">${esc(b.src)} · ${esc(e.src)} · ${esc(F.asof)} KST 계산 · ${srcs(C.src)}</div>`;
   fHover(el.querySelectorAll('.fcard')[0], b, 'btc'); fHover(el.querySelectorAll('.fcard')[1], e, 'eth');
 }
 
 /* ---- 고정 자리 1: 지금 ---- */
+// 리서치 글을 45분 안쪽으로 이어진 묶음으로 나눈다(나중 묶음이 앞). 한 번의 질문에 이어진 답들이 한 묶음이 된다
+function bundles(d) {
+  const ps = IT.timeline.filter(p => p.kind !== 'kol' && known(p, d)).map(p => ({ p, t: kstT(p.ts) })).sort((a, b) => a.t - b.t);
+  const out = []; let cur = null;
+  for (const x of ps) {
+    if (!cur || x.t - cur.t1 > 45 * 6e4) { cur = { t0: x.t, t1: x.t, posts: [] }; out.push(cur); }
+    cur.posts.push(x.p); cur.t1 = x.t;
+  }
+  return out.reverse();
+}
+function feedHtml(bs) {
+  return `<ul class="feed">${bs.map((b, k) => {
+    const lead = b.posts.find(p => p.who === 'claude' && /^(research|followup|brief)$/.test(p.kind)) || b.posts[0], tail = b.posts[b.posts.length - 1];
+    const cnt = {}; b.posts.forEach(p => p.iss.forEach(i => { cnt[i] = (cnt[i] || 0) + 1; }));
+    const top = Object.keys(cnt).sort((x, y) => cnt[y] - cnt[x]).slice(0, 2);
+    const t0 = fmtT(b.t0), t1 = fmtT(b.t1), span = b.t1 - b.t0 < 6e4 ? t0 : t0.split(' ')[0] === t1.split(' ')[0] ? t0 + '~' + t1.split(' ')[1] : t0 + ' ~ ' + t1;
+    return `<li><div class="fm"><b class="num">${span}</b><span>글 ${b.posts.length}개</span>${top.map(i => `<span class="chip">${esc(L(i))}</span>`).join('')}</div>
+      <div class="ft1">${esc(lead.title)}</div>
+      ${k === 0 ? `<div class="fg">${g(lead.g)}${esc(lead.gist)}</div>` : ''}
+      ${k === 0 && tail !== lead ? `<div class="fl2"><span class="w">이 묶음의 마지막 글 ${t1.split(' ')[1]}</span> ${esc(tail.title)}</div>` : ''}
+      <div class="src">근거 ${esc(lead.src)}</div></li>`;
+  }).join('')}</ul>`;
+}
 function renderNow(s, latest) {
-  const el = $('#now');
-  if (latest) {
-    const c = NOW.curated.now;
-    el.innerHTML = `<div class="slotlabel">지금 · ${esc(NOW.curated.asof)} KST</div>
-      <p class="headline">${esc(c.headline)}</p>
+  const el = $('#now'), bs = bundles(s.d);
+  const ref = latest ? Date.now() : Date.parse(s.d + 'T23:59:00+09:00');
+  const recent = bs.filter(b => ref - b.t1 < 48 * HOUR), feed = (recent.length ? recent : bs.slice(0, 1)).slice(0, 4);
+  if (!latest) {
+    el.innerHTML = `<div class="slotlabel">그 날 밤 기준 최근 리서치 · 묶음 ${feed.length}개</div>` + (feed.length ? feedHtml(feed) : '<p class="empty">이 날짜까지 리서치 글이 없습니다.</p>');
+    return;
+  }
+  const c = NOW.curated.now, tN = srcT(c.src), old = isOld(tN, 'now');
+  const hand = `<p class="headline${c.headline.length > 110 ? ' long' : ''}">${esc(c.headline)}</p>
       <ul class="pts">${c.points.map(p => `<li>${g(p.g)}<span>${esc(p.t)}</span></li>`).join('')}</ul>
       <div class="unv"><b>확인 못 한 것</b><ul class="pts" style="margin-top:4px">${c.unverified.map(u => `<li>${g('미확인')}<span>${esc(u)}</span></li>`).join('')}</ul></div>
       <div style="margin-top:8px">${srcs(c.src)}</div>`;
+  const newer = tN == null ? [] : bs.filter(b => b.t0 > tN + 30 * 6e4);
+  if (old || tN == null) {
+    // 손 문장이 하루 넘게 그대로면, 이 칸은 최근 리서치 묶음을 앞에 세우고 손 문장은 날짜를 붙여 접어 둔다
+    el.innerHTML = `<div class="slotlabel">지금 · 최근 48시간 리서치에서 자동으로 뽑음 · 사이트 갱신 ${esc(M.built)} KST</div>
+      ${feed.length ? feedHtml(feed) : '<p class="empty">리서치 글이 없습니다.</p>'}
+      <details class="drawer stale"><summary>손으로 쓴 '지금' 문장 ${age(tN, 'now')}</summary>
+        <p class="why2" style="margin:8px 0">이 문장은 ${tN == null ? '쓴 시각을 알 수 없는' : esc(fmtT(tN)) + ' KST 기준의'} 기록입니다. 그 뒤로 리서치 묶음 ${newer.length}개가 더 들어왔습니다.</p>${hand}</details>`;
     return;
   }
-  const p = IT.timeline.find(x => x.src === s.hl);
-  el.innerHTML = `<div class="slotlabel">그 날 밤 기준 마지막 리서치</div>` + (p ? `
-      <p class="headline">${esc(p.title)}</p>
-      <ul class="pts"><li>${g(p.g)}<span>${esc(p.gist)}</span></li></ul>
-      <div style="margin-top:8px"><span class="who ${p.who}">${WHO[p.who] || p.who}</span> <span class="src">${esc(p.ts)} · 근거 ${esc(p.src)}</span></div>` : '<p class="empty">이 날짜까지 리서치 글이 없습니다.</p>');
+  el.innerHTML = `<div class="slotlabel">지금 ${age(tN, 'now')} · 사이트 갱신 ${esc(M.built)} KST</div>${hand}
+    ${newer.length ? `<div class="unv"><b>이 문장 뒤에 들어온 리서치</b>${feedHtml(newer.slice(0, 3))}</div>` : ''}`;
+}
+
+/* ---- 손 문장 공통: 이어 붙인 해석을 날짜별 항목으로 나누고, 조건은 앞의 몇 개만 먼저 보인다 ---- */
+function splitView(text) {
+  return String(text || '').split(' / ').filter(x => x.trim()).map(p => {
+    const m = p.match(/^(\d{1,2}\/\d{1,2}(?:~\d{1,2}\/\d{1,2})?(?: (?:\d{1,2}:\d{2}|새벽|아침|오전|낮|오후|저녁|밤))?)[:\s]\s*/);
+    return m ? { d: m[1], t: p.slice(m[0].length) } : { d: '', t: p };
+  });
+}
+function viewHtml(cur, keep = 2) {
+  const es = splitView(cur.view);
+  if (es.length <= 1) return `<p class="view">${g(cur.g)}${esc(cur.view)}</p>`;
+  const li = e => `<li><b class="vd num">${esc(e.d || '앞선 기록')}</b><span>${esc(e.t)}</span></li>`;
+  return `<div class="viewl">${g(cur.g)}<ul class="vlist">${es.slice(0, keep).map(li).join('')}</ul></div>
+    ${es.length > keep ? `<details class="drawer fold"><summary>앞선 기록 ${es.length - keep}개</summary><ul class="vlist">${es.slice(keep).map(li).join('')}</ul></details>` : ''}`;
+}
+const DONE = /^(지남|없어짐)$/;  // 끝난 조건은 접힌 쪽으로 보낸다
+function condHtml(list, keep = 4) {
+  // 형식이 틀린 항목(글자만 적힌 조건)도 버리지 않고 '대기' 조건으로 보인다
+  const cs = (list || []).map(c => typeof c === 'string' ? { t: c, s: '대기' } : c).filter(c => c && (c.t || c.s));
+  if (!cs.length) return '';
+  const li = c => { const k = ST(c.s); return `<li><span class="st ${k}">${ICON[k]} ${esc(c.s || '대기')}</span><span>${esc(c.t)}</span>${c.n ? `<span class="n">${esc(c.n)}</span>` : ''}</li>`; };
+  const live = cs.filter(c => !DONE.test(c.s)), done = cs.filter(c => DONE.test(c.s));
+  const head = live.slice(0, keep), rest = live.slice(keep).concat(done);
+  return `${head.length ? `<ul class="cond">${head.map(li).join('')}</ul>` : ''}
+    ${rest.length ? `<details class="drawer fold"><summary>조건 ${rest.length}개 더${done.length ? ` (지난 것 ${done.length}개 포함)` : ''}</summary><ul class="cond">${rest.map(li).join('')}</ul></details>` : ''}`;
 }
 
 /* ---- 고정 자리 2: THESIS ---- */
+// 기준선 대비 위치를 가격 원자료에서 다시 계산한다(손으로 쓴 조건 문장이 낡아도 이 숫자는 갱신 때마다 새로 나온다)
+function thGauges(T) {
+  const run = rows => { const neg = rows[rows.length - 1].pct < 0; let n = 0; for (let i = rows.length - 1; i >= 0 && (rows[i].pct < 0) === neg; i--) n++; return n; };
+  const d = T.daily, w = T.weekly; if (!d.length || !w.length) return '';
+  const dl = d[d.length - 1], wl = w[w.length - 1], dn = run(d), wn = run(w);
+  const m = (T.btc_live / T.m48_live - 1) * 100, side = v => v < 0 ? '아래' : '위';
+  const cnt = (n, all, unit) => n >= all ? `최근 ${n}${unit} 모두` : `${n}${unit}째`;
+  const tile = (name, v, sub) => `<div><span>${name}</span><b class="num ${v < 0 ? 'neg' : 'pos'}">${pct(v)}</b><small>${sub}</small></div>`;
+  return `<div class="gauges" role="group" aria-label="가격 원자료로 다시 계산한 기준선 대비 위치">
+    ${tile('BTC 일봉 · 4년선', dl.pct, `${cnt(dn, d.length, '봉')} ${side(dl.pct)} · ${md(dl.bar)} 종가`)}
+    ${tile('BTC 주봉 · 208주선', wl.pct, `${cnt(wn, w.length, '주')} ${side(wl.pct)} 마감 · ${md(wl.bar)} 주`)}
+    ${tile('BTC 월봉 · 48개월선', m, `이번 달 진행 중 · 선 ${n0(T.m48_live)}`)}
+    ${tile('ETH 종가 · 9년선', T.eth.pct, `${md(T.eth.bar)} 종가 · 선 ${n0(T.eth.line)}`)}</div>
+    <p class="why2" style="margin:6px 0 10px">위 네 칸은 가격 원자료로 다시 계산한 값입니다(${esc(T.asof)} KST). 아래 조건 문장과 다르면 이 숫자가 더 새로운 값입니다.</p>`;
+}
 function renderThesis(s, latest) {
   const T = NOW.thesis, C = NOW.curated.thesis, el = $('#thesis');
-  const daily = T.daily.filter(r => r.bar < s.d), weekly = T.weekly.filter(r => r.bar < s.d);
+  // 주봉은 시작일에서 7일 뒤(월요일 09:00 KST)에 닫히므로, 그 날까지 실제로 닫힌 주만 보인다
+  const closed7 = r => new Date(Date.parse(r.bar + 'T00:00:00Z') + 7 * 864e5).toISOString().slice(0, 10) <= s.d;
+  const daily = T.daily.filter(r => r.bar < s.d), weekly = T.weekly.filter(closed7);
   const born = '2026-11-10';
   if (s.d < born) { el.innerHTML = `<div class="slotlabel">THESIS 계기판</div><p class="empty">이 날짜에는 아직 THESIS가 없었습니다. 첫 가설은 11/10(USDT.D), 지금 판은 11/15에 나왔습니다.</p>`; return; }
   const rowsD = daily.slice(-6).map(r => `<tr><td>${md(r.bar)}</td><td>${n0(r.close)}</td><td>${n0(r.line)}</td><td class="${r.pct < 0 ? 'neg' : 'pos'}">${pct(r.pct)}</td></tr>`).join('');
   const rowsW = weekly.slice(-3).map(r => `<tr><td>${md(r.bar)} 주</td><td>${n0(r.close)}</td><td>${n0(r.line)}</td><td class="${r.pct < 0 ? 'neg' : 'pos'}">${pct(r.pct)}</td></tr>`).join('');
   const alts = T.alts.map(a => { const r = a.rows.filter(x => x.bar < s.d).slice(-1)[0]; return r ? `<tr><td>${esc(a.sym)}</td><td class="${r.pct < 0 ? 'neg' : ''}">${pct(r.pct)}</td><td>${md(r.bar)}</td></tr>` : ''; }).join('');
   const idea = s.d < '2026-11-15' ? '11/10 사용자 가설: USDT.D 같은 도미넌스 지표가 주요 지지·저항에 닿았다는 읽기. 지금의 THESIS(11/15)는 아직 나오기 전입니다.' : C.idea;
+  // 고정 사안 'thesis'에 쌓인 손 기록(사용자 갱신 등)은 주요 자리에 오르지 않으므로 이 칸에서 보인다
+  const TI = (NOW.curated.issues || {}).thesis, tC = srcT(C.src);
+  const rec = latest && TI && TI.view ? handBox('THESIS 사안 기록', age(srcT(TI.src), 'issue'), false,
+    viewHtml(TI, 1) + ((TI.cond || []).length ? `<details class="drawer fold"><summary>이 기록에 딸린 조건 ${TI.cond.length}개</summary>${condHtml(TI.cond, 99)}</details>` : '')) : '';
   el.innerHTML = `<div class="slotlabel">THESIS 계기판 · 사용자 판단 틀</div>
     <p class="view" style="margin:0 0 10px">${esc(idea)}</p>
-    ${latest ? `<ul class="cond">${C.cond.map(c => { const k = ST(c.s); return `<li><span class="st ${k}">${ICON[k]} ${esc(c.s)}</span><span>${esc(c.t)}</span>${c.n ? `<span class="n">${esc(c.n)}</span>` : ''}</li>`; }).join('')}</ul>` : '<p class="why2" style="margin:0">조건 판정은 최신 판에만 있습니다. 아래 표는 그 날까지 닫힌 봉만 보여 줍니다.</p>'}
+    ${latest ? thGauges(T) + handBox('조건 판정 · 손으로 쓴 문장', age(tC, 'thesis'), isOld(tC, 'thesis'), condHtml(C.cond, 99)) + rec
+      : '<p class="why2" style="margin:0">조건 판정은 최신 판에만 있습니다. 아래 표는 그 날까지 닫힌 봉만 보여 줍니다.</p>'}
     <div class="tgrid">
       <div class="scrollx"><table class="tbl"><caption class="sr">BTC 4년선 대비 종가</caption><thead><tr><th>BTC 일봉</th><th>종가</th><th>4년선</th><th>대비</th></tr></thead><tbody>${rowsD || '<tr><td colspan=4>—</td></tr>'}</tbody>
         <thead><tr><th>주봉</th><th>종가</th><th>208주</th><th>대비</th></tr></thead><tbody>${rowsW}</tbody></table></div>
-      <div class="scrollx"><table class="tbl"><caption class="sr">알트 7종 365일선 대비</caption><thead><tr><th>알트 7종</th><th>365선</th><th>종가일</th></tr></thead><tbody>${alts}</tbody></table>
-        ${latest ? `<p class="why2" style="margin:8px 0 0">ETH 9년선 ${n0(T.eth.line)} 대비 ${pct(T.eth.pct)} (${md(T.eth.bar)} 종가 ${T.eth.close.toLocaleString('en-US')}) · BTC 48개월선 ${n0(T.m48_live)}(11월 진행 중)</p>` : ''}</div>
+      <div class="scrollx"><table class="tbl"><caption class="sr">알트 7종 365일선 대비</caption><thead><tr><th>알트 7종</th><th>365선</th><th>종가일</th></tr></thead><tbody>${alts}</tbody></table></div>
     </div>
     ${latest ? `<details class="drawer" style="margin-top:10px"><summary>반대 근거 ${C.against.length}개</summary><ul class="against">${C.against.map(a => `<li>${esc(a)}</li>`).join('')}</ul></details>` : ''}
     <div class="src" style="margin-top:8px">${esc(T.src)} · ${esc(T.asof)} KST · USDT.D는 TradingView 값이라 이 사이트가 받지 않습니다</div>`;
@@ -211,15 +351,16 @@ function renderCards(s, latest) {
   $('#cards').innerHTML = s.major.map((id, n) => {
     const sc = s.sc[id], meta = M.issues.find(i => i.id === id), cur = latest && NOW.curated.issues[id];
     const posts = linkedPosts(id, s.d), last = posts.length ? bestPost(id, posts) : null;
+    // 해석은 가장 새로운 두 항목만 펼치고, 앞선 기록과 남은 조건은 접어 둔다
     const body = cur
-      ? `<p class="view">${g(cur.g)}${esc(cur.view)}</p>${cur.cond && cur.cond.length ? `<ul class="cond">${cur.cond.map(c => { const k = ST(c.s); return `<li><span class="st ${k}">${ICON[k]} ${esc(c.s)}</span><span>${esc(c.t)}</span>${c.n ? `<span class="n">${esc(c.n)}</span>` : ''}</li>`; }).join('')}</ul>` : ''}`
+      ? viewHtml(cur) + condHtml(cur.cond)
       : last ? `<p class="view">${g(last.g)}<span class="w" style="color:var(--ink-3);font-size:12px">${md(last.ts.slice(0, 10))} ${WHO[last.who] || ''} · </span>${esc(last.gist)}</p>` : '<p class="view empty">근거 글 없음</p>';
     const ch = s.ch.find(c => c.i === id && (c.t === '올라옴' || c.t === '보류'));
     return `<article class="card" id="card-${id}">
       <div class="c1"><span class="rank">${n + 1}</span><h3>${esc(meta.label)} <span class="kind">${esc(meta.kind)}</span></h3>${deltaOf(id, n)}<span class="chip ${s.status[id]}">${esc(s.status[id])}</span></div>
       ${scoreBar(sc, max)}
       ${body}
-      <div class="cmeta"><span>근거 글 7일 ${sc.ev}건</span><span>질문 7일 ${sc.qn}번</span>${sc.kol > 0.5 ? '<span class="weak">근거가 주장(KOL) 위주</span>' : sc.kol > 0.25 ? `<span>주장 비중 ${Math.round(sc.kol * 100)}%</span>` : ''}${ch ? `<span>오늘: ${esc(ch.why)}</span>` : ''}</div>
+      <div class="cmeta">${cur ? `<span>해석 ${age(srcT(cur.src), 'issue')}</span>` : ''}<span>근거 글 7일 ${sc.ev}건</span><span>질문 7일 ${sc.qn}번</span>${sc.kol > 0.5 ? '<span class="weak">근거가 주장(KOL) 위주</span>' : sc.kol > 0.25 ? `<span>주장 비중 ${Math.round(sc.kol * 100)}%</span>` : ''}${ch ? `<span>오늘: ${esc(ch.why)}</span>` : ''}</div>
       ${s.suggest.includes(id) ? `<div class="sugg">같은 사안 질문이 7일 안에 ${sc.qn}번 → 고정 자리로 둘지 제안합니다</div>` : ''}
       ${drawer(id, s.d, posts)}
     </article>`;
@@ -263,7 +404,7 @@ function renderMap(s) {
   const gmax = Math.max(...S.flatMap(x => Object.entries(x.sc).filter(([k]) => k !== 'thesis').map(([, v]) => v.s)), 1);
   const lvl = v => v <= 0.05 ? 0 : Math.min(6, Math.ceil(Math.sqrt(v / gmax) * 6));
   const el = $('#map'); el.style.gridTemplateColumns = `auto repeat(${S.length},22px)`;
-  let h = '<div class="lab"></div>' + S.map((x, k) => `<button class="dh ${k === IDX ? 'sel' : ''}" data-k="${k}" aria-label="${x.d} 판 보기">${(k % 4 === 0 && S.length - 1 - k >= 3) || k === S.length - 1 ? md(x.d) : ''}</button>`).join('');
+  let h = '<div class="lab"></div>' + S.map((x, k) => `<button class="dh ${k === IDX ? 'sel' : ''}${k === S.length - 1 ? ' last' : ''}" data-k="${k}" aria-label="${x.d} 판 보기">${(k % 4 === 0 && S.length - 1 - k >= 3) || k === S.length - 1 ? md(x.d) : ''}</button>`).join('');
   for (const id of ids) {
     h += `<div class="lab">${esc(L(id))}</div>` + S.map((x, k) => {
       const v = x.sc[id] ? x.sc[id].s : 0, maj = x.major.includes(id);
@@ -396,6 +537,7 @@ function renderRules() {
     <li><b>증거 안전장치</b>: KOL 수집 글은 무게를 절반만 줍니다. 근거가 주장 위주인 사안은 1위에 두지 않습니다. 모든 항목에는 근거 메시지 ID가 붙습니다.</li>
     <li><b>내려놓기</b>: 언급이 끊긴 사안은 '휴면'이 될 뿐, 해결로 처리하지 않습니다. 종결은 사람이 정합니다.</li>
     <li><b>타임머신</b>: 과거 날짜를 고르면 그 날 밤까지 알 수 있었던 기록만 씁니다. 사람 손 문장(현재 해석·조건)은 최신 판에만 있습니다.</li>
+    <li><b>신선도 표시</b>: 손으로 쓴 문장에는 근거 메시지가 올라온 시각을 붙입니다. '지금' 문장은 ${STALE.now}시간, 주목 3선 메모와 사안 해석은 ${STALE.issue / 24}일, THESIS 조건 문장은 ${STALE.thesis / 24}일이 지나면 '오래된 문장'으로 표시합니다. '지금' 칸은 손 문장이 오래되면 최근 48시간의 리서치 묶음을 앞에 세웁니다. 가격으로 계산하는 숫자(주목 3선의 선·대비, THESIS 네 칸)는 사이트를 갱신할 때마다 새로 나옵니다.</li>
   </ol>
   <p><b>갱신 방식(패시브)</b>: 채널에서 리서치·팔로업을 하면 Claude가 tools/additions.json과 curated.json에 근거 ID와 함께 덧붙이고, build.py를 돌려 다시 올립니다. 사용자가 따로 할 일은 없습니다. 처음 2주는 점수를 Claude가 제안하고 사용자가 고치는 식으로 가중치를 맞춥니다.</p>
   <p style="margin-bottom:0"><b>공개 사이트라서 넣지 않는 것</b>: Discord 대화 원문, 확인 문구, KOL 글 전문(우리말 요지와 원문 링크만), TradingView 원자료. 사용자 질문은 내용 없이 사안별 횟수만 씁니다.</p>`;

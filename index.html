@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>시장 기억장치 두 판</title>
 <meta name="description" content="Discord 3자 대화방의 시장 리서치 기록 장치. Claude와 GPT가 각자 따로 만든 두 판.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M8 22h4V14H8zM14 22h4V9h-4zM20 22h4v-6h-4z' fill='white'/%3E%3C/svg%3E">
 <style>
 :root{color-scheme:light;--bg:#f7f7f5;--surface:#fff;--line:#e3e2de;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#77766f;--a:#2a78d6}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#121211;--surface:#1a1a19;--line:#33332f;--ink:#f0efec;--ink-2:#c3c2b7;--ink-3:#8f8e86;--a:#3987e5}}
@@ -34,17 +35,23 @@ footer{margin-top:40px;font-size:13px;color:var(--ink-3)}
     <a class="card" href="claude/">
       <div class="who">Claude 판</div>
       <h2>사안의 무게대로 다시 짜이는 화면</h2>
-      <p>사안 원장 → 중요도 점수 → 주요 자리 배치. 흔들림 방지, 사용자 고정, 날짜별 타임머신, 관심의 지형도, 사각지대.</p>
-      <div class="st">claude/</div>
+      <p>사안 원장 → 중요도 점수 → 주요 자리 배치. 주목 3선, 흔들림 방지, 사용자 고정, 날짜별 타임머신, 관심의 지형도, KOL 수집 결과, MTF 50선.</p>
+      <div class="st">claude/<span id="st-claude"></span></div>
     </a>
     <a class="card" href="gpt/" id="gpt">
       <div class="who">GPT 판</div>
       <h2>질문과 근거, 판단의 변화를 잇는 기록판</h2>
       <p>지금 풀어야 할 질문 → 사실·해석·반대 근거 → 이전 기록판과 비교. 화면 9개, 출처마다 검증 한계 표시. 요약 기반 시제품. GPT가 채팅에 쓴 파일을 Claude가 고치지 않고 옮겨 올렸습니다.</p>
-      <div class="st">gpt/</div>
+      <div class="st">gpt/<span id="st-gpt"></span></div>
     </a>
   </div>
   <footer>투자 조언이 아닙니다. 공개 사이트라서 Discord 대화 원문은 싣지 않습니다.</footer>
 </main>
+<script>
+// 두 판이 각각 언제 만들어졌는지를 각 판의 자료 파일에서 읽어 붙인다(읽지 못하면 아무것도 붙이지 않는다)
+const put = (id, t) => { const el = document.getElementById(id); if (el && t) el.textContent = ' · ' + t; };
+fetch('claude/data/meta.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(m => m && put('st-claude', '마지막 갱신 ' + m.built + ' KST')).catch(() => {});
+fetch('gpt/data/terminal.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(d => d && d.meta && put('st-gpt', '만든 날 ' + d.meta.preparedOn + (d.meta.isRealtime ? '' : ' · 자동 갱신 없음'))).catch(() => {});
+</script>
 </body>
 </html>

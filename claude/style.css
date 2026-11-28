@@ -282,3 +282,64 @@ footer{color:var(--ink-3);font-size:12px;padding:30px 0 50px;border-top:1px soli
 ul.fmeta{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:12px;color:var(--ink-2)}
 ul.fmeta li{padding-left:10px;position:relative}
 ul.fmeta li::before{content:"·";position:absolute;left:0;color:var(--ink-3)}
+
+/* 구역 이동 띠 (11/28) */
+.secnav{position:sticky;top:var(--toph,53px);z-index:19;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.secnav .wrap{position:relative;display:flex;gap:4px;align-items:center;overflow-x:auto;padding-top:6px;padding-bottom:6px;scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none;font-size:12.5px;line-height:1;padding:7px 10px;border-radius:14px;color:var(--ink-2);text-decoration:none;border:1px solid transparent;white-space:nowrap}
+.secnav a:hover{border-color:var(--line)}
+.secnav a.on{background:var(--ink);color:var(--bg)}
+.secnav a:focus-visible,.pchip:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.pchip{appearance:none;flex:none;font:inherit;font-size:12.5px;font-weight:700;line-height:1;padding:7px 10px;border-radius:14px;border:1px solid var(--serious);background:color-mix(in srgb,var(--serious) 14%,var(--surface));color:var(--ink);cursor:pointer;white-space:nowrap}
+.pchip[hidden]{display:none}
+h2[id],#now,#thesis{scroll-margin-top:calc(var(--toph,53px) + 48px)}
+@media (max-width:700px){.top{position:static}.secnav{top:0}}
+.map .dh.last{display:flex;justify-content:flex-end}
+
+/* 신선도 표시 (11/28): 손으로 쓴 문장이 언제 쓰였는지 */
+.age{display:inline-block;font-size:11px;line-height:18px;padding:0 7px;border-radius:9px;background:var(--surface-2);color:var(--ink-2);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.age.old{background:color-mix(in srgb,var(--serious) 16%,var(--surface));color:var(--ink);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--serious) 55%,transparent)}
+.hand{border-left:3px solid var(--line);padding:2px 0 2px 10px;margin:0 0 10px;display:grid;gap:6px;min-width:0}
+.hand.old{border-left-color:var(--serious)}
+.hand.old>ul{color:var(--ink-2)}
+.handh{font-size:11px;font-weight:600;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+.fcard .hand{margin:0}
+.fprev{margin:0;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.fprev .st{flex:none}
+
+/* '지금' 칸: 최근 리서치 묶음 */
+.headline.long{font-size:15px;font-weight:600;line-height:1.55}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.feed li{display:grid;gap:4px;padding-left:10px;border-left:3px solid var(--line);min-width:0}
+.feed li:first-child{border-left-color:var(--accent)}
+.feed .fm{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;font-size:12px;color:var(--ink-3)}
+.feed .fm b{color:var(--ink);font-size:12.5px}
+.feed .ft1{font-size:14px;font-weight:600;line-height:1.45}
+.feed li:first-child .ft1{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
+.feed .fg{font-size:14px;color:var(--ink-2)}
+.feed .fg .g{margin-right:6px}
+.feed .fl2{font-size:13px;color:var(--ink-2)}
+.feed .fl2 .w{color:var(--ink-3);font-size:12px;margin-right:4px}
+details.stale{margin-top:12px}
+details.stale summary{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+details.stale summary::before{content:"▸";margin-right:2px}
+details.stale[open] summary::before{content:"▾"}
+
+/* THESIS: 가격으로 다시 계산한 네 칸 */
+.gauges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+@media (max-width:1080px){.gauges{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gauges div{background:var(--surface-2);border-radius:8px;padding:6px 8px;display:flex;flex-direction:column;min-width:0}
+.gauges span{font-size:11px;color:var(--ink-3)}
+.gauges b{font-size:18px;letter-spacing:-.01em}
+.gauges small{font-size:11px;color:var(--ink-2);line-height:1.35}
+
+/* 사안 해석: 날짜별 항목과 접힌 기록 */
+.viewl{display:grid;gap:6px;font-size:14px;min-width:0}
+.viewl>.g{justify-self:start}
+.vlist{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
+.vlist li{display:grid;gap:2px;min-width:0}
+.vlist .vd{font-size:12px;color:var(--ink-3);font-weight:700}
+details.fold{border-top:0;padding-top:0}
+details.fold summary{font-size:12.5px}
+details.fold[open]>summary{margin-bottom:8px}

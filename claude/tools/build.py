@@ -2,6 +2,13 @@
 
 python3 build.py <채널 추출본 폴더> <채널 로그 jsonl> <가격 원자료 폴더> <출력 폴더>
 입력은 공개 레포 밖(로컬)에 있고, 출력만 레포의 claude/data/에 쓴다.
+
+끝에서 lint.py가 손 문장을 점검해 보고를 찍는다(낡은 문장·조건 형식 오류·새 사안 후보).
+curated.json을 쓸 때 지킬 것:
+  - 조건(cond)은 {"t": 조건, "s": 상태, "n": 메모} 꼴로 쓴다. 글자만 적으면 화면이 상태를 알 수 없다.
+  - 사안 해석(view)은 "월/일 시:분 내용"을 " / "로 이어 붙이고 새 항목을 맨 앞에 둔다. 화면은 앞의 두 항목만 펼친다.
+  - 'now'·'focus'·'thesis'를 고치면 그 묶음의 src에 근거 메시지 ID를 넣는다. 화면은 src에서 쓴 시각을 계산해
+    '지금' 24시간, 주목 3선 메모와 사안 해석 3일, THESIS 조건 7일이 지나면 "오래된 문장"으로 표시한다.
 """
 import json, math, os, re, sys, datetime as dt
 from collections import defaultdict
@@ -383,3 +390,11 @@ for f in sorted(os.listdir(OUT)): print(f, os.path.getsize(os.path.join(OUT, f))
 s = snap[-1]
 print(s['d'], 'major', s['major'], '\nrest', s['rest'][:8], '\nviews', s['views'], '\nsuggest', s['suggest'])
 for i in s['major'] + s['rest'][:5]: print(' ', i, s['sc'][i], s['status'][i])
+
+# 손 문장 점검(낡은 '지금'·THESIS 문장, 조건 형식 오류, 새 사안 후보). 레포 안 파일만 읽고, 실패해도 위에서 쓴 결과에는 영향이 없다.
+# 여기서 '오류'나 '주의'가 나오면 curated.json을 고친 뒤 다시 빌드한다. 따로 돌릴 때: python3 lint.py
+try:
+    import lint
+    lint.report(HERE, OUT)
+except Exception as e:
+    print('손 문장 점검을 건너뜁니다:', e)
