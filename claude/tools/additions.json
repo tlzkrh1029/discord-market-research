@@ -5082,6 +5082,37 @@
     "stablecoin",
     "leverage"
    ]
+  },
+  {
+   "src": "1576170445475029004",
+   "ts": "2026-11-28 18:38",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "LUNA식 동반 붕괴 가능성(GPT): 낮음 — USD1은 WLFI를 찍어 갚지 않고 BitGo 준비금으로 상환, 파장은 Dolomite 대출 풀이 먼저",
+   "gist": "준비금 충분≠시장에서 바로 1달러(직접 상환은 BitGo 고객만). USD1 바이낸스 0.940→0.9975, 코인베이스 0.9966. WLF 화면 준비금 27.49억·공급 27.48억·100.03%. Dolomite USD1 공급≈차입 약 1.68억. USD1은 UST 정점 187억의 약 15%",
+   "assets": [
+    "USD1",
+    "WLFI"
+   ],
+   "narratives": [
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1576171478934749336",
+   "ts": "2026-11-28 18:43",
+   "author": "claude",
+   "kind": "research",
+   "title": "LUNA식 연쇄 GPT 대조 + Dolomite USD1 잔고 0 — USD1 예치자 인출 불가, '작은 뱅크런'이 연쇄 후보 ①에서 실제로 남",
+   "gist": "14:21 2,298만 → 14:46~16:10 4,260만 유출 → 0(원장). USDC 2,733만→1,783만. 이더리움 USD1 소각 15:03~18:35 8,590만, 공급 8.29억→7.70억, 시세 0.998. 다음: WLF 상환 vs WLFI 담보 청산",
+   "assets": [
+    "USD1",
+    "WLFI"
+   ],
+   "narratives": [
+    "stablecoin",
+    "leverage"
+   ]
   }
  ],
  "levels": [
