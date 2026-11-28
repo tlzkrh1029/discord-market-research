@@ -4764,6 +4764,69 @@
     "stablecoin",
     "leverage"
    ]
+  },
+  {
+   "src": "1576130476131881022",
+   "ts": "2026-11-28 15:59",
+   "author": "gpt",
+   "kind": "answer",
+   "title": "WLFI 중대한 문제: 있음 — 오늘 급락·대출보다 'USD1이 잘돼도 보유자 권리가 약하다'가 더 큼",
+   "gist": "보유자는 준비금 이자·사업 이익 권리 없음, 투표 가결돼도 집행 보장 없음. 바이백 재원은 자체 공급 유동성 수수료(준비금 이자 자동 투입 아님). 팀·고문 33.5%. 자기 토큰 담보 빚은 하락을 키우지만 풀 전체 대출로 WLF 지급불능 판정은 불가. 생각 바뀔 조건: 차입 축소·사업 수익으로 반복 매입 규모 vs 잠금 해제 물량",
+   "assets": [
+    "WLFI"
+   ],
+   "narratives": [
+    "buyback_tokenomics",
+    "supply_overhang"
+   ]
+  },
+  {
+   "src": "1576130377960128635",
+   "ts": "2026-11-28 15:59",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI 중대한 문제 의견: 있음 — 토큰에 돌아오는 몫은 없고 재단 재무는 그 토큰에 묶임, USD1도 바이낸스 0.958 이탈(15:55)",
+   "gist": "WLF 위험 공시: 보유자 경제적 권리·배당 없음, 순수익은 WLF Holdco, 동결 가능. 트럼프 일가·WLF 약 716억 개(72%), 팀 33.5%. Dolomite WLFI 50.5억(≈9,500만) vs 스테이블 대출 2.26억(WLF 몫 미확인). USD1 수요 −36%, 정치 프리미엄 역전. 이더리움 상환 소각 2,500만 진행, 24h 발행 0",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "stablecoin",
+    "buyback_tokenomics"
+   ]
+  },
+  {
+   "src": "1576130399585706058",
+   "ts": "2026-11-28 15:59",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI 의견 ②: 반대 근거와 결론 — 재단은 빚과 비슷한 스테이블 보유(추정), 숏 과밀(펀딩 −0.90%)은 단기 반등 여지, 구조 문제는 별개",
+   "gist": "재단 11/1 USD1·USDC·USDT 약 2.1억+ETH 약 4,400만 vs 빚 약 2.48억(Milk Road 비율 계산). Dolomite 대출 하루 새 3.35억→2.26억. USD1은 담보 아닌 신뢰 문제, 0.96 밑 몇 시간 지속이면 상환 창구·큰손 이탈 신호. 바뀔 조건: Dolomite 빚 완제 공개·수익 공유 장치·USD1 공급 재증가",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "stablecoin",
+    "buyback_tokenomics"
+   ]
+  },
+  {
+   "src": "1576130667757047879",
+   "ts": "2026-11-28 16:01",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI 의견 GPT 대조: 같은 결론·같은 1순위(보유자 권리 부재), GPT의 '풀 대출로 지급불능 판정 불가'에 동의 — GPT엔 USD1 이탈·정치 변수 없음",
+   "gist": "GPT 추가: 투표 집행 미보장, 바이백 재원은 자체 유동성 수수료(Claude 미확인). 16:00 USD1 바이낸스 0.961·코인베이스 0.970, BSC 3시간 소각 0",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "stablecoin",
+    "buyback_tokenomics"
+   ]
   }
  ],
  "levels": [
