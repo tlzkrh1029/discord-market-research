@@ -161,3 +161,6 @@
 .v5 .nx b{font-variant-numeric:tabular-nums}
 .v5 .det{padding:6px 14px 16px;border-bottom:1px solid var(--line)}
 .v5 .lead{max-width:880px}
+
+/* 판정 배지가 줄 높이만큼 세로로 늘어나지 않게 (11/28) */
+.v1 .ev li,.v3 .ev li{align-items:start}

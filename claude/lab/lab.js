@@ -29,9 +29,11 @@ export const md = t => { const d = new Date(t + 9 * 36e5); return `${d.getUTCMon
 export const mdh = t => { const d = new Date(t + 9 * 36e5); return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
 
 // 데이터 -------------------------------------------------------------
-export async function load(base = '../data/') {
+// pre: 본판(app.js)이 이미 읽은 [meta, snapshots, items, now]. 주면 같은 파일을 다시 내려받지 않고 px.json만 읽는다
+export async function load(base = '../data/', pre) {
   const get = f => fetch(base + f, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
-  const [meta, snaps, items, now, px] = await Promise.all(['meta.json', 'snapshots.json', 'items.json', 'now.json', 'px.json'].map(get));
+  const [meta, snaps, items, now, px] = Array.isArray(pre) && pre.length === 4 ? [...pre, await get('px.json')]
+    : await Promise.all(['meta.json', 'snapshots.json', 'items.json', 'now.json', 'px.json'].map(get));
   const D = { meta, snaps, items, now, px, snap: snaps[snaps.length - 1] };
   D.iss = Object.fromEntries(meta.issues.map(i => [i.id, i]));
   D.built = kst(meta.built);

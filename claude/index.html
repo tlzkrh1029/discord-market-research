@@ -6,9 +6,9 @@
 <title>시장 기억장치 · Claude 판</title>
 <meta name="description" content="Discord 3자 대화방의 시장 리서치를 사안 단위로 쌓고, 사안의 무게대로 화면이 다시 짜이는 기록 장치(Claude 판).">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M8 22h4V14H8zM14 22h4V9h-4zM20 22h4v-6h-4z' fill='white'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="style.css?v=1121f">
-<link rel="stylesheet" href="lab/lab.css?v=1117g">
-<link rel="stylesheet" href="lab/views.css?v=1117g">
+<link rel="stylesheet" href="style.css?v=1128a">
+<link rel="stylesheet" href="lab/lab.css?v=1128a">
+<link rel="stylesheet" href="lab/views.css?v=1128a">
 </head>
 <body>
 <header class="top">
@@ -25,6 +25,21 @@
     <div class="past" id="past"><b>과거 판</b>을 보고 있습니다. 이 날 밤까지 알 수 있었던 기록만 보이고, 그 뒤에 생긴 일은 섞지 않습니다. 사람 손 문장(현재 해석·조건)은 최신 판에만 있습니다.</div>
   </div>
 </header>
+<nav class="secnav" id="secnav" aria-label="구역 이동">
+  <div class="wrap">
+    <button class="pchip" id="pchip" type="button" hidden></button>
+    <a href="#h-focus" data-go="h-focus">주목 3선</a>
+    <a href="#h-fixed" data-go="h-fixed">지금·THESIS</a>
+    <a href="#h-major" data-go="h-major">주요 자리</a>
+    <a href="#h-watch" data-go="h-watch">관찰</a>
+    <a href="#h-kol" data-go="h-kol">KOL</a>
+    <a href="#h-chg" data-go="h-chg">바뀐 것</a>
+    <a href="#h-map" data-go="h-map">지형도</a>
+    <a href="#h-views" data-go="h-views">화면</a>
+    <a href="#h-rules" data-go="h-rules">규칙</a>
+    <a href="#h-mtf" data-go="h-mtf">MTF 50선</a>
+  </div>
+</nav>
 <main class="wrap">
   <section aria-labelledby="h-focus">
     <h2 id="h-focus">지금 주목할 세 선 <span class="sub">사용자 지정(11/21) · 봉 마감 시각은 KST · 선에 마우스를 올리면 봉마다 값이 나옵니다</span></h2>
@@ -78,11 +93,13 @@
 </main>
 <footer class="wrap" id="foot"></footer>
 <div class="tip" id="tip" role="tooltip"></div>
-<script src="app.js?v=1121f"></script>
+<script src="app.js?v=1128a"></script>
 <script type="module">
 import { load, cut } from './lab/lab.js';
 import { render, pick, WHAT } from './lab/views.js';
-const D = await load('data/');
+// app.js가 이미 읽은 자료(meta·snapshots·items·now)를 받아 쓰고, px.json만 새로 읽는다
+const pre = window.MM_RAW ? await window.MM_RAW.catch(() => null) : null;
+const D = await load('data/', pre);
 window.MMV = { WHAT, pick, show: (el, n, day) => render(el, n, cut(D, day)) };
 dispatchEvent(new Event('mmv-ready'));
 </script>
