@@ -5051,6 +5051,37 @@
    "narratives": [
     "regulation"
    ]
+  },
+  {
+   "src": "1576169573701517366",
+   "ts": "2026-11-28 18:34",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI·USD1 LUNA식 연쇄? 구조상 어려움 — UST는 상환 때 LUNA를 찍었지만 USD1은 MMF·예금에서 달러를 내주고 소각",
+   "gist": "UST 담보는 사실상 LUNA, Anchor 20% 예치 140억~170억 엔진. USD1은 MMF 72%·예금 28%, WLFI와 무관. 규모: LUNA 400억대 vs WLFI 시총 6.5억(희석 20억)·USD1 28.5억. 오늘 USD1 0.940→0.998 회복, 이더리움 2,500만 소각",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "stablecoin"
+   ]
+  },
+  {
+   "src": "1576169606123487426",
+   "ts": "2026-11-28 18:35",
+   "author": "claude",
+   "kind": "research",
+   "title": "WLFI·USD1 연쇄 후보: Dolomite 예치자·AIFC·거래소 유동성·발행사 이관 — USD1 0 가능성 낮고 WLFI는 단독 붕괴 위험",
+   "gist": "Dolomite WLFI 담보≈1억 vs 대출 2.24억(예치자 손실 위험), AIFC 72.8억 개·존속 불확실, 선의 상장폐지 촉구·HTX 6월 USD1 상폐, WLF 쪽 신탁은행 이관·민주당 조사. 시장 파급 제한(LUNA 정점의 약 1.6%)",
+   "assets": [
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "stablecoin",
+    "leverage"
+   ]
   }
  ],
  "levels": [
