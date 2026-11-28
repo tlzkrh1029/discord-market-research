@@ -4651,6 +4651,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "leverage",
     "stablecoin"
    ]
@@ -4666,6 +4667,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "leverage",
     "stablecoin"
    ]
@@ -4681,6 +4683,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "leverage",
     "stablecoin"
    ]
@@ -4697,6 +4700,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -4713,6 +4717,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -4729,6 +4734,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -4745,6 +4751,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -4761,6 +4768,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -4776,6 +4784,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "buyback_tokenomics",
     "supply_overhang"
    ]
@@ -4792,6 +4801,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "buyback_tokenomics"
    ]
@@ -4808,6 +4818,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "buyback_tokenomics"
    ]
@@ -4824,6 +4835,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "buyback_tokenomics"
    ]
@@ -4840,6 +4852,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin"
    ]
   },
@@ -4854,6 +4867,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "thesis",
     "alt_supply"
    ]
@@ -4870,6 +4884,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "thesis",
     "stablecoin"
    ]
@@ -4886,6 +4901,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "thesis",
     "stablecoin"
    ]
@@ -4902,6 +4918,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "regulation",
     "supply_overhang"
    ]
@@ -4918,6 +4935,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "regulation",
     "supply_overhang"
    ]
@@ -4934,6 +4952,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "regulation",
     "supply_overhang"
    ]
@@ -4950,6 +4969,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -4965,6 +4985,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -4979,6 +5000,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -4993,6 +5015,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -5007,6 +5030,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -5021,6 +5045,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -5035,6 +5060,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -5049,6 +5075,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "regulation"
    ]
   },
@@ -5064,6 +5091,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin"
    ]
   },
@@ -5079,6 +5107,7 @@
     "USD1"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
    ]
@@ -5095,6 +5124,7 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin"
    ]
   },
@@ -5110,8 +5140,29 @@
     "WLFI"
    ],
    "narratives": [
+    "wlfi",
     "stablecoin",
     "leverage"
+   ]
+  },
+  {
+   "src": "1576196597191278595",
+   "ts": "2026-11-28 20:23",
+   "author": "claude",
+   "kind": "followup",
+   "title": "지금 수치 점검: BTC 3일봉 사선 +8.3%·ETH 10년선 +2.4%·4년선 -10.5%, WLFI -54%·USD1 0.9991·Dolomite USD1 0",
+   "gist": "BTC 3일봉 사선 54,647 위 +8.3%(11/21~23 봉 +11.8%·11/24~26 봉 +10.6% 마감, 이번 봉 11/30 09:00). ETH 10일봉 10년선 1,608.3 위 +2.4%(11/17~26 봉 +5.2% 마감). 4년선 66,253 아래 일봉 종가 14개 연속(-10.5%), 48개월선 66,118(-10.4%), ETH 9년선 1,745.7(-5.7%), 55,130 뒤 최저 11/25 57,300. WLFI 0.01896(24시간 -54%), 코인 OI 12.9억, 펀딩 +0.005%. USD1 0.9991, 이더리움 공급 7.45억(18:35 7.70억), Dolomite USD1 잔고 0.",
+   "assets": [
+    "BTC",
+    "ETH",
+    "WLFI",
+    "USD1"
+   ],
+   "narratives": [
+    "wlfi",
+    "thesis",
+    "onchain_cost",
+    "stablecoin"
    ]
   }
  ],
