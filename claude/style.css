@@ -317,6 +317,8 @@ h2[id],#now,#thesis{scroll-margin-top:calc(var(--toph,53px) + 48px)}
 .feed .fm b{color:var(--ink);font-size:12.5px}
 .feed .ft1{font-size:14px;font-weight:600;line-height:1.45}
 .feed li:first-child .ft1{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
+.feed.more li:first-child{border-left-color:var(--line)}
+.feed.more li:first-child .ft1{font-size:14px;font-weight:600;letter-spacing:0;line-height:1.45}
 .feed .fg{font-size:14px;color:var(--ink-2)}
 .feed .fg .g{margin-right:6px}
 .feed .fl2{font-size:13px;color:var(--ink-2)}
