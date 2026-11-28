@@ -203,18 +203,23 @@ function renderFocus(s, latest) {
 }
 
 /* ---- 고정 자리 1: 지금 ---- */
-// 리서치 글을 45분 안쪽으로 이어진 묶음으로 나눈다(나중 묶음이 앞). 한 번의 질문에 이어진 답들이 한 묶음이 된다
+// 리서치 글을 20분 안쪽으로 이어진 묶음으로 나눈다(나중 묶음이 앞). 한 번의 질문에 이어진 답들이 한 묶음이 된다.
+// 간격을 길게 잡으면(처음엔 45분) 질문이 연달아 나온 날에 여러 질문이 한 묶음으로 이어져, 맨 위에 가장 오래된 글이 나온다.
+// 20분이면 GPT 답과 Claude 답 사이의 간격(보통 15분 안쪽)은 한 묶음으로 남고, 다음 질문은 대부분 새 묶음이 된다
+const BUNDLE_GAP_MIN = 20;
 function bundles(d) {
   const ps = IT.timeline.filter(p => p.kind !== 'kol' && known(p, d)).map(p => ({ p, t: kstT(p.ts) })).sort((a, b) => a.t - b.t);
   const out = []; let cur = null;
   for (const x of ps) {
-    if (!cur || x.t - cur.t1 > 45 * 6e4) { cur = { t0: x.t, t1: x.t, posts: [] }; out.push(cur); }
+    if (!cur || x.t - cur.t1 > BUNDLE_GAP_MIN * 6e4) { cur = { t0: x.t, t1: x.t, posts: [] }; out.push(cur); }
     cur.posts.push(x.p); cur.t1 = x.t;
   }
   return out.reverse();
 }
-function feedHtml(bs) {
-  return `<ul class="feed">${bs.map((b, k) => {
+// more: 접어 두는 앞선 묶음 목록(제목만, 첫 줄을 크게 하지 않는다)
+function feedHtml(bs, more) {
+  return `<ul class="feed${more ? ' more' : ''}">${bs.map((b, k0) => {
+    const k = more ? 1 : k0;
     const lead = b.posts.find(p => p.who === 'claude' && /^(research|followup|brief)$/.test(p.kind)) || b.posts[0], tail = b.posts[b.posts.length - 1];
     const cnt = {}; b.posts.forEach(p => p.iss.forEach(i => { cnt[i] = (cnt[i] || 0) + 1; }));
     const top = Object.keys(cnt).sort((x, y) => cnt[y] - cnt[x]).slice(0, 2);
@@ -229,9 +234,12 @@ function feedHtml(bs) {
 function renderNow(s, latest) {
   const el = $('#now'), bs = bundles(s.d);
   const ref = latest ? Date.now() : Date.parse(s.d + 'T23:59:00+09:00');
-  const recent = bs.filter(b => ref - b.t1 < 48 * HOUR), feed = (recent.length ? recent : bs.slice(0, 1)).slice(0, 4);
+  // 앞의 네 묶음을 펼치고, 48시간 안의 나머지 묶음은 접어 둔다
+  const recent = bs.filter(b => ref - b.t1 < 48 * HOUR), all = recent.length ? recent : bs.slice(0, 1);
+  const feed = all.slice(0, 4), rest = all.slice(4, 16);
+  const feedBox = feedHtml(feed) + (rest.length ? `<details class="drawer fold" style="margin-top:10px"><summary>앞선 묶음 ${rest.length}개</summary>${feedHtml(rest, true)}</details>` : '');
   if (!latest) {
-    el.innerHTML = `<div class="slotlabel">그 날 밤 기준 최근 리서치 · 묶음 ${feed.length}개</div>` + (feed.length ? feedHtml(feed) : '<p class="empty">이 날짜까지 리서치 글이 없습니다.</p>');
+    el.innerHTML = `<div class="slotlabel">그 날 밤 기준 최근 리서치 · 묶음 ${feed.length + rest.length}개</div>` + (feed.length ? feedBox : '<p class="empty">이 날짜까지 리서치 글이 없습니다.</p>');
     return;
   }
   const c = NOW.curated.now, tN = srcT(c.src), old = isOld(tN, 'now');
@@ -243,7 +251,7 @@ function renderNow(s, latest) {
   if (old || tN == null) {
     // 손 문장이 하루 넘게 그대로면, 이 칸은 최근 리서치 묶음을 앞에 세우고 손 문장은 날짜를 붙여 접어 둔다
     el.innerHTML = `<div class="slotlabel">지금 · 최근 48시간 리서치에서 자동으로 뽑음 · 사이트 갱신 ${esc(M.built)} KST</div>
-      ${feed.length ? feedHtml(feed) : '<p class="empty">리서치 글이 없습니다.</p>'}
+      ${feed.length ? feedBox : '<p class="empty">리서치 글이 없습니다.</p>'}
       <details class="drawer stale"><summary>손으로 쓴 '지금' 문장 ${age(tN, 'now')}</summary>
         <p class="why2" style="margin:8px 0">이 문장은 ${tN == null ? '쓴 시각을 알 수 없는' : esc(fmtT(tN)) + ' KST 기준의'} 기록입니다. 그 뒤로 리서치 묶음 ${newer.length}개가 더 들어왔습니다.</p>${hand}</details>`;
     return;
